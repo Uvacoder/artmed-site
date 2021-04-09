@@ -1,1 +1,2 @@
-# artmed-site
+# Initial page
+
