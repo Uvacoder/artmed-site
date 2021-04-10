@@ -50,6 +50,10 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
+  generate: {
+    dir: 'dist'
+  },
+
   build: {
     babel: {
       compact: true
