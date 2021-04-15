@@ -1,7 +1,14 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
+      <Logo
+        :is-consulta="false"
+        :is-black="true"
+        :min-width="500"
+        :min-height="500"
+        :max-width="500"
+        :max-height="500"
+      />
       <h1 class="title">
         artmed-site
       </h1>
