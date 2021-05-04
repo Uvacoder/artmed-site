@@ -1,15 +1,18 @@
 <template>
-  <b-container fluid class="pl-0 pr-0">
-    <b-row no-gutters>
+  <b-container fluid class="login">
+    <b-row>
       <b-col col lg="4" class="d-none d-lg-block">
-        <LoginLeftSide/>
+        <AccountContentLeftSide />
       </b-col>
-      <b-col cols="12" lg="8">
-        <Logo/>
-        <LoginForm/>
-        <GroupBtnLoginSocial/>
-        <Slogan/>
-        <GroupBtnStore/>
+      <b-col
+        class="login-rightCol"
+        cols="12"
+        lg="4"
+        offset-lg="2"
+        align-self="center"
+        align-h="center"
+      >
+        <AccountContentRightSide action="login" />
       </b-col>
     </b-row>
   </b-container>
@@ -28,3 +31,11 @@ export default {
   methods: {}
 }
 </script>
+
+<style lang="scss" scoped>
+  .login {
+    @include media-breakpoint-up(lg) {
+      padding: 0;
+    }
+  }
+</style>

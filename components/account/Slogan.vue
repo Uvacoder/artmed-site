@@ -1,10 +1,12 @@
 <template>
-  <div>BtnLoginFacebook</div>
+  <p class="slogan">
+    O seu guia para a tomada de decisão clínica de saúde mental.
+  </p>
 </template>
 
 <script>
 export default {
-  name: 'BtnLoginFacebook',
+  name: 'Slogan',
   props: {},
   data () {
     return {}
@@ -13,5 +15,3 @@ export default {
   methods: {}
 }
 </script>
-
-<style lang="sass" scoped></style>

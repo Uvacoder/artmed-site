@@ -1,0 +1,70 @@
+@function parse-int($n) {
+  @return $n / ($n * 0 + 1);
+}
+
+@mixin rem($property, $values, $important: false) {
+  $px: ();
+  $rem: ();
+  
+  @each $value in $values {
+    @if $value == 0 or $value == auto {
+      $px: append($px, $value);
+      $rem: append($rem, $value);
+    }
+    
+    @else {
+      $unit: unit($value);
+      $val: parse-int($value);
+      $base: parse-int($font-size-base-px);
+      
+      @if $unit == "px" {
+        $px: append($px, $value);
+        $rem: append($rem, (($val / $base) * 1rem));
+      }
+      
+      @if $unit == "rem" {
+        $px: append($px, (($val * $base) * 1px));
+        $rem: append($rem, $value);
+      }
+    }
+  }
+  
+  @if $px == $rem {
+    #{$property}: $px if($important, !important, null);
+  }
+  
+  @else {
+    #{$property}: $px if($important, !important, null);
+    #{$property}: $rem if($important, !important, null);
+  }
+}
+
+@mixin font-computed($font, $lh: 0, $ls: 0) {
+  $px: ();
+  
+  @if unit($font) == "rem" {
+    $font: (parse-int($font) * parse-int($font-size-base-px)) * 1px;
+  }
+  
+  @include rem("font-size", $font);
+  
+  @if $lh != 0 {
+    @include rem("line-height", $lh);
+  }
+  
+  @else {
+    $lh: 8 * round(($font + ($font * 20/100)) / 8);
+    
+    @if ($font == $lh) {
+      @include rem("line-height", $lh + 4);
+    }
+    
+    @else {
+      @include rem("line-height", $lh);
+    }
+  }
+  
+  @if $ls != 0 {
+    @include rem("letter-spacing", $ls);
+  }
+}

@@ -1,12 +1,19 @@
 <template>
-  <h1>Recuperar Senha</h1>
+  <b-container fluid class="login">
+    <b-row>
+      <b-col col lg="4" class="d-none d-lg-block">
+        <AccountContentLeftSide />
+      </b-col>
+      <b-col cols="12" lg="4" offset-lg="2" align-self="center" align-h="center">
+        <AccountContentRightSide action="forgetPassword" />
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 export default {
-  name: '',
-  components: {},
-  directives: {},
+  name: 'Cadastro',
   props: {},
   data () {
     return {}
@@ -18,4 +25,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="scss" scoped>
+  .login {
+    @include media-breakpoint-up(md) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+</style>
