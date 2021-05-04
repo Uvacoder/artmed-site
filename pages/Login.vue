@@ -35,7 +35,8 @@ export default {
 <style lang="scss" scoped>
   .login {
     @include media-breakpoint-up(lg) {
-      padding: 0;
+      @include rem("margin-left", -15px);
+      @include rem("margin-right", -15px);
     }
   }
 </style>
