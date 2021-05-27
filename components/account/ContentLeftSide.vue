@@ -1,6 +1,9 @@
 <template>
-  <div class="contentLeftSide" :style="{ backgroundImage: `${backgroundImage}` }">
-    <CommomLogo :is-dark="true" size="xl" />
+  <div
+    class="content-left-side"
+    :style="{ backgroundImage: `${backgroundImage}` }"
+  >
+    <CommomLogo forceDark />
     <AccountSlogan />
     <AccountGroupBtnStore />
   </div>
@@ -15,21 +18,17 @@ export default {
       default: false
     }
   },
-  data () {
-    return {}
-  },
   computed: {
     backgroundImage () {
-      const app = (this.isClin) ? 'clin' : 'psi'
+      const app = (this.$store.state.theme.psiMode) ? 'psi' : 'clin'
       return `url("${require(`~/assets/images/${app}_login_background.jpg`)}")`
     }
-  },
-  methods: {}
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-  .contentLeftSide {
+  .content-left-side {
     position: relative;
     min-height: 100vh;
 
@@ -40,41 +39,32 @@ export default {
 
     &::v-deep .logo,
     &::v-deep .slogan,
-    &::v-deep .groupBtnStore {
+    &::v-deep .group-btn-store {
       @include rem("margin-left", 28px);
     }
 
     &::v-deep .logo {
+      display: inline-block;
       @include rem("margin-top", 64px);
-      @include rem("padding-right", 78px);
+      @include rem("margin-right", 78px);
     }
 
     &::v-deep .slogan {
       color: #FCFBFB;
-
-      font-style: normal;
-      font-weight: normal;
-
       @include font-computed(30px, 38px);
       @include rem("margin-top", 40px);
       @include rem("max-width", 332px);
-
     }
 
-    &::v-deep .groupBtnStore {
+    &::v-deep .group-btn-store {
       position: absolute;
-      margin-top: auto;
-      top: auto;
       bottom: 0px;
-
       @include rem("margin-bottom", 50px);
       @include rem("padding-right", 56px);
 
-      &-title {
+      &__title {
         color: #FFFFFF;
-        font-style: normal;
         font-weight: 600;
-
         @include font-computed(20px, 26px);
       }
     }

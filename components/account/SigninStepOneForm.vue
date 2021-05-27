@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <h1 class="loginForm-title">
-      Nova conta
-    </h1>
-    <h2 class="loginForm-signin-link">
-      Já tem um cadastro?
-      <NuxtLink to="/login">
-        Faça login
-      </NuxtLink>
-    </h2>
+  <div class="account-form">
     <b-form
-      class="loginForm-form"
+      class="account-form"
       novalidate
       @submit.stop.prevent="onSubmit"
     >
+      <AccountFormHeader
+        title="Nova conta"
+        subtitle="Já tem um cadastro?"
+        to="/login"
+        to-label="Faça login"
+      />
+
       <b-form-group
         id="name-group"
-        class="loginForm-form-input-group"
+        class="account-form__input-group"
         label="Nome *"
         label-for="name"
         :state="validateState('name')"
@@ -33,7 +31,7 @@
 
       <b-form-group
         id="email-group"
-        class="loginForm-form-input-group"
+        class="account-form__input-group"
         label="Email *"
         label-for="email"
         :state="validateState('email')"
@@ -50,7 +48,7 @@
 
       <b-form-group
         id="phone-group"
-        class="loginForm-form-input-group"
+        class="account-form__input-group"
         label="Telefone (opcional)"
         label-for="phone"
       >
@@ -64,7 +62,7 @@
 
       <b-form-group
         id="password-group"
-        class="loginForm-form-input-group"
+        class="account-form__input-group"
         label="Senha *"
         label-for="password"
         :state="validateState('password')"
@@ -81,7 +79,7 @@
           />
           <b-input-group-append>
             <b-button
-              class="loginForm-form-switchVisibility"
+              class="form-control__switchVisibility"
               variant="link"
               @click="switchVisibility('password')"
             >
@@ -92,7 +90,7 @@
       </b-form-group>
       <b-form-group
         id="confirmPassword-group"
-        class="loginForm-form-input-group"
+        class="account-form__input-group"
         label="Confirmar senha *"
         label-for="confirmPassword"
         :state="validateState('confirmPassword')"
@@ -101,7 +99,7 @@
           <b-form-input
             id="confirmPassword"
             v-model="form.confirmPassword"
-            class="form-control--confirmPassword"
+            class="form-control--password"
             :type="confirmPasswordFieldType"
             placeholder="Confirmar senha"
             :state="validateState('confirmPassword')"
@@ -109,7 +107,7 @@
           />
           <b-input-group-append>
             <b-button
-              class="loginForm-form-switchVisibility"
+              class="form-control__switchVisibility"
               variant="link"
               @click="switchVisibility('confirmPassword')"
             >
@@ -120,7 +118,7 @@
       </b-form-group>
 
       <b-button
-        class="loginForm-form-submit"
+        class="account-form__btn--submit"
         type="submit"
         variant="primary"
         block
@@ -222,162 +220,11 @@ export default {
 </script>
 
 <style lang="scss">
-  .form-control {
-    border: 1px solid #D8D8D8;
-
-    @include rem("border-radius", 6px);
-    @include rem("padding", 14px 12px);
-    @include rem("height", 50px);
-
-    &::-webkit-input-placeholder { /* Edge */
-      color: #A5A5A5;
-
-      font-style: normal;
-      font-weight: 600;
-
-      @include font-computed(16px, 20px);
-    }
-
-    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-      color: #A5A5A5;
-
-      font-style: normal;
-      font-weight: 600;
-
-      @include font-computed(16px, 20px);
-    }
-
-    &::placeholder {
-      color: #A5A5A5;
-
-      font-style: normal;
-      font-weight: 600;
-
-      @include font-computed(16px, 20px);
-    }
-
-    &--password,
-    &--confirmPassword {
-      border-right: none;
-    }
-  }
-
-  .was-validated
-  .form-control:invalid,
-  .form-control.is-invalid {
-    &::-webkit-input-placeholder { /* Edge */
-      color: #dc3545;
-    }
-
-    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-      color: #dc3545;
-    }
-
-    &::placeholder {
-      color: #dc3545;
-    }
-  }
-
-  .loginForm-form-switchVisibility {
-    border: 1px solid #D8D8D8;
-    border-left: none;
-    color: #A5A5A5;
-
-    @include rem("border-radius", 6px);
-  }
-
-  .is-invalid .loginForm-form-switchVisibility {
-    border-color: #dc3545;
-  }
-
-  .is-valid .loginForm-form-switchVisibility {
-    border-color: #28a745;
-  }
+  @include account-input();
 </style>
 
 <style lang="scss" scoped>
-  .loginForm {
-    &-title {
-      color: #000000;
-      font-style: normal;
-      font-weight: bold;
-
-      @include font-computed(24px, 32px);
-    }
-
-    &-signin-link {
-      font-style: normal;
-      font-weight: normal;
-      color: #343434;
-
-      @include font-computed(18px, 24px);
-      @include rem("margin-bottom", 17px);
-
-      a {
-        color: #00A589;
-      }
-    }
-
-    &-form {
-      @include rem("padding-top", 17px);
-
-      &-input-group {
-        &::v-deep label {
-          color: #343434;
-          font-style: normal;
-          font-weight: 600;
-
-          @include font-computed(15px, 19px);
-        }
-      }
-
-      &-recoveryPassword {
-        text-align: center;
-
-        @include rem("margin-top", 16px);
-        @include rem("margin-bottom", 16px);
-
-        a {
-          color: #00A589;
-          font-style: normal;
-          font-weight: 600;
-
-          @include font-computed(16px, 20px);
-        }
-      }
-
-      &-submit {
-        color: #FFFFFF;
-
-        background-color: #00A589;
-        border-color: #00A589;
-
-        font-style: normal;
-        font-weight: 600;
-        text-align: center;
-
-        @include font-computed(16px, 20px);
-        @include rem("border-radius", 6px);
-        @include rem("height", 50px);
-        @include rem("margin-bottom", 15px);
-
-        &:not(:disabled):not(.disabled):active,
-        &:not(:disabled):not(.disabled).active,
-        .show > &.dropdown-toggle {
-          background-color: darken(#00A589, 5%);
-          border-color: darken(#00A589, 5%);
-        }
-      }
-    }
-
-    @include media-breakpoint-up(lg) {
-      &-title {
-        @include font-computed(40px, 52px);
-      }
-
-      &-signin-link {
-        @include font-computed(20px, 26px);
-      }
-    }
+  .account-form {
+    @include account-form();
   }
 </style>

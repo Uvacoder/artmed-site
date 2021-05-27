@@ -1,17 +1,16 @@
 <template>
   <p class="slogan">
-    O seu guia para a tomada de decisão clínica de saúde mental.
+    {{ slogan }}
   </p>
 </template>
 
 <script>
 export default {
   name: 'Slogan',
-  props: {},
-  data () {
-    return {}
-  },
-  computed: {},
-  methods: {}
+  computed: {
+    slogan () {
+      return (this.$store.state.theme.psiMode) ? 'O seu guia para a tomada de decisão clínica de saúde mental.' : 'O seu guia para a tomada de decisão clínica.'
+    }
+  }
 }
 </script>

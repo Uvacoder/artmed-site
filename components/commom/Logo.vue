@@ -1,55 +1,32 @@
 <template>
-  <b-img
-    class="logo"
-    :src="file"
-    :alt="alt"
-    fluid
-    @error="setFallbackImageUrl"
-  />
+  <b-link class="logo" href="/">
+    <b-img
+      class="logo__img"
+      :src="file"
+      :alt="alt"
+      fluid
+    />
+  </b-link>
 </template>
 
 <script>
 export default {
   name: 'Logo',
   props: {
-    isClin: {
+    forceDark: {
       type: Boolean,
       default: false
-    },
-    isDark: {
-      type: Boolean,
-      default: false
-    },
-    size: {
-      type: String,
-      default: 'sm'
-    }
-  },
-  data () {
-    return {
-      filename: ''
     }
   },
   computed: {
     file () {
-      const app = (this.isClin) ? 'clin' : 'psi'
-      const theme = (this.isDark) ? 'dark' : 'light'
-      const size = this.size
-
-      this.setFilename(`${app}_${theme}_${size}`)
-      return require(`~/assets/images/${app}_${theme}.svg`)
+      const app = (this.$store.state.theme.psiMode) ? 'psi' : 'clin'
+      const theme = (this.$store.state.theme.darkMode || this.forceDark) ? 'dark' : 'light'
+      return require(`~/assets/images/${theme}/${app}.svg`)
     },
     alt () {
-      const app = (this.isClin) ? 'CLIN' : 'PSI'
+      const app = (this.$store.state.theme.psiMode) ? 'PSI' : 'CLIN'
       return `Artmed+${app}`
-    }
-  },
-  methods: {
-    setFilename (name) {
-      this.filename = name
-    },
-    setFallbackImageUrl (event) {
-      event.target.src = require(`~/assets/images/${this.filename + '.png'}`)
     }
   }
 }

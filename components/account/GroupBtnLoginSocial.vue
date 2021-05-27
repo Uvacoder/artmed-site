@@ -1,9 +1,9 @@
 <template>
-  <div class="groupBtnLoginSocial">
-    <div class="groupBtnLoginSocial-or">
+  <div class="group-btn-login-social">
+    <div class="group-btn-login-social__or">
       <span>ou</span>
     </div>
-    <b-row no-gutters class="groupBtnLoginSocial-btns">
+    <b-row no-gutters class="group-btn-login-social__btns">
       <b-col
         class="col"
         cols="12"
@@ -33,23 +33,16 @@
 
 <script>
 export default {
-  name: 'GroupBtnLoginSocial',
-  props: {},
-  data () {
-    return {}
-  },
-  computed: {},
-  methods: {}
+  name: 'GroupBtnLoginSocial'
 }
 </script>
 
 <style lang="scss" scoped>
-  .groupBtnLoginSocial {
-    &-or {
+  .group-btn-login-social {
+    &__or {
       position: relative;
       color: #343434;
       text-align: center;
-      font-style: normal;
       font-weight: 600;
 
       @include font-computed(20px, 26px);
@@ -69,13 +62,13 @@ export default {
         position: relative;
         display: inline-block;
 
-        @include rem("padding", 0 15px);
-        @include rem("margin-right", 15px);
+        @include rem("padding", 0 16px);
+        @include rem("margin-right", 16px);
         @include rem("top", -2px);
       }
     }
 
-    &-btns {
+    &__btns {
       @include rem("padding-top", 10px);
 
       @include media-breakpoint-up(md) {

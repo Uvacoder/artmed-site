@@ -3,7 +3,7 @@
     block
     :href="link"
     target="_BLANK"
-    class="btnLoginSocial"
+    class="btn-login-social"
     :class="classMod"
   >
     <b-img
@@ -11,7 +11,6 @@
       :alt="alt"
       height="20"
       width="auto"
-      @error="setFallbackImageUrl"
     />
   </b-button>
 </template>
@@ -46,9 +45,9 @@ export default {
     },
     classMod () {
       const classMod = {
-        Facebook: 'btnLoginSocial--facebook',
-        Google: 'btnLoginSocial--google',
-        Apple: 'btnLoginSocial--apple'
+        Facebook: 'btn-login-social--facebook',
+        Google: 'btn-login-social--google',
+        Apple: 'btn-login-social--apple'
       }
       return classMod[this.social]
     },
@@ -58,8 +57,6 @@ export default {
         Google: 'google',
         Apple: 'apple'
       }
-
-      this.setFilename(`icon_${store[this.social]}`)
       return require(`~/assets/images/icon_${store[this.social]}.svg`)
     },
     alt () {
@@ -70,26 +67,18 @@ export default {
       }
       return `${store[this.social]}`
     }
-  },
-  methods: {
-    setFilename (name) {
-      this.filename = name
-    },
-    setFallbackImageUrl (event) {
-      event.target.src = require(`~/assets/images/${this.filename + '.png'}`)
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .btnLoginSocial {
+  .btn-login-social {
     @include rem("border-radius", 6px);
-    @include rem("margin-top", 5px);
-    @include rem("margin-bottom", 5px);
+    @include rem("margin-top", 6px);
+    @include rem("margin-bottom", 6px);
 
-    @include rem("padding-top", 11px);
-    @include rem("padding-bottom", 13px);
+    @include rem("padding-top", 12px);
+    @include rem("padding-bottom", 14px);
 
     &--facebook {
       background-color: #366FDB;

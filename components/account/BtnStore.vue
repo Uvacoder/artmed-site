@@ -2,7 +2,7 @@
   <b-link
     :href="link"
     target="_BLANK"
-    class="btnStore"
+    class="btn-store"
     :class="classMod"
   >
     <b-img
@@ -65,8 +65,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .btnStore {
+  .btn-store {
     display: inline-block;
-    @include rem("padding-top", 5px);
+    @include rem("padding-top", 6px);
   }
 </style>

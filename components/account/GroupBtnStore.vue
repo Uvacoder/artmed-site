@@ -1,9 +1,9 @@
 <template>
-  <div class="groupBtnStore">
-    <h3 class="groupBtnStore-title">
+  <div class="group-btn-store">
+    <h3 class="group-btn-store__title">
       Baixe agora o app!
     </h3>
-    <div class="groupBtnStore-group">
+    <div class="group-btn-store__group">
       <AccountBtnStore :apple-store="false" />
       <AccountBtnStore />
     </div>
@@ -12,20 +12,14 @@
 
 <script>
 export default {
-  name: 'GroupBtnStore',
-  props: {},
-  data () {
-    return {}
-  },
-  computed: {},
-  methods: {}
+  name: 'GroupBtnStore'
 }
 </script>
 
 <style lang="scss" scoped>
-  .groupBtnStore {
-    &-title {
-      @include rem("margin-bottom", 5px);
+  .group-btn-store {
+    &__title {
+      @include rem("margin-bottom", 6px);
     }
   }
 </style>

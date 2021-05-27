@@ -68,3 +68,158 @@
     @include rem("letter-spacing", $ls);
   }
 }
+
+@mixin account-form() {
+  @include rem("padding-top", 18px);
+  &::v-deep label,
+  &__link a {
+    @include account-link();
+    @include font-computed(16px, 20px);
+  }
+
+  &::v-deep label {
+    color: #343434;
+  }
+
+  &__btn--submit {
+    @include account-form-btn();
+  }
+}
+
+@mixin account-link() {
+  color: #00A589;
+  font-weight: 600;
+}
+
+@mixin account-input() {
+  .form-control {
+    border: 1px solid #D8D8D8;
+
+    @include rem("border-radius", 6px);
+    @include rem("padding", 14px 12px);
+    @include rem("height", 50px);
+
+    &::-webkit-input-placeholder { /* Edge */
+      color: #A5A5A5;
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #A5A5A5;
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &::placeholder {
+      color: #A5A5A5;
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &--password {
+      border-right: none;
+    }
+  }
+
+  .was-validated
+  .form-control:invalid,
+  .form-control.is-invalid {
+    &::-webkit-input-placeholder { /* Edge */
+      color: #dc3545;
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #dc3545;
+    }
+
+    &::placeholder {
+      color: #dc3545;
+    }
+  }
+
+  .form-control__switchVisibility {
+    border: 1px solid #D8D8D8;
+    border-left: none;
+    color: #A5A5A5;
+    @include rem("border-radius", 6px);
+  }
+
+  .is-invalid .form-control__switchVisibility {
+    border-color: #dc3545;
+  }
+
+  .is-valid .form-control__switchVisibility {
+    border-color: #28a745;
+  }
+}
+
+@mixin account-select() {
+  .custom-select {
+    border: 1px solid #D8D8D8;
+    color: #28a745;
+    background: #FAFBFC;
+    text-align-last: center;
+    text-align: center;
+
+    @include rem("border-radius", 6px);
+    @include rem("padding", 14px 12px);
+    @include rem("height", 50px);
+
+    &::-webkit-input-placeholder { /* Edge */
+      color: #28a745;
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #28a745;
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &::placeholder {
+      color: #28a745;
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+  }
+
+  .was-validated
+  .custom-select:invalid,
+  .custom-select.is-invalid {
+    &::-webkit-input-placeholder { /* Edge */
+      color: #dc3545;
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #dc3545;
+    }
+
+    &::placeholder {
+      color: #dc3545;
+    }
+  }
+}
+
+@mixin account-form-btn() {
+  color: #FFFFFF;
+
+  background-color: #00A589;
+  border-color: #00A589;
+
+  font-weight: 600;
+  text-align: center;
+
+  @include font-computed(16px, 20px);
+  @include rem("border-radius", 6px);
+  @include rem("height", 50px);
+  @include rem("margin-bottom", 16px);
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: darken(#00A589, 5%);
+    border-color: darken(#00A589, 5%);
+  }
+}
