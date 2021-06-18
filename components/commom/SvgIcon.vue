@@ -10,7 +10,7 @@ export default {
       type: String,
       default: ''
     },
-    class: {
+    classStyle: {
       type: String,
       default: ''
     }
@@ -20,7 +20,7 @@ export default {
       return require(`~/assets/images/${this.svg}.svg?raw`)
     },
     classRenderized () {
-      return this.class
+      return this.classStyle
     }
   }
 }

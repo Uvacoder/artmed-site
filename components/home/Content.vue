@@ -1,7 +1,8 @@
 <template>
   <div class="content">
-    <HomeHeader />
+    <CommomHeader />
     <HomeBody />
+    <CommomFooter />
   </div>
 </template>
 
@@ -10,7 +11,3 @@ export default {
   name: 'Content'
 }
 </script>
-
-<style lang="scss" scoped>
-  .content {}
-</style>

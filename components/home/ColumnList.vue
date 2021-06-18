@@ -1,13 +1,13 @@
 <template>
   <ul class="row no-gutters columm-list">
-    <li v-for="n in 8" :key="n" class="col-md-6 columm-list__item">
+    <li v-for="(item, index) in items" :key="index" class="col-md-6 columm-list__item">
       <NuxtLink
-        :key="index"
         class="columm-list__item__link"
-        to="#"
+        :to="`/conteudo/${$helpers.formatToSlug($helpers.resolvePath(item, to, ''))}`"
       >
-        <CommomSvgIcon svg="icon_search" class="columm-list__item__link__icon" />
-        <span class="columm-list__item__link__label">Diagnóstico por imagem</span>
+        <CommomSvgIcon v-if="icon" :svg="icon" class-style="columm-list__item__link__icon" />
+        <img v-else :src="$helpers.normalizeImageUrl($helpers.resolvePath(item, image, null))" class="columm-list__item__link__icon columm-list__item__link__icon--image">
+        <span class="columm-list__item__link__label">{{ $helpers.resolvePath(item, property, '') }}</span>
       </NuxtLink>
     </li>
   </ul>
@@ -15,7 +15,32 @@
 
 <script>
 export default {
-  name: 'ColummList'
+  name: 'ColummList',
+  props: {
+    items: {
+      type: Array,
+      required: true
+    },
+    to: {
+      type: String,
+      default: null,
+      required: false
+    },
+    property: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      default: null,
+      required: false
+    },
+    image: {
+      type: String,
+      default: null,
+      required: false
+    }
+  }
 }
 </script>
 
@@ -29,11 +54,8 @@ export default {
       a {
         background: #FAFBFC;
         display: block;
-        font-family: DIN 2014;
-        font-style: normal;
         font-weight: 600;
-        font-size: 16px;
-        line-height: 20px;
+        @include font-computed(16px, 20px);
         display: flex;
         align-items: center;
         /* Light/contrast color */
@@ -41,7 +63,7 @@ export default {
         border: 1px solid #D8D8D8;
         border-top: none;
         cursor: pointer;
-        padding: 20px 14px;
+        @include rem("padding", 20px 14px);
 
         &:hover {
           text-decoration: none;
@@ -66,8 +88,8 @@ export default {
       &:first-child {
         a {
           border-top: 1px solid #D8D8D8;
-          border-top-left-radius: 6px;
-          border-top-right-radius: 6px;
+          @include rem("border-top-left-radius", 6px);
+          @include rem("border-top-right-radius", 6px);
 
           @include media-breakpoint-up(md) {
             border-top-right-radius: 0;
@@ -79,7 +101,7 @@ export default {
         a {
           @include media-breakpoint-up(md) {
             border-top: 1px solid #D8D8D8;
-            border-top-right-radius: 6px;
+            @include rem("border-top-right-radius", 6px);
           }
         }
       }
@@ -87,15 +109,15 @@ export default {
       &:nth-of-type(7) {
         a {
           @include media-breakpoint-up(md) {
-            border-bottom-left-radius: 6px;
+            @include rem("border-bottom-left-radius", 6px);
           }
         }
       }
 
       &:last-child {
         a {
-          border-bottom-left-radius: 6px;
-          border-bottom-right-radius: 6px;
+          @include rem("border-bottom-left-radius", 6px);
+          @include rem("border-bottom-right-radius", 6px);
 
           @include media-breakpoint-up(md) {
             border-bottom-left-radius: 0;
@@ -108,9 +130,15 @@ export default {
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      width: 22px;
-      height: 22px;
-      margin-right: 14px;
+      @include rem("width", 22px);
+      @include rem("height", 22px);
+      @include rem("margin-right", 14px);
+
+      &--image {
+        @include rem("width", 40px);
+        @include rem("height", 40px);
+        @include rem("margin-right", 4px);
+      }
     }
   }
 </style>

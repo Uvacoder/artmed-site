@@ -2,7 +2,7 @@
   <b-button
     block
     :href="link"
-    target="_BLANK"
+    rel="external nofollow"
     class="btn-login-social"
     :class="classMod"
   >

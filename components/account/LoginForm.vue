@@ -72,6 +72,8 @@
     >
       Entrar
     </b-button>
+
+    <AccountGroupBtnLoginSocial />
   </b-form>
 </template>
 
@@ -122,13 +124,25 @@ export default {
         this.$v.$reset()
       })
     },
-    onSubmit () {
+    async onSubmit ({ redirect }) {
       this.$v.form.$touch()
       if (this.$v.form.$anyError) {
         return
       }
 
-      alert('Form submitted!')
+      const login = {
+        username: this.form.email,
+        password: this.form.password
+      }
+
+      try {
+        await this.$auth.loginWith('custom', { data: login })
+      } catch (error) {
+        if (error.response) {
+          const data = error.response.data
+          this.$bvModal.msgBoxOk(`(${data.code}) - ${data.detail.id}: ${data.detail.message}`, this.$helpers.getModalOptions(this.$helpers.getString('alertSucessTitle')))
+        }
+      }
     }
   }
 }

@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     app () {
-      const app = (this.$store.state.theme.psiMode) ? 'PSI' : 'CLIN'
+      const app = (this.$store.state.theme.config.psiMode) ? 'PSI' : 'CLIN'
       return `Artmed+${app}`
     }
   }
@@ -56,7 +56,7 @@ export default {
     }
 
     &__item {
-      padding: 24px 0;
+      @include rem("padding", 24px 0);
       border-bottom: 1px solid #B7CAF4;
 
       &:last-child {
@@ -66,8 +66,7 @@ export default {
 
     &__link{
       font-weight: 600;
-      font-size: 16px;
-      line-height: 20px;
+      @include font-computed(16px, 20px);
       /* Light/PSI - 3 */
       color: #00A589;
     }

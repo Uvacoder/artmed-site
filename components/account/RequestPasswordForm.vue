@@ -44,7 +44,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'RequestPasswordForm',
@@ -62,10 +62,6 @@ export default {
     form: {
       email: {
         required
-      },
-      password: {
-        required,
-        minLength: minLength(3)
       }
     }
   },
@@ -87,13 +83,28 @@ export default {
         this.$v.$reset()
       })
     },
-    onSubmit () {
+    async onSubmit () {
       this.$v.form.$touch()
       if (this.$v.form.$anyError) {
         return
       }
 
-      alert('Form submitted!')
+      const endpoint = this.$api.EndPoints.forgotPassword
+      const params = {
+        username: this.form.email,
+        op: 'recover'
+      }
+
+      await this.$api.request(endpoint, params)
+        .then(() => {
+          this.$bvModal.msgBoxOk('Foi', this.$helpers.getModalOptions(this.$helpers.getString('alertSucessTitle')))
+        })
+        .catch((error) => {
+          if (error.response) {
+            const data = error.response.data
+            this.$bvModal.msgBoxOk(`(${data.code}) - ${data.detail.id}: ${data.detail.message}`, this.$helpers.getModalOptions(this.$helpers.getString('alertSucessTitle')))
+          }
+        })
     }
   }
 }

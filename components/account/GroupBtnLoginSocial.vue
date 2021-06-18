@@ -1,5 +1,5 @@
 <template>
-  <div class="group-btn-login-social">
+  <footer class="group-btn-login-social">
     <div class="group-btn-login-social__or">
       <span>ou</span>
     </div>
@@ -28,7 +28,7 @@
         <AccountBtnLoginSocial social="Apple" />
       </b-col>
     </b-row>
-  </div>
+  </footer>
 </template>
 
 <script>

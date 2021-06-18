@@ -125,8 +125,6 @@
       >
         Criar conta
       </b-button>
-
-      <AccountGroupBtnLoginSocial />
     </b-form>
   </div>
 </template>
@@ -136,7 +134,7 @@ import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'SigninStepOneForm',
+  name: 'LoginForm',
   mixins: [validationMixin],
   props: {
     step: {
@@ -158,6 +156,7 @@ export default {
       confirmPasswordFieldType: 'password'
     }
   },
+  computed: {},
   validations: {
     form: {
       name: {
@@ -225,7 +224,7 @@ export default {
 
       await this.$api.request(endpoint, params)
         .then((response) => {
-          this.$auth.$storage.setUniversal('tempToken', response.data.token)
+          this.$store.commit('user/SET_CURRENT', response.data)
           this.stepState = 2
         })
         .catch((error) => {

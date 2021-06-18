@@ -43,6 +43,12 @@ export default {
       type: String,
       default: 'login',
       required: true
+    },
+    setup: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data () {

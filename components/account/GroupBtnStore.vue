@@ -1,8 +1,8 @@
 <template>
   <div class="group-btn-store">
-    <h3 class="group-btn-store__title">
+    <h5 class="group-btn-store__title">
       Baixe agora o app!
-    </h3>
+    </h5>
     <div class="group-btn-store__group">
       <AccountBtnStore :apple-store="false" />
       <AccountBtnStore />

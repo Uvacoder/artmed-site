@@ -4,12 +4,13 @@
       <div class="big-box-carousel__item">
         <NuxtLink
           class="big-box-carousel__link"
-          :to="item.to"
+          :to="item.url"
         >
           <b-card
             :title="item.title"
-            :img-src="item.image"
+            :img-src="$helpers.normalizeImageUrl(item.image)"
             :img-alt="item.title"
+            img-width="340"
             img-top
             tag="article"
             class="big-box-carousel__card"

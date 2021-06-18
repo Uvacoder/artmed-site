@@ -1,9 +1,12 @@
 <template>
-  <AccountContent action="signin" />
+  <main>
+    <AccountContent action="signin" />
+  </main>
 </template>
 
 <script>
 export default {
-  name: 'Cadastro'
+  name: 'Cadastro',
+  auth: 'guest'
 }
 </script>

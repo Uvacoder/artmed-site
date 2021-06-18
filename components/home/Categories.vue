@@ -4,12 +4,12 @@
       Categorias
     </h3>
     <ul class="row no-gutters categories__list">
-      <li v-for="n in 16" :key="n" class="col categories__item">
+      <li v-for="(item, index) in items" :key="index" class="col categories__item">
         <a class="categories__item__link">
           <span class="categories__item__link__img-container">
-            <img :src="require(`~/assets/images/icon_category.png`)">
+            <b-img :src="$helpers.normalizeImageUrl(item.image)" fluid :alt="item.name" />
           </span>
-          <span class="categories__item__link__label">Diagnóstico por imagem</span>
+          <span class="categories__item__link__label">{{ item.name }}</span>
         </a>
       </li>
     </ul>
@@ -18,13 +18,18 @@
 
 <script>
 export default {
-  name: 'Categories'
+  name: 'Categories',
+  computed: {
+    items () {
+      return this.$store.state.categories.items
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
   .categories {
-    margin-top: 80px;
+    @include rem("margin-top", 80px);
 
     &__title {
       color: #343434;
@@ -48,7 +53,8 @@ export default {
 
       &__link {
         display: flex;
-        padding: 6px;
+        align-items: center;
+        height: 100%;
         background: #FFFFFF;
         border: 1px solid #D8D8D8;
         border-top: none;
@@ -59,6 +65,7 @@ export default {
         color: #343434;
         font-weight: 600;
         @include font-computed(12px, 16px);
+        @include rem("padding", 3px);
 
         &:hover {
           background: darken(#FAFBFC, 2.5%);
@@ -68,12 +75,14 @@ export default {
 
         &__img-container {
           display: flex;
-          margin-right: 4px;
-          @include media-breakpoint-up(sm) {
-            margin-right: 16px;
+          height: max-content;
+          @include rem("max-width", 30px);
+          @include rem("margin-right", 5px);
+          @include media-breakpoint-up(md) {
+            @include rem("max-width", 40px);
           }
-          img {
-            margin: auto;
+          @include media-breakpoint-up(xl) {
+            @include rem("max-width", 60px);
           }
         }
 
@@ -83,7 +92,7 @@ export default {
         }
 
         @include media-breakpoint-up(sm) {
-          padding: 12px;
+          @include rem("padding", 12px);
           @include font-computed(16px, 20px);
         }
       }
@@ -92,7 +101,6 @@ export default {
         @media (max-width: 575px) {
           a {
             border-left: 1px solid #D8D8D8;
-
           }
         }
       }
@@ -101,7 +109,6 @@ export default {
         @media (min-width: 576px) and (max-width: 991px) {
           a {
             border-left: 1px solid #D8D8D8;
-
           }
         }
       }
@@ -110,7 +117,6 @@ export default {
         @media (min-width: 991px) {
           a {
             border-left: 1px solid #D8D8D8;
-
           }
         }
       }
@@ -119,7 +125,6 @@ export default {
       &:nth-of-type(2) {
         a {
           border-top: 1px solid #D8D8D8;
-
         }
       }
 
@@ -127,7 +132,6 @@ export default {
         @include media-breakpoint-up(sm) {
           a {
             border-top: 1px solid #D8D8D8;
-
           }
         }
       }
@@ -137,7 +141,6 @@ export default {
         @include media-breakpoint-up(lg) {
           a {
             border-top: 1px solid #D8D8D8;
-
           }
         }
       }
@@ -163,8 +166,8 @@ export default {
       }
 
       @include media-breakpoint-up(xl) {
-        min-width: 222px;
-        max-width: 222px;
+        @include rem("min-width", 222px);
+        @include rem("max-width", 222px);
       }
     }
   }

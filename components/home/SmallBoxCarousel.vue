@@ -4,17 +4,17 @@
       <div class="small-box-carousel__item">
         <NuxtLink
           class="small-box-carousel__link"
-          :to="item.to"
+          :to="`/conteudo/${$helpers.formatToSlug(item.content.name)}`"
         >
           <b-card
+            :title="$helpers.truncateString($helpers.resolvePath(item, property, null), 24)"
+            :img-src="$helpers.normalizeImageUrl($helpers.resolvePath(item, image, null))"
+            :img-alt="$helpers.resolvePath(item, property, null)"
+            img-height="60"
+            img-top
             tag="article"
             class="small-box-carousel__card"
-          >
-            <b-card-text>
-              <CommomSvgIcon :svg="item.icon" class="small-box-carousel__icon" />
-              {{ item.title }}
-            </b-card-text>
-          </b-card>
+          />
         </NuxtLink>
       </div>
     </template>
@@ -33,6 +33,15 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    property: {
+      type: String,
+      required: true
+    },
+    image: {
+      type: String,
+      default: null,
+      required: false
     }
   },
   data () {

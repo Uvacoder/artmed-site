@@ -18,7 +18,9 @@
       <b-form-select
         id="experience"
         v-model="form.experience"
-        :options="options.experience"
+        :options="loadRegisterExperiences"
+        value-field="id"
+        text-field="name"
         :state="validateState('experience')"
         required
       />
@@ -35,6 +37,8 @@
         id="area"
         v-model="form.area"
         :options="options.area"
+        value-field="id"
+        text-field="name"
         :state="validateState('area')"
         required
       />
@@ -52,6 +56,9 @@
           id="speciality"
           v-model="form.speciality"
           :options="options.speciality"
+          value-field="id"
+          text-field="name"
+          :disabled="(options.speciality.length <= 1)"
           :state="validateState('speciality')"
           required
         />
@@ -71,46 +78,53 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, requiredUnless } from 'vuelidate/lib/validators'
+import { required, requiredIf } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'LoginForm',
+  name: 'SigninStepTwoForm',
   mixins: [validationMixin],
   props: {
     step: {
       type: Number,
       required: true
+    },
+    setup: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data () {
     return {
       stepState: undefined,
-      showSpeciality: false,
       form: {
         experience: null,
         area: null,
         speciality: null
       },
       options: {
-        experience: [
-          { value: null, text: 'Selecione' },
-          { value: '1', text: 'Estudante' },
-          { value: '3', text: 'Técnico' },
-          { value: '2', text: 'Residente' },
-          { value: '4', text: 'Profissional' }
-        ],
+        experience: [],
         area: [
-          { value: null, text: 'Selecione' }
+          { id: null, name: 'Selecione' }
         ],
-        speciality: [
-          { value: null, text: 'Selecione' }
-        ]
+        speciality: []
       }
     }
   },
   computed: {
+    showSpeciality () {
+      return (this.form.experience !== null && parseInt(this.form.experience) !== 1 && this.form.area !== null)
+    },
     specialityIsRequired () {
       return (parseInt(this.form.experience) !== 1)
+    },
+    loadRegisterExperiences () {
+      let options = [{ id: null, name: 'Selecione' }, { id: '1', name: 'Estudante' }, { id: '2', name: 'Residente' }, { id: '4', name: 'Profissional' }]
+      if (!this.$store.state.theme.config.psiMode) {
+        options = this.$helpers.arrayInsertAt(options, 2, { id: '3', name: 'Técnico' })
+      }
+      return options
     }
   },
   validations: {
@@ -122,7 +136,10 @@ export default {
         required
       },
       speciality: {
-        required: requiredUnless('specialityIsRequired')
+        required: requiredIf((form) => {
+          console.log((parseInt(form.experience) !== 1))
+          return (parseInt(form.experience) !== 1)
+        })
       }
     }
   },
@@ -133,14 +150,36 @@ export default {
     stepState (val, oldVal) {
       this.$emit('update:step', val)
     },
-    'form.experience': {
-      handler (val, oldVal) {
-        this.showSpeciality = (parseInt(val) !== 1)
+    'form.area': {
+      async handler (val, oldVal) {
+        if (val !== null) {
+          await this.loadRegisterSpecialties(val)
+        }
       },
       deep: true
     }
   },
+  mounted () {
+    this.loadRegisterAreas()
+    this.initRegisterSpecialties()
+  },
   methods: {
+    async loadRegisterAreas () {
+      const options = await this.$api.request(this.$api.EndPoints.signUpAreas, {})
+      this.options.area = this.$helpers.arrayInsertAt(this.options.area, 1, options.data)
+    },
+    initRegisterSpecialties () {
+      this.options.speciality = [{ id: null, name: 'Selecione' }]
+    },
+    async loadRegisterSpecialties (area) {
+      this.initRegisterSpecialties()
+      this.options.speciality[0].name = 'Carregando...'
+      const endpoint = this.$api.EndPoints.signUpSpecialties
+      endpoint.area = area
+      const options = await this.$api.request(this.$api.EndPoints.signUpSpecialties, {})
+      this.options.speciality = this.$helpers.arrayInsertAt(this.options.speciality, 1, options.data)
+      this.options.speciality[0].name = 'Selecione'
+    },
     validateState (field) {
       const { $dirty, $error } = this.$v.form[field]
       return $dirty ? !$error : null
@@ -149,24 +188,48 @@ export default {
       this.form = {
         experience: null,
         area: null,
-        speciality: null,
-        otherSpeciality: null
+        speciality: null
       }
 
       this.$nextTick(() => {
         this.$v.$reset()
       })
     },
-    onSubmit () {
+    async onSubmit () {
       this.$v.form.$touch()
       if (this.$v.form.$anyError) {
         return
       }
 
-      alert('Form submitted!')
-    },
-    onBack () {
-      this.stepState = 1
+      const token = this.$auth.$storage.getUniversal('tempToken')
+      const endpoint = this.$api.EndPoints.updateUser
+      endpoint.id = this.$helpers.extractUserId(token.access)
+      endpoint.token = token
+      const intExperience = parseInt(this.form.experience)
+      const params = {
+        op: 'update',
+        degree: intExperience,
+        area: this.form.area
+      }
+
+      if (intExperience !== 1) {
+        params.specialty = this.form.specialty
+      }
+
+      await this.$api.request(endpoint, params)
+        .then(() => {
+          this.$auth.setUserToken(token)
+            .then(() => {
+              this.$auth.fetchUser()
+              this.$auth.$storage.removeUniversal('tempToken')
+            })
+        })
+        .catch((error) => {
+          if (error.response) {
+            const data = error.response.data
+            this.$bvModal.msgBoxOk(`(${data.code}) - ${data.detail.id}: ${data.detail.message}`, this.$helpers.getModalOptions(this.$helpers.getString('alertSucessTitle')))
+          }
+        })
     }
   }
 }

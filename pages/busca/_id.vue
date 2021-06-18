@@ -4,7 +4,8 @@
 
 <script>
 export default {
-  name: '',
+  name: 'Busca',
+  auth: false,
   components: {},
   directives: {},
   props: {},

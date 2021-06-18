@@ -1,7 +1,7 @@
 <template>
-  <p class="slogan">
+  <h2 class="slogan">
     {{ slogan }}
-  </p>
+  </h2>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
   name: 'Slogan',
   computed: {
     slogan () {
-      return (this.$store.state.theme.psiMode) ? 'O seu guia para a tomada de decisão clínica de saúde mental.' : 'O seu guia para a tomada de decisão clínica.'
+      return (this.$store.state.theme.config.psiMode) ? 'O seu guia para a tomada de decisão clínica de saúde mental.' : 'O seu guia para a tomada de decisão clínica.'
     }
   }
 }

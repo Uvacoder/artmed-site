@@ -70,7 +70,6 @@
 }
 
 @mixin account-form() {
-  @include rem("padding-top", 18px);
   &::v-deep label,
   &__link a {
     @include account-link();

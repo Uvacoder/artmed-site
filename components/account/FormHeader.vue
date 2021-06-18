@@ -1,15 +1,15 @@
 <template>
-  <div class="form-header">
-    <h1 class="form-header__title">
+  <header class="form-header">
+    <h3 class="form-header__title">
       {{ title }}
-    </h1>
-    <h2 class="form-header__subtitle">
+    </h3>
+    <h4 class="form-header__subtitle">
       {{ subtitle }}
       <NuxtLink v-if="to != null" :to="to">
         {{ toLabel }}
       </NuxtLink>
-    </h2>
-  </div>
+    </h4>
+  </header>
 </template>
 
 <script>

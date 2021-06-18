@@ -1,94 +1,91 @@
 <template>
-  <b-form
-    class="search"
-    novalidate
-  >
-    <b-form-group
-      id="query-group"
-      class="search__input-group"
-      :class="{'search__input-group--open': hasResult}"
-      label-for="email"
-    >
-      <b-input-group>
-        <b-input-group-prepend>
-          <b-button
-            type="submit"
-            class="search__btn search__btn--search"
-          >
-            <CommomSvgIcon svg="icon_search" />
-          </b-button>
-        </b-input-group-prepend>
+  <b-row class="search">
+    l{{ suggestions }}
+    <b-col cols="12" md="7">
+      <b-form
+        class="search"
+        novalidate
+        @submit.stop.prevent="onSubmit"
+      >
+        <b-form-group
+          id="query-group"
+          class="search__input-group"
+          :class="{'search__input-group--open': hasResult}"
+          label-for="email"
+          :state="validateState('query')"
+        >
+          <b-input-group>
+            <b-input-group-prepend>
+              <b-button
+                type="submit"
+                class="search__btn search__btn--search"
+              >
+                <CommomSvgIcon svg="icon_search" />
+              </b-button>
+            </b-input-group-prepend>
 
-        <b-form-input
-          id="query"
-          v-model="$v.searchTerm.$model"
-          type="text"
-          class="search__form-control"
-          placeholder="Pesquisar"
-          debounce="300"
-          aria-autocomplete="both"
-          aria-haspopup="false"
-          autocapitalize="off"
-          autocomplete="off"
-          autocorrect="off"
-          autofocus=""
-          spellcheck="false"
-          aria-label="Pesquisar"
-          required
-          @keyup.enter="goToSearch()"
-        />
+            <b-form-input
+              id="query"
+              v-model="searchTerm"
+              type="text"
+              class="search__form-control"
+              placeholder="Pesquisar"
+              :state="validateState('query')"
+              required
+            />
 
-        <b-input-group-append v-if="showClear">
-          <b-button
-            class="search__btn search__btn--clear"
-            @click="clear()"
-          >
-            <b-icon icon="x" />
-          </b-button>
-        </b-input-group-append>
-      </b-input-group>
+            <b-input-group-append v-if="showClear">
+              <b-button
+                class="search__btn search__btn--clear"
+                @click="clear()"
+              >
+                <b-icon icon="x" />
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
 
-      <div v-if="hasResult" class="search__sugestion-container">
-        <div class="search__sugestion-box">
-          <div class="search__sugestion-box__divider" />
-          <ul class="search__sugestion-box__list" role="listbox">
-            <li
-              v-for="(typeAhead, index) in typeAheadList"
-              :key="index"
-              class="search__sugestion-box__list-item"
-              role="presentation"
-            >
-              <div class="search__sugestion-box__list-item-container">
-                <div class="search__sugestion-box__list-item-icon" />
-                <div class="search__sugestion-box__list-item-text-container" role="option">
-                  <div class="search__sugestion-box__list-item-text">
-                    <NuxtLink
-                      class="search__sugestion-box__list-item-text__line search__sugestion-box__list-item-text__line--one"
-                      :to="`/busca/${typeAhead}`"
-                    >
-                      {{ typeAhead }}
-                    </NuxtLink>
+          <div v-if="hasResult" class="search__sugestion-container">
+            <div class="search__sugestion-box">
+              <div class="search__sugestion-box__divider" />
+              <ul class="search__sugestion-box__list" role="listbox">
+                <li
+                  v-for="(suggestion, index) in suggestions"
+                  :key="index"
+                  class="search__sugestion-box__list-item"
+                  role="presentation"
+                >
+                  <div class="search__sugestion-box__list-item-container">
+                    <div class="search__sugestion-box__list-item-icon" />
+                    <div class="search__sugestion-box__list-item-text-container" role="option">
+                      <div class="search__sugestion-box__list-item-text">
+                        <span class="search__sugestion-box__list-item-text__line search__sugestion-box__list-item-text__line--one">Diabetes melito</span>
+                        <span class="search__sugestion-box__list-item-text__line search__sugestion-box__list-item-text__line--two">Outras doenças e psicofármacos</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </b-form-group>
-  </b-form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </b-form-group>
+      </b-form>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
-import { minLength } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Search',
   mixins: [validationMixin],
+  props: {},
   data () {
     return {
+      form: {
+        query: ''
+      },
       hasResult: false,
       showClear: false
     }
@@ -102,49 +99,49 @@ export default {
         this.$store.commit('search/SET_SEARCHTERM', value)
       }
     },
-    typeAheadList () {
-      return this.$store.state.search.typeAheadList
+    suggestions () {
+      console.log(this.$store.state)
+      return this.$store.state.search.suggestions
     }
   },
   watch: {
     searchTerm: {
       handler (val, oldVal) {
-        if (val !== null && val !== '') {
-          const hasSearchTerm = (val.length > 0)
-          this.showClear = hasSearchTerm
-          if (hasSearchTerm) { this.loadTypeAhead() }
+        if (val !== null) {
+          this.hasResult = this.showClear = (val.length > 0)
         } else {
-          this.clear()
-          this.showClear = false
+          this.hasResult = this.showClear = false
         }
-      },
-      deep: true
-    },
-    typeAheadList: {
-      handler (val, oldVal) {
-        this.hasResult = (val !== null && val.length > 0 && this.searchTerm.length > 0)
       },
       deep: true
     }
   },
   validations: {
-    searchTerm: {
-      minLength: minLength(1)
+    form: {
+      query: {
+        required
+      }
     }
   },
-  beforeDestroy () {
-    this.clear()
-  },
   methods: {
-    clear () {
-      this.$store.commit('search/SET_TYPEAHEADLIST', [])
-      this.$store.commit('search/SET_SEARCHTERM', '')
+    validateState (field) {
+      const { $dirty, $error } = this.$v.form[field]
+      return $dirty ? !$error : null
     },
-    ...mapActions({
-      loadTypeAhead: 'search/loadTypeAhead'
-    }),
-    goToSearch () {
-      this.$router.push({ name: 'busca-id', params: { id: this.searchTerm } })
+    clear () {
+      this.searchTerm = ''
+
+      this.$nextTick(() => {
+        this.$v.$reset()
+      })
+    },
+    onSubmit () {
+      this.$v.form.$touch()
+      if (this.$v.form.$anyError) {
+        return
+      }
+
+      alert('Form submitted!')
     }
   }
 }
@@ -307,15 +304,23 @@ export default {
 
         &-text {
           display: flex;
+          @include rem("font-size", 16px);
+          color: #212121;
           flex: auto;
+          word-break: break-word;
           flex-direction: column;
           @include rem("padding-right", 8px);
 
           &__line {
-            font-weight: 600;
-            word-break: break-word;
-            color: #212121;
-            @include font-computed(25px, 32px);
+            display: flex;
+
+            &--one {
+              font-weight: 600;
+              @include font-computed(25px, 32px);
+            }
+            &--two {
+              @include font-computed(16px, 20px);
+            }
           }
         }
 

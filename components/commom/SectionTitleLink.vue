@@ -6,7 +6,7 @@
       {{ title }}
     </h3>
     <NuxtLink
-      v-if="to"
+      v-if="to && showLink"
       class="section-title-link__link"
       :to="to"
     >
@@ -32,6 +32,11 @@ export default {
       type: String,
       default: null,
       required: false
+    },
+    showLink: {
+      type: Boolean,
+      default: true,
+      required: false
     }
   }
 }
@@ -41,17 +46,14 @@ export default {
   .section-title-link {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
-    padding-top: 16px;
+    @include rem("margin-bottom", 16px);
+    @include rem("padding-top", 16px);
 
     &__title,
     &__link {
-      font-family: DIN 2014;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 23px;
       margin: 0;
+      font-weight: 600;
+      @include font-computed(18px, 23px);
     }
 
     &__title {

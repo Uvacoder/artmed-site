@@ -25,7 +25,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/vue-safe-html.js'
+    '~/plugins/vue-safe-html',
+    '~/plugins/api',
+    '~/plugins/helpers'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,7 +48,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/auth-next'
   ],
 
   bootstrapVue: {
@@ -58,7 +61,57 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://api.consultamaisrapida.com.br/',
+    headers: {
+      common: {
+        'X-APP': '2'
+      }
+    }
+  },
+
+  auth: {
+    plugins: [ { src: '~/plugins/api', ssr: true } ],
+    strategies: {
+      custom: {
+        scheme: '~/schemes/customScheme',
+        token: {
+          property: 'data.token',
+          global: true,
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: 'data'
+        },
+        endpoints: {
+          login: { url: 'sessions?version=1', method: 'post' },
+          logout: false,
+          user: { url: 'users/id?version=3', method: 'get' }
+        }
+      },
+      facebook: {
+        endpoints: {
+          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
+        },
+        clientId: '...',
+        scope: ['public_profile', 'email']
+      },
+      google: {
+        clientId: '...'
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

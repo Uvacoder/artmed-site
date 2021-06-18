@@ -1,7 +1,7 @@
 <template>
   <b-link
     :href="link"
-    target="_BLANK"
+    rel="external nofollow"
     class="btn-store"
     :class="classMod"
   >

@@ -1,9 +1,12 @@
 <template>
-  <AccountContent />
+  <main>
+    <AccountContent action="login" />
+  </main>
 </template>
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  auth: 'guest'
 }
 </script>

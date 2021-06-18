@@ -16,10 +16,23 @@ export default {
   },
   computed: {
     app () {
-      return this.$store.state.theme.psiMode ? 'theme--psi' : 'theme--clin'
+      return this.$store.state.theme.config.psiMode ? 'theme--psi' : 'theme--clin'
     },
     color () {
-      return this.$store.state.theme.darkMode ? `theme--sys--dark ${this.app}--dark` : `theme--sys ${this.app}`
+      return this.$store.state.theme.config.darkMode ? `theme--sys--dark ${this.app}--dark` : `theme--sys ${this.app}`
+    }
+  },
+  beforeMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+    handleResize () {
+      this.$store.commit('window/SET_WIDTH', window.innerWidth)
+      this.$store.commit('window/SET_HEIGHT', window.innerHeight)
     }
   }
 }
