@@ -71,10 +71,10 @@ export default {
   },
 
   auth: {
-    plugins: [{ src: '~plugins/api.js', ssr: true }],
+    plugins: [{ src: '~/plugins/api.js', ssr: true }],
     strategies: {
       custom: {
-        scheme: '~schemes/customScheme.js',
+        scheme: '~/plugins/customScheme.js',
         token: {
           property: 'data.token',
           global: true,
