@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://api.consultamaisrapida.com.br/',
+    baseURL: 'http://api.dev.consultamaisrapida.com.br/',
     headers: {
       common: {
         'X-APP': '2'
@@ -71,10 +71,10 @@ export default {
   },
 
   auth: {
-    plugins: [{ src: '~/plugins/api.js', ssr: true }],
+    plugins: [{ src: '~plugins/api.js', ssr: true }],
     strategies: {
       custom: {
-        scheme: '~/schemes/customScheme.js',
+        scheme: '~schemes/customScheme.js',
         token: {
           property: 'data.token',
           global: true,
