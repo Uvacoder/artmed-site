@@ -100,7 +100,6 @@ export default {
       }
     },
     suggestions () {
-      console.log(this.$store.state)
       return this.$store.state.search.suggestions
     }
   },

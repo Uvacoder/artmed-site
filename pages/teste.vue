@@ -3,7 +3,7 @@
     <CommomHeader />
     <b-container class="content__body">
       <article>
-        <h1></h1>
+        <h1>Teste</h1>
       </article>
     </b-container>
   </div>
@@ -12,6 +12,6 @@
 <script>
 export default {
   name: 'Teste',
-  auth: 'guest'
+  auth: false
 }
 </script>

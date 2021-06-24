@@ -19,10 +19,10 @@ Vue.$bvModal.msgBoxOk('Data was submitted successfully', {
   footerClass: 'p-2 border-top-0',
   centered: true
 })
-  .then((value) => {
-    console.log(value)
-  })
-  .catch((err) => {
-    // An error occurred
-    console.log(err)
-  })
+// .then((value) => {
+//   console.log(value)
+// })
+// .catch((err) => {
+//   // An error occurred
+//   console.log(err)
+// })

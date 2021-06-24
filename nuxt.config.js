@@ -71,7 +71,7 @@ export default {
   },
 
   auth: {
-    plugins: [ { src: '~/plugins/api', ssr: true } ],
+    plugins: [{ src: '~/plugins/api', ssr: true }],
     strategies: {
       custom: {
         scheme: '~/schemes/customScheme',
@@ -132,6 +132,6 @@ export default {
   },
 
   server: {
-    host: "0.0.0.0"
+    host: '0.0.0.0'
   }
 }

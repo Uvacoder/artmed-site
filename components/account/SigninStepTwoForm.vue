@@ -137,7 +137,6 @@ export default {
       },
       speciality: {
         required: requiredIf((form) => {
-          console.log((parseInt(form.experience) !== 1))
           return (parseInt(form.experience) !== 1)
         })
       }

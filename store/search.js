@@ -47,21 +47,21 @@ export const getters = {
 }
 
 export const actions = {
-  async load ({ commit }) {
-    await console.log(
-      'Load',
-      this,
-      this.getters['search/SEARCHTERM'],
-      this.getters['search/TYPEAHEADLIST'],
-      this.getters['search/SUGGESTIONS'],
-      this.getters['search/ISREQUESTING'],
-      this.getters['search/LOADMORE'],
-      this.getters['search/HASMORETOLOAD'],
-      this.getters['search/LIMIT'],
-      this.getters['search/SKIP'],
-      this.getters['search/CONTENTS']
-    )
-  },
+  // async load ({ commit }) {
+  //   await console.log(
+  //     'Load',
+  //     this,
+  //     this.getters['search/SEARCHTERM'],
+  //     this.getters['search/TYPEAHEADLIST'],
+  //     this.getters['search/SUGGESTIONS'],
+  //     this.getters['search/ISREQUESTING'],
+  //     this.getters['search/LOADMORE'],
+  //     this.getters['search/HASMORETOLOAD'],
+  //     this.getters['search/LIMIT'],
+  //     this.getters['search/SKIP'],
+  //     this.getters['search/CONTENTS']
+  //   )
+  // },
 
   async loadTypeAhead ({ commit }) {
     const searchTerm = this.getters['search/SEARCHTERM']
