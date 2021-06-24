@@ -18,16 +18,16 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/scss/_bootstrap.scss',
-    '~/assets/scss/_variables.scss',
-    '~/assets/scss/_mixins.scss'
+    './assets/scss/_bootstrap.scss',
+    './assets/scss/_variables.scss',
+    './assets/scss/_mixins.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/vue-safe-html',
-    '~/plugins/api',
-    '~/plugins/helpers'
+    './plugins/vue-safe-html',
+    './plugins/api',
+    './plugins/helpers'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -71,10 +71,10 @@ export default {
   },
 
   auth: {
-    plugins: [{ src: '~/plugins/api', ssr: true }],
+    plugins: [{ src: './plugins/api', ssr: true }],
     strategies: {
       custom: {
-        scheme: '~/schemes/customScheme',
+        scheme: './schemes/customScheme',
         token: {
           property: 'data.token',
           global: true,
