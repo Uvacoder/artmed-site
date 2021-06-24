@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://api.dev.consultamaisrapida.com.br/',
+    baseURL: 'http://api.consultamaisrapida.com.br/',
     headers: {
       common: {
         'X-APP': '2'
