@@ -74,7 +74,7 @@ export default {
     plugins: [{ src: '~/plugins/api.js', ssr: true }],
     strategies: {
       custom: {
-        scheme: './vercel/path0/schemes/customScheme.js',
+        scheme: '~/schemes/customScheme.js',
         token: {
           property: 'data.token',
           global: true,
