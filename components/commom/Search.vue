@@ -1,91 +1,106 @@
 <template>
-  <b-row class="search">
-    l{{ suggestions }}
-    <b-col cols="12" md="7">
-      <b-form
-        class="search"
-        novalidate
-        @submit.stop.prevent="onSubmit"
-      >
-        <b-form-group
-          id="query-group"
-          class="search__input-group"
-          :class="{'search__input-group--open': hasResult}"
-          label-for="email"
-          :state="validateState('query')"
-        >
-          <b-input-group>
-            <b-input-group-prepend>
-              <b-button
-                type="submit"
-                class="search__btn search__btn--search"
-              >
-                <CommomSvgIcon svg="icon_search" />
-              </b-button>
-            </b-input-group-prepend>
+  <b-form
+    class="search"
+    novalidate
+    @submit.stop.prevent="goToSearch"
+  >
+    <b-form-group
+      id="query-group"
+      class="search__input-group"
+      :class="{ 'search__input-group--small': !isIndex, 'search__input-group--open': (hasResult && hasFocus) }"
+      label-for="email"
+    >
+      <b-input-group>
+        <b-input-group-prepend>
+          <CommomSvgIcon svg="icon_search" class="search__btn search__input-group__btn search__input-group__btn--icon" />
+        </b-input-group-prepend>
 
-            <b-form-input
-              id="query"
-              v-model="searchTerm"
-              type="text"
-              class="search__form-control"
-              placeholder="Pesquisar"
-              :state="validateState('query')"
-              required
-            />
+        <b-form-input
+          id="query"
+          v-model="$v.searchTerm.$model"
+          type="text"
+          class="search__form-control"
+          placeholder="Pesquisar"
+          debounce="300"
+          aria-autocomplete="both"
+          aria-haspopup="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          aria-label="Pesquisar"
+          required
+          @focus="hasFocus = true"
+        />
 
-            <b-input-group-append v-if="showClear">
-              <b-button
-                class="search__btn search__btn--clear"
-                @click="clear()"
-              >
-                <b-icon icon="x" />
-              </b-button>
-            </b-input-group-append>
-          </b-input-group>
+        <b-input-group-append>
+          <b-button
+            v-if="showClear"
+            variant="none"
+            class="search__btn search__input-group__btn search__input-group__btn--clear"
+            @click="clear()"
+          >
+            <b-icon icon="x" />
+          </b-button>
+          <b-button
+            v-if="!isIndex"
+            class="search__btn search__input-group__btn search__input-group__btn--search"
+            type="submit"
+            variant="none"
+          >
+            Buscar
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
 
-          <div v-if="hasResult" class="search__sugestion-container">
-            <div class="search__sugestion-box">
-              <div class="search__sugestion-box__divider" />
-              <ul class="search__sugestion-box__list" role="listbox">
-                <li
-                  v-for="(suggestion, index) in suggestions"
-                  :key="index"
-                  class="search__sugestion-box__list-item"
-                  role="presentation"
-                >
-                  <div class="search__sugestion-box__list-item-container">
-                    <div class="search__sugestion-box__list-item-icon" />
-                    <div class="search__sugestion-box__list-item-text-container" role="option">
-                      <div class="search__sugestion-box__list-item-text">
-                        <span class="search__sugestion-box__list-item-text__line search__sugestion-box__list-item-text__line--one">Diabetes melito</span>
-                        <span class="search__sugestion-box__list-item-text__line search__sugestion-box__list-item-text__line--two">Outras doenças e psicofármacos</span>
-                      </div>
-                    </div>
+      <div v-if="hasResult && hasFocus" class="search__sugestion-container">
+        <div class="search__sugestion-box">
+          <div class="search__sugestion-box__divider" />
+          <ul class="search__sugestion-box__list" role="listbox">
+            <li
+              v-for="(typeAhead, index) in typeAheadList"
+              :key="index"
+              class="search__sugestion-box__list-item"
+              role="presentation"
+            >
+              <div class="search__sugestion-box__list-item-container">
+                <div class="search__sugestion-box__list-item-icon" />
+                <div class="search__sugestion-box__list-item-text-container" role="option">
+                  <div class="search__sugestion-box__list-item-text">
+                    <NuxtLink
+                      class="search__sugestion-box__list-item-text__line search__sugestion-box__list-item-text__line--one"
+                      :to="{ name: 'busca-slug', params: { slug: $helpers.formatToSlug(typeAhead) } }"
+                    >
+                      {{ typeAhead }}
+                    </NuxtLink>
                   </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </b-form-group>
-      </b-form>
-    </b-col>
-  </b-row>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </b-form-group>
+  </b-form>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import { minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Search',
   mixins: [validationMixin],
-  props: {},
+  props: {
+    isIndex: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
-      form: {
-        query: ''
-      },
+      hasFocus: false,
       hasResult: false,
       showClear: false
     }
@@ -99,48 +114,74 @@ export default {
         this.$store.commit('search/SET_SEARCHTERM', value)
       }
     },
-    suggestions () {
-      return this.$store.state.search.suggestions
+    typeAheadList () {
+      return this.$store.state.search.typeAheadList
     }
   },
   watch: {
     searchTerm: {
       handler (val, oldVal) {
-        if (val !== null) {
-          this.hasResult = this.showClear = (val.length > 0)
+        if (val !== null && val !== '') {
+          const hasSearchTerm = (val.length > 0)
+          this.showClear = hasSearchTerm
+          if (hasSearchTerm && this.hasFocus) { this.loadTypeAhead(val) }
         } else {
-          this.hasResult = this.showClear = false
+          this.clear()
+          this.showClear = false
         }
+      },
+      deep: true
+    },
+    hasFocus: {
+      handler (val, oldVal) {
+        if (val !== null && val !== '') {
+          const hasSearchTerm = (this.searchTerm.length > 0)
+          if (val && hasSearchTerm) { this.loadTypeAhead(this.searchTerm) }
+        }
+      },
+      deep: true
+    },
+    typeAheadList: {
+      handler (val, oldVal) {
+        this.hasResult = (val !== null && val.length > 0 && this.searchTerm.length > 0)
       },
       deep: true
     }
   },
   validations: {
-    form: {
-      query: {
-        required
-      }
+    searchTerm: {
+      minLength: minLength(1)
+    }
+  },
+  beforeDestroy () {
+    if (this.$route.name !== 'busca' && this.$route.name !== 'busca-slug') {
+      this.clear()
     }
   },
   methods: {
-    validateState (field) {
-      const { $dirty, $error } = this.$v.form[field]
-      return $dirty ? !$error : null
-    },
     clear () {
-      this.searchTerm = ''
-
-      this.$nextTick(() => {
-        this.$v.$reset()
-      })
+      this.$store.commit('search/SET_TYPEAHEADLIST', [])
+      this.$store.commit('search/SET_SEARCHTERM', '')
     },
-    onSubmit () {
-      this.$v.form.$touch()
-      if (this.$v.form.$anyError) {
-        return
+    ...mapActions({
+      loadTypeAhead: 'search/loadTypeAhead'
+    }),
+    goToSearch () {
+      if (this.searchTerm === undefined || this.searchTerm === '') { return }
+      let route = { name: 'busca-slug', params: { slug: this.$helpers.formatToSlug(this.searchTerm) } }
+      if (this.$router.currentRoute.name === 'categorias-id') {
+        route = { name: 'busca-slug', params: { slug: this.$helpers.formatToSlug(this.searchTerm) }, query: { categorias: this.$router.currentRoute.params.id } }
       }
-
-      alert('Form submitted!')
+      this.$router.push(route)
+      // let route = { name: 'busca-slug', params: { slug: this.$helpers.formatToSlug(this.searchTerm) } }
+      // if (this.searchTerm === undefined || this.searchTerm === '') {
+      //   route = { name: 'busca' }
+      // }
+      // let route = { name: 'busca-slug', params: { slug: this.$helpers.formatToSlug(this.searchTerm) } }
+      // if (this.searchTerm === undefined || this.searchTerm === '') {
+      //   route = { name: 'busca' }
+      // }
+      // this.$router.push(route)
     }
   }
 }
@@ -167,30 +208,61 @@ export default {
       @include rem("height", 66px);
       margin: 0 auto;
 
+      &__btn {
+        @include rem("font-size", 16.8px);
+        @include rem("margin", 19px 12px 19px 20px);
+
+        &--icon,
+        &--clear {
+          padding: 0;
+        }
+
+        &--icon {
+          &::v-deep svg {
+            @include rem("width", 22px);
+            @include rem("height", 22px);
+            path {
+              fill: #00A589;
+            }
+          }
+        }
+
+        &--clear {
+          @include rem("font-size", 32px);
+          @include rem("margin", 9px 8px 5px 8px);
+        }
+      }
+
+      &--small {
+        @include rem("height", 56px);
+
+        & .search__input-group__btn--icon {
+          @include rem("margin", 15px 12px 13px 20px);
+        }
+
+        & .search__input-group__btn--clear {
+          @include rem("margin", 4px 8px 2px 8px);
+        }
+
+        & .search__input-group__btn--search {
+          color: #FFFFFF;
+          background: #00A589;
+          margin: 0;
+          @include rem("border-top-right-radius", 10px);
+          @include rem("border-bottom-right-radius", 10px);
+          @include rem("padding-left", 28px);
+          @include rem("padding-right", 28px);
+        }
+
+        & .search__form-control {
+          @include rem("margin-top", 2px);
+        }
+      }
+
       &--open {
         border-bottom: none;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-      }
-    }
-
-    &__btn {
-      @include rem("font-size", 16.8px);
-      @include rem("padding", 19px 12px 19px 20px);
-
-      &--search {
-        &::v-deep svg {
-          @include rem("width", 22px);
-          @include rem("height", 22px);
-          path {
-            fill: #00A589;
-          }
-        }
-      }
-
-      &--clear {
-        @include rem("font-size", 32px);
-        @include rem("padding", 9px 8px 5px 8px);
       }
     }
 
@@ -303,23 +375,15 @@ export default {
 
         &-text {
           display: flex;
-          @include rem("font-size", 16px);
-          color: #212121;
           flex: auto;
-          word-break: break-word;
           flex-direction: column;
           @include rem("padding-right", 8px);
 
           &__line {
-            display: flex;
-
-            &--one {
-              font-weight: 600;
-              @include font-computed(25px, 32px);
-            }
-            &--two {
-              @include font-computed(16px, 20px);
-            }
+            font-weight: 600;
+            word-break: break-word;
+            color: #212121;
+            @include font-computed(25px, 32px);
           }
         }
 

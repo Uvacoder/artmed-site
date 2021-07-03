@@ -5,12 +5,15 @@
     </h3>
     <ul class="row no-gutters categories__list">
       <li v-for="(item, index) in items" :key="index" class="col categories__item">
-        <a class="categories__item__link">
+        <NuxtLink
+          class="categories__item__link"
+          :to="{ name: 'categorias-id', params: { id: item.id } }"
+        >
           <span class="categories__item__link__img-container">
             <b-img :src="$helpers.normalizeImageUrl(item.image)" fluid :alt="item.name" />
           </span>
           <span class="categories__item__link__label">{{ item.name }}</span>
-        </a>
+        </NuxtLink>
       </li>
     </ul>
   </nav>

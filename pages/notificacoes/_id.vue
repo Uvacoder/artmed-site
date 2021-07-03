@@ -5,14 +5,14 @@
 <script>
 // verificar se é premium e redirecionar para assinatura
 export default {
-  name: 'ConteudoId',
+  name: 'NotificaçõesId',
   auth: false,
   components: {},
   directives: {},
   props: {},
   async asyncData (context) {
     await Promise.all([
-      await context.store.dispatch('content/load', context.route.params.id)
+      await context.store.dispatch('notifications/load', context.route.params.id)
     ])
   },
   data () {

@@ -1,12 +1,12 @@
 <template>
-  <header class="header">
+  <header class="header" :class="{ 'header--small': !isIndex }">
     <b-container>
       <CommomNavBar :is-index="isIndex" />
       <template v-if="isIndex">
         <b-row>
           <b-col cols="12" md="10" offset-md="1">
             <CommomLogo />
-            <HomeSearch />
+            <CommomSearch :is-index="isIndex" />
           </b-col>
         </b-row>
         <b-row>
@@ -16,7 +16,7 @@
         </b-row>
       </template>
       <template v-else>
-        <CommomSearch />
+        <CommomSearch :is-index="isIndex" />
       </template>
     </b-container>
   </header>
@@ -43,6 +43,10 @@ export default {
       display: flex;
       justify-content: center;
       @include rem("margin-bottom", 56px);
+    }
+
+    &--small {
+      @include rem("padding-bottom", 20px);
     }
   }
 </style>

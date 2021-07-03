@@ -56,6 +56,7 @@ export default ({ app }, inject) => {
       return `${app.$api.defaults.baseURL}resources/${image}`
     },
     resolvePath: (object, path, defaultValue) => {
+      if (path === undefined) { return defaultValue }
       return path.split('.').reduce((o, p) => o ? o[p] : defaultValue, object)
     },
     truncateString: (str, num) => {
@@ -65,11 +66,102 @@ export default ({ app }, inject) => {
       }
       return str.slice(0, num) + '...'
     },
-    formatToSlug: (value) => {
+    getContentUrlId: (value) => {
       if (value === undefined) { return }
-      return value.replace(/ |(-|\/)/g, '_').toLowerCase()
+      return value.split('/').pop()
+    },
+    getContentUrl: (value) => {
+      if (value === undefined) { return }
+      if (value.includes('consultamaisrapida')) {
+        return value.split('consultamaisrapida.com.br').pop()
+      } else {
+        return value.split('artmedmais.com.br').pop()
+      }
+    },
+    formatToSlug: (value) => {
+      if (value === undefined || value === '') { return }
+      const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;'
+      const b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnoooooooooprrsssssttuuuuuuuuuwxyyzzz------'
+      const p = new RegExp(a.split('').join('|'), 'g')
+
+      value = value.toString().toLowerCase()
+        .replace(/\s+/g, ' ')
+        .replace(p, c => b.charAt(a.indexOf(c)))
+        .replace(/&/g, ' e ')
+        .replace(/[^\w-]+/g, ' ')
+        .replace(/--+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '')
+        .replace(/-+/g, '')
+      return value
+    },
+    getContentRoute: (value, isNotification) => {
+      let route = { name: 'conteudo-id', params: { id: value.id } }
+      if (isNotification) {
+        switch (value.type) {
+          case 2:
+            route = { name: 'categorias-id', params: { id: value.value } }
+            break
+          case 3:
+            route = { name: 'conteudo-id', params: { id: value.value } }
+            break
+          case 4:
+            if (helpers.checkUrlArtmed(value.value)) {
+              route = { path: `${helpers.getContentUrl(value.value)}` }
+            } else {
+              route = value.value
+            }
+            break
+          case 5:
+          case 6:
+            route = { name: 'notificacoes-id', params: { id: value.id } }
+            break
+          default:
+            break
+        }
+      }
+      return route
+    },
+    getCategoryRoute: (value) => {
+      return { name: 'conteudo-id', params: { id: value.id } }
+    },
+    checkUrlArtmed: (value) => {
+      return (value.includes('consultamaisrapida') || value.includes('artmedmais'))
+    },
+    getElapsedInterval: (date) => {
+      const second = 1000; const minute = second * 60; const hour = minute * 60; const day = hour * 24; const week = day * 7
+      const today = new Date()
+      date = new Date(date)
+      const timediff = today - date
+      if (isNaN(timediff)) { return NaN }
+
+      const interval = {
+        years: date.getFullYear() - today.getFullYear(),
+        months: ((today.getFullYear() * 12 + today.getMonth()) - (date.getFullYear() * 12 + date.getMonth())),
+        weeks: Math.floor(timediff / week),
+        days: Math.floor(timediff / day),
+        hours: Math.floor(timediff / hour),
+        minutes: Math.floor(timediff / minute),
+        seconds: Math.floor(timediff / second)
+      }
+
+      let dateString = 'Agora'
+      if (interval.years > 0) {
+        dateString = `${interval.years} ${(interval.years > 1) ? 'anos' : 'ano'}`
+      } else if (interval.months > 0) {
+        dateString = `${interval.months} ${(interval.months > 1) ? 'meses' : 'mês'}`
+      } else if (interval.weeks > 0) {
+        dateString = `${interval.weeks} ${(interval.weeks > 1) ? 'semanas' : 'semana'}`
+      } else if (interval.days > 0) {
+        dateString = `${interval.days} ${(interval.days > 1) ? 'dias' : 'dia'}`
+      } else if (interval.hours > 0) {
+        dateString = `${interval.hours} ${(interval.hours > 1) ? 'horas' : 'hora'}`
+      } else if (interval.minutes > 0) {
+        dateString = `${interval.minutes} ${(interval.minutes > 1) ? 'minutos' : 'minuto'}`
+      }
+
+      return dateString
     }
   }
-
   inject('helpers', helpers)
 }

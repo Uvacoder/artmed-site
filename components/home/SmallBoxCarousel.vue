@@ -4,7 +4,7 @@
       <div class="small-box-carousel__item">
         <NuxtLink
           class="small-box-carousel__link"
-          :to="`/conteudo/${$helpers.formatToSlug(item.content.name)}`"
+          :to="`/conteudo/${$helpers.formatToSlug(item.content.id)}`"
         >
           <b-card
             :title="$helpers.truncateString($helpers.resolvePath(item, property, null), 24)"

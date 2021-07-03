@@ -4,7 +4,7 @@
       <div class="big-box-carousel__item">
         <NuxtLink
           class="big-box-carousel__link"
-          :to="item.url"
+          :to="{ name: 'conteudo-id', params: { id: $helpers.getContentUrlId(item.url) } }"
         >
           <b-card
             :title="item.title"

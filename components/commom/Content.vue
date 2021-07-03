@@ -1,13 +1,19 @@
 <template>
   <div class="content">
     <CommomHeader />
-    <HomeBody />
+    <component :is="body" />
     <CommomFooter />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Content'
+  name: 'Content',
+  props: {
+    body: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
