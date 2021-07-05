@@ -1,0 +1,38 @@
+$themes: (
+  "light": (
+    "colors": (
+      "one": #85D8CC,
+      "two": #3DBFAA,
+      "three": #00A589,
+      "four": #01826C,
+      "five": #E8FAF8,
+      "degrade-one": linear-gradient(347.92deg, #E0FFFB 8.45%, #F5FFFE 93.07%),
+      "degrade-two": linear-gradient(180deg, rgba(0, 244, 202, 0.3) 0%, rgba(0, 244, 202, 0) 100%)
+    )
+  ),
+  "dark": (
+    "colors": (
+      "one": #01826C,
+      "two": #00A589,
+      "three": #3DBFAA,
+      "four": #85D8CC,
+      "five": #264541,
+      "degrade-one": linear-gradient(347.92deg, #17433D 8.45%, #508079 93.07%),
+      "degrade-two": linear-gradient(180deg, rgba(0, 244, 202, 0.3) 0%, rgba(0, 244, 202, 0) 100%)
+    )
+  )
+);
+
+@each $theme-name, $theme-vars in $themes {
+  $colors: map-get($theme-vars, "colors");
+
+  body.#{$theme-name} {
+    @each $name, $color in $colors {
+      --#{$name}: #{$color};
+      @if type-of($color) == color {
+        --#{$name}-darken: #{darken($color, 2.5%)};
+        --#{$name}-darken-10: #{darken($color, 10%)};
+      }
+    }
+  }
+}

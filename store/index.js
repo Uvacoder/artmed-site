@@ -1,6 +1,13 @@
+import config from '../nuxt.config'
+
 export const actions = {
   nuxtServerInit ({ commit }) {
-    const config = { psiMode: true, darkMode: false }
-    commit('theme/SET_CONFIG', config)
+    const setup = {
+      app: config.flavor,
+      appName: config.head.title,
+      appSlogan: config.head.meta[2].content,
+      darkMode: false
+    }
+    commit('theme/SET_CONFIG', setup)
   }
 }

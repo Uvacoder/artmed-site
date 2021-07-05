@@ -2,9 +2,9 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
   // Create a custom axios instance
   const api = $axios.create()
 
-  api.onRequest((config) => {
-    console.log('Making request to: ', config)
-  })
+  // api.onRequest((config) => {
+  //   console.log('Making request to: ', config)
+  // })
 
   // Set baseURL to something different
   // api.setBaseURL('http://api.dev.consultamaisrapida.com.br/')

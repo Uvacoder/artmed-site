@@ -17,6 +17,18 @@
 </template>
 
 <script>
+// TODO: carregar sugestoes
+
+// TODO: colocar na url as categorias e especialidade (funcionais para poder compartilhar link da busca)
+
+// TODO: coloca imagem da categoria no resultado da pesquisa
+
+// TODO: a partir da pagina de categorias ao efetuar uma busca precisa enviar a cetegoria
+
+// TODO: typeahead enviar categoria e especialidade
+// TODO: sugestion enviar categoria e especialidade
+
+// TODO: Pesquisar com filtro de especialidade
 import { mapActions } from 'vuex'
 
 export default {

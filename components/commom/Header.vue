@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss" scoped>
   .header {
-    background: #FAFBFC;
+    background: var(--gray-1);
     border-bottom: 1px solid #D8D8D8;
     @include rem("padding-bottom", 30px);
 

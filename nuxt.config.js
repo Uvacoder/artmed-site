@@ -1,11 +1,28 @@
 export default {
+  // flavor: 'clin',
+  flavor: 'psi',
   // Global page headers: https://go.nuxtjs.dev/config-head
+  // head: {
+  //   title: 'Artmed+CLIN',
+  //   meta: [
+  //     { charset: 'utf-8' },
+  //     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  //     { hid: 'description', name: 'description', content: 'O seu guia para a tomada de decisão clínica.' }
+  //   ],
+  //   link: [
+  //     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+  //     {
+  //       rel: 'stylesheet',
+  //       href: 'https://use.typekit.net/rhv4hzr.css'
+  //     }
+  //   ]
+  // },
   head: {
-    title: 'artmed-site',
+    title: 'Artmed+PSI',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'O seu guia para a tomada de decisão clínica de saúde mental.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -18,9 +35,12 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/scss/_bootstrap.scss',
-    '~/assets/scss/_variables.scss',
-    '~/assets/scss/_mixins.scss'
+    // '~/assets/scss/_bootstrap.scss'
+    // '~/assets/scss/_variables.scss',
+    // '~/assets/scss/_color-system.scss',
+    // '~/assets/scss/_color-psi.scss',
+    // '~/assets/scss/_color-clin.scss',
+    // '~/assets/scss/_mixins.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -58,13 +78,22 @@ export default {
   },
 
   styleResources: {
-    scss: ['./assets/scss/*.scss']
+    scss: [
+      './assets/scss/_bootstrap.scss',
+      './assets/scss/_color-system.scss',
+      // './assets/scss/_color-clin.scss',
+      './assets/scss/_color-psi.scss',
+      './assets/scss/_mixins.scss'
+    ]
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://api.consultamaisrapida.com.br/',
     headers: {
+      // common: {
+      //   'X-APP': '1'
+      // }
       common: {
         'X-APP': '2'
       }

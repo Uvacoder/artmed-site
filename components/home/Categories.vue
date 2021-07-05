@@ -7,7 +7,7 @@
       <li v-for="(item, index) in items" :key="index" class="col categories__item">
         <NuxtLink
           class="categories__item__link"
-          :to="{ name: 'categorias-id', params: { id: item.id } }"
+          :to="$helpers.getCategoryRoute(item)"
         >
           <span class="categories__item__link__img-container">
             <b-img :src="$helpers.normalizeImageUrl(item.image)" fluid :alt="item.name" />
@@ -71,7 +71,7 @@ export default {
         @include rem("padding", 3px);
 
         &:hover {
-          background: darken(#FAFBFC, 2.5%);
+          background: var(--gray-1-darken);
           text-decoration: none;
           color: #00A589;
         }

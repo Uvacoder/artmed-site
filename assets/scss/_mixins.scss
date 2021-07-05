@@ -1,3 +1,5 @@
+$font-size-base-px: 16px !default;
+
 @function parse-int($n) {
   @return $n / ($n * 0 + 1);
 }
@@ -157,7 +159,7 @@
   .custom-select {
     border: 1px solid #D8D8D8;
     color: #28a745;
-    background: #FAFBFC;
+    background: var(--gray-1);
     text-align-last: center;
     text-align: center;
 
@@ -224,7 +226,7 @@
 }
 
 @mixin background-border() {
-  background: #FAFBFC;
+  background: var(--gray-1);
   border: 1px solid #D8D8D8;
   border-radius: 6px;
 }

@@ -17,13 +17,11 @@ export default {
   },
   computed: {
     file () {
-      const app = (this.$store.state.theme.config.psiMode) ? 'psi' : 'clin'
       const theme = (this.$store.state.theme.config.darkMode || this.forceDark) ? 'dark' : 'light'
-      return `url("${require(`~/assets/images/${theme}/${app}.svg`)}")`
+      return `url("${require(`~/assets/images/${this.$store.state.theme.config.app}/${theme}/${this.$store.state.theme.config.app}.svg`)}")`
     },
     alt () {
-      const app = (this.$store.state.theme.config.psiMode) ? 'PSI' : 'CLIN'
-      return `Artmed+${app}`
+      return this.$store.state.theme.config.appName
     }
   }
 }

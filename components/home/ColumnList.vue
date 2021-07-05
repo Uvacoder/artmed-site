@@ -52,7 +52,7 @@ export default {
 
     li {
       a {
-        background: #FAFBFC;
+        background: var(--gray-1);
         display: block;
         font-weight: 600;
         @include font-computed(16px, 20px);
@@ -68,7 +68,8 @@ export default {
         &:hover {
           text-decoration: none;
           color: #00A589;
-          background: darken(#FAFBFC, 2.5%);
+          // background: darken(var(--gray-1), 2.5%);
+          background: var(--gray-1);
           &::v-deep .columm-list__item__link__icon {
             * {
               fill: #00A589;

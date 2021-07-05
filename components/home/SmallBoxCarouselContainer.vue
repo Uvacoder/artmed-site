@@ -99,7 +99,7 @@ export default {
       }
 
       & .small-box-carousel__card {
-        background: #FAFBFC;
+        background: var(--gray-1);
         @include rem("border-radius", 6px);
         @include rem("max-width", 130px);
         @include media-breakpoint-up(xs) {

@@ -7,12 +7,15 @@
     <template v-else>
       <p v-for="(newU, index) in News" :key="index">
         {{ newU }}
+        ----------
       </p>
     </template>
   </main>
 </template>
 
 <script>
+// TODO: noticias
+// TODO: interna da noticias
 export default {
   name: 'Body',
   computed: {

@@ -83,8 +83,7 @@ export default {
   },
   computed: {
     backgroundImage () {
-      const app = (this.$store.state.theme.config.psiMode) ? 'psi' : 'clin'
-      return `url("${require(`~/assets/images/${app}_login_background.jpg`)}")`
+      return `url("${require(`~/assets/images/${this.$store.state.theme.config.app}/login_background.jpg`)}")`
     },
     window () {
       return this.$store.state.window
@@ -114,7 +113,7 @@ export default {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: darken(#00A589, 10%);
+    background-color: var(--three-darken-10);
 
     &::v-deep .logo,
     &::v-deep .slogan,
@@ -132,7 +131,7 @@ export default {
     }
 
     &::v-deep .slogan {
-      color: #FCFBFB;
+      color: #FFFFFF;
       @include font-computed(30px, 38px);
       @include rem("margin-top", 40px);
       @include rem("max-width", 332px);

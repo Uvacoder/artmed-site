@@ -1,3 +1,5 @@
+import { uuid } from 'vue-uuid'
+
 export const state = () => ({
   category: null,
   id: null,
@@ -26,6 +28,9 @@ export const mutations = {
   },
   SET_ISREQUESTING (state, isRequesting) {
     state.isRequesting = isRequesting
+  },
+  SET_FAVORITE (state, favorite) {
+    state.full.favorite = favorite
   }
 }
 
@@ -75,6 +80,35 @@ export const actions = {
               commit('SET_ISREQUESTING', false)
               reject(error)
             })
+        })
+    })
+  },
+  favoriteHandler ({ commit, state }, { favoriteState, contentId }) {
+    return new Promise((resolve, reject) => {
+      if (state.isRequesting) { return }
+      commit('SET_ISREQUESTING', true)
+      let endpoint = this.$api.EndPoints.favorite
+      let params = {
+        content: contentId,
+        id: uuid.v4()
+      }
+      let newFavoriteState = params.id
+      if (favoriteState) {
+        endpoint = this.$api.EndPoints.unfavorite
+        endpoint.id = favoriteState
+        params = {}
+        newFavoriteState = null
+      }
+      this.$api.request(endpoint, params)
+        .then((response) => {
+          const data = response
+          commit('SET_FAVORITE', newFavoriteState)
+          commit('SET_ISREQUESTING', false)
+          resolve(data)
+        })
+        .catch((error) => {
+          commit('SET_ISREQUESTING', false)
+          reject(error)
         })
     })
   }

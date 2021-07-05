@@ -62,7 +62,7 @@ export default {
       }
 
       & .big-box-carousel__card {
-        background: #FAFBFC;
+        background: var(--gray-1);
         @include rem("border-radius", 4px);
         @include rem("max-width", 290px);
         @include media-breakpoint-up(xs) {

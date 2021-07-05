@@ -206,7 +206,7 @@ export default {
 
         &.active {
           &::after {
-            background-image: url('~/assets/images/icon_checked.png');
+            background-image: url('~/assets/images/icon_checked.svg');
           }
         }
       }

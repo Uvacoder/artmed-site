@@ -19,10 +19,6 @@
 export default {
   name: 'BtnLoginSocial',
   props: {
-    isClin: {
-      type: Boolean,
-      default: false
-    },
     social: {
       type: String,
       default: 'Facebook',

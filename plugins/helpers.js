@@ -123,7 +123,23 @@ export default ({ app }, inject) => {
       return route
     },
     getCategoryRoute: (value) => {
-      return { name: 'conteudo-id', params: { id: value.id } }
+      // 1- default
+      // 2- artigos/noticias
+      // 3- calculadoras
+      // 4- orientacoes medicamentosas
+      // 5- cid
+      let route = { name: 'categorias-id', params: { id: value.id } }
+      switch (value.type) {
+        case 2:
+          route = { name: 'noticias' }
+          break
+        case 4:
+          route = { path: 'interacoes-medicamentosas' }
+          break
+        default:
+          break
+      }
+      return route
     },
     checkUrlArtmed: (value) => {
       return (value.includes('consultamaisrapida') || value.includes('artmedmais'))
@@ -161,6 +177,10 @@ export default ({ app }, inject) => {
       }
 
       return dateString
+    },
+    initialName (value) {
+      if (value === undefined) { return }
+      return value.charAt(0).toUpperCase()
     }
   }
   inject('helpers', helpers)

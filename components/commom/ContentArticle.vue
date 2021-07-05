@@ -28,27 +28,72 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      headStyle: '',
+      headScript: '',
+      BodyScript: ''
+    }
+  },
+  head () {
+    return {
+      style: [
+        (this.headStyle !== '') ? { innerHTML: this.headStyle } : ''
+      ],
+      script: [
+        (this.headScript !== '') ? { innerHTML: this.headScript } : '',
+        (this.bodyScript !== '') ? { innerHTML:  this.bodyScript, body: true } : ''
+      ]
+    }
+  },
   mounted () {
-    document.getElementById('contentArticle').querySelectorAll('h1').forEach(item => {
-      item.addEventListener('click', event => {
-        const h1 = event.target.closest('h1')
-        if (h1) {
-          h1.classList.toggle('closed');
-          let content = h1.nextElementSibling
-          content.style.display = content.style.display === 'none' ? 'block' : 'none'
-        }
+    if (this.content.type !== undefined && this.content.type === 2) {
+      // nothing
+    } else {
+      document.getElementById('contentArticle').querySelectorAll('h1').forEach(item => {
+        item.addEventListener('click', event => {
+          const h1 = event.target.closest('h1')
+          if (h1) {
+            h1.classList.toggle('closed');
+            let content = h1.nextElementSibling
+            content.style.display = content.style.display === 'none' ? 'block' : 'none'
+          }
+        })
       })
-    })
+    }
   },
   methods: {
     htmlPost () {},
     htmlNotification () {},
     htmlCalc () {
       let html = ''
-      console.log(this.content.values)
+      // colocar o css no braço
       for (const content of this.content.values) {
         console.log(content)
-        html += content
+        const head = content.match(/<head[\s\S]*?>[\s\S]*?<\/head>/g).toString()
+        const style = head.match(/<style[\s\S]*?>[\s\S]*?<\/style>/g)
+        const script = head.match(/<script[\s\S]*?>[\s\S]*?<\/script>/g)
+        let body = content.match(/<body[\s\S]*?>[\s\S]*?<\/body>/g).toString()
+        const bodyScript = body.match(/<script[\s\S]*?>[\s\S]*?<\/script>/g)
+
+        if (style !== null) {
+          // this.headStyle = '#contentArticle {'
+          this.headStyle += style.toString().replace('<style>', '').replace('<\/style>', '')
+          this.headStyle = this.headStyle.replace(/@font-face[\s\S]*?{[\s\S]*?}/g, '')
+          this.headStyle = this.headStyle.replace(/:root[\s\S]*?{[\s\S]*?}/g, '')
+          this.headStyle = this.headStyle.replace(/body[\s\S]*?{[\s\S]*?}/g, '')
+          // this.headStyle += '}'
+        }
+
+        if (script !== null) {
+          this.headScript = script.toString().replace('<script>', '').replace('<\/script>', '')
+        }
+        // remover o js de fechar os h1
+        if (bodyScript !== null) {
+          this.bodyScript = bodyScript.toString().replace('<script>', '').replace('<\/script>', '')
+          body = body.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/g, '')
+        }
+        html += body
       }
       return html
     },
@@ -57,11 +102,11 @@ export default {
       for (let index = 0; index < this.content.values.length; index++) {
         let newContent = ''
         if (this.content.values[index].includes('<h1>Referência') || this.content.values[index].includes('<h1>Referências') || this.content.values[index].includes('<h1>Autor') || this.content.values[index].includes('<h1>Autores') || this.content.values[index].includes('<h1>Adaptação editorial')) {
-          newContent = this.content.values[index].replace(/<\/h1>/gm, '</h1><div class="smallParagraph" style="display:none">')
+          newContent = this.content.values[index].replace(/<\/h1>/gm, '</h1><div class="smallParagraph">')
         } else {
-          newContent = this.content.values[index].replace(/<\/h1>/gm, '</h1><div style="display:none">')
+          newContent = this.content.values[index].replace(/<\/h1>/gm, '</h1><div>')
         }
-        newContent = newContent.replace(/<h1/gm, '<section><h1 class="closed"')
+        newContent = newContent.replace(/<h1/gm, '<section><h1')
         if (newContent.includes('<div')) {
           newContent += '</div></section>'
         }
@@ -83,6 +128,17 @@ export default {
     //     // background-image: url(%arrow_dark_down);
     //   }
     // }
+
+    &::v-deep section {
+      @include rem("padding-top", 11px);
+      @include rem("margin-bottom", 11px);
+      &:first-of-type {
+        padding-top: 0;
+      }
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
 
     &::v-deep .iframe-container {
       position: relative;
@@ -109,7 +165,7 @@ export default {
       font-size: 1rem;
     }
 
-    &::v-deep &::v-deep ul {
+    &::v-deep ul {
       margin-left: 0;
       margin-top: 10px;
       padding-left: 20px;
@@ -127,12 +183,12 @@ export default {
     }
 
     &::v-deep a {
-      // color:var(--main-app-color);
+      color: #00A589;
       word-break: break-word;
     }
 
     &::v-deep table {
-      // border: 1px solid var(--main-txt-color);
+      border: 1px solid #000;
       border-collapse: collapse;
       border-spacing: 0;
       margin-top: 20px;
@@ -151,7 +207,7 @@ export default {
     }
 
     &::v-deep tr {
-      // border-bottom: 1px solid var(--main-txt-color);
+      border-bottom: 1px solid #000;
     }
 
     &::v-deep table th:first-child, table td:first-child, table th:first-child, table td:first-child {
@@ -178,10 +234,11 @@ export default {
 
     &::v-deep h1 {
       font-weight: 600;
-      font-size: 1.5rem;
-      margin: 20px 0 -5px 0 !important;
+      @include font-computed(24px, 44px);
       position: relative;
       padding-right: 40px;
+      margin: 0;
+      color: #343434;
     }
 
     &::v-deep h1:after {
@@ -189,7 +246,7 @@ export default {
       width: 35px;
       height: 30px;
       content: " ";
-      // background-image: url(%arrow_up);
+      background-image: url('~/assets/images/chevron_up.svg');
       background-repeat: no-repeat;
       background-position: center;
       position: absolute;
@@ -202,7 +259,7 @@ export default {
     }
 
     &::v-deep h1.closed:after {
-      // background-image: url(%arrow_down);
+      background-image: url('~/assets/images/chevron_down.svg');
     }
 
     &::v-deep h2 {

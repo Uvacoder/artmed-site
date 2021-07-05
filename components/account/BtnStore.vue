@@ -9,27 +9,18 @@
       :src="file"
       :alt="alt"
       fluid
-      @error="setFallbackImageUrl"
     />
   </b-link>
 </template>
 
 <script>
+// todo: alterar para usar o svg em background
 export default {
   name: 'BtnStore',
   props: {
-    isClin: {
-      type: Boolean,
-      default: false
-    },
     appleStore: {
       type: Boolean,
       default: true
-    }
-  },
-  data () {
-    return {
-      filename: ''
     }
   },
   computed: {
@@ -43,22 +34,11 @@ export default {
     },
     file () {
       const store = (this.appleStore) ? 'apple' : 'google'
-
-      this.setFilename(`btn_store_${store}`)
       return require(`~/assets/images/btn_store_${store}.svg`)
     },
     alt () {
       const store = (this.appleStore) ? 'disponível na App Store' : 'disponível no Google Play'
-      const app = (this.isClin) ? 'CLIN' : 'PSI'
-      return `Artmed+${app} está ${store}`
-    }
-  },
-  methods: {
-    setFilename (name) {
-      this.filename = name
-    },
-    setFallbackImageUrl (event) {
-      event.target.src = require(`~/assets/images/${this.filename + '.png'}`)
+      return `${this.$store.state.theme.config.appName} está ${store}`
     }
   }
 }

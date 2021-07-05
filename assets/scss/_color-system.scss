@@ -1,0 +1,33 @@
+$themes: (
+  "sys--light": (
+    "colors": (
+      "background-fill": #FFFFFF,
+      "gray-1": #FAFBFC,
+      "gray-2": #F3F5F9,
+      "gray-3": #D8D8D8,
+      "gray-4": #A5A5A5,
+      "contrast": #343434,
+    )
+  ),
+  "sys--dark": (
+    "colors": (
+      "background-fill": #242425,
+      "gray-1": #303030,
+      "gray-2": #474646,
+      "gray-3": #5F5F5F,
+      "gray-4": #979797,
+      "contrast": #FCFBFB
+    )
+  )
+);
+
+@each $theme-name, $theme-vars in $themes {
+  $colors: map-get($theme-vars, "colors");
+
+  body.#{$theme-name} {
+    @each $name, $color in $colors {
+      --#{$name}: #{$color};
+      --#{$name}-darken: #{darken($color, 2.5%)};
+    }
+  }
+}

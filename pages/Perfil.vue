@@ -3,6 +3,7 @@
 </template>
 
 <script>
+// TODO: Perfil
 export default {
   name: 'Perfil',
   auth: false

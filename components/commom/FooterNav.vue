@@ -25,7 +25,7 @@ export default {
         },
         {
           to: '#',
-          label: 'Compartilhe o {{ app }} com amigos'
+          label: 'Compartilhe com os amigos'
         },
         {
           to: '#',
@@ -36,12 +36,6 @@ export default {
           label: 'Deixe um feedback'
         }
       ]
-    }
-  },
-  computed: {
-    app () {
-      const app = (this.$store.state.theme.config.psiMode) ? 'PSI' : 'CLIN'
-      return `Artmed+${app}`
     }
   }
 }
