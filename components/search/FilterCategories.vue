@@ -38,7 +38,6 @@
         </b-form-checkbox-group>
       </template>
     </b-form-group>
-    {{ SelectedCategories }}
   </div>
 </template>
 
