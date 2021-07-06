@@ -148,11 +148,11 @@ export default {
     return {
       stepState: undefined,
       form: {
-        name: 'Leonardo',
-        email: 'leonardo+teste2@mocka.email',
-        phone: '(51) 98506-9146',
-        password: '123456',
-        confirmPassword: '123456'
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: ''
       },
       passwordFieldType: 'password',
       confirmPasswordFieldType: 'password'

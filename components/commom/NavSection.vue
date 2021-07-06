@@ -7,10 +7,14 @@
         class="nav-section__link"
         :class="{
           'nav-section__link--has-img': $helpers.resolvePath(item, propertyImage, null),
+          'nav-section__link--has-img': $helpers.resolvePath(item, propertyCategory, null),
           'nav-section__link--locked': $helpers.resolvePath(item, propertyLocked, null),
           'nav-section__link--chevron': propertyChevron
         }"
-        :style="(propertyImage) ? { backgroundImage: `url(${$helpers.normalizeImageUrl($helpers.resolvePath(item, propertyImage, null))})` } : undefined"
+        :style="[
+          (propertyImage) ? { backgroundImage: `url(${$helpers.normalizeImageUrl($helpers.resolvePath(item, propertyImage, null))})` } : undefined,
+          (propertyCategory) ? { backgroundImage: `url(${$helpers.getImageCategory($helpers.resolvePath(item, propertyCategory, null))})` } : undefined
+        ]"
       >
         <span class="nav-section__link__label">
           <span class="nav-section__link__label--main">
@@ -27,10 +31,14 @@
         class="nav-section__link"
         :class="{
           'nav-section__link--has-img': $helpers.resolvePath(item, propertyImage, null),
+          'nav-section__link--has-img': $helpers.resolvePath(item, propertyCategory, null),
           'nav-section__link--locked': $helpers.resolvePath(item, propertyLocked, null),
           'nav-section__link--chevron': propertyChevron
         }"
-        :style="(propertyImage) ? { backgroundImage: `url(${$helpers.normalizeImageUrl($helpers.resolvePath(item, propertyImage, null))})` } : undefined"
+        :style="[
+          (propertyImage) ? { backgroundImage: `url(${$helpers.normalizeImageUrl($helpers.resolvePath(item, propertyImage, null))})` } : undefined,
+          (propertyCategory) ? { backgroundImage: `url(${$helpers.getImageCategory($helpers.resolvePath(item, propertyCategory, null))})` } : undefined
+        ]"
         :to="$helpers.getContentRoute(item, isNotification)"
       >
         <span class="nav-section__link__label">
@@ -60,6 +68,11 @@ export default {
       required: true
     },
     propertyImage: {
+      type: String,
+      default: undefined,
+      required: false
+    },
+    propertyCategory: {
       type: String,
       default: undefined,
       required: false
@@ -153,24 +166,24 @@ export default {
 
         &--main {
           @include font-computed(20px, 26px);
-          color: #343434;
+          color: var(--contrast);
         }
 
         &--sub {
           @include font-computed(12px, 12px, -0.3px);
           @include rem("margin-top", 2.5px);
           @include rem("margin-right", 10px);
-          color: #A5A5A5;
+          color: var(--gray-4);
         }
       }
 
       &:hover,
       &:active,
       &.active {
-        color: #00A589;
+        color: var(--three);
         text-decoration: none;
         & .nav-section__link__label--main {
-          color: #00A589;
+          color: var(--three);
           text-decoration: underline;
         }
       }

@@ -9,6 +9,7 @@
           :items="Contents"
           property-label="name"
           property-locked="premium"
+          property-category="category"
         />
         <infinite-loading v-if="Contents.length >= 20" @infinite="infiniteHandler(true)" />
       </section>

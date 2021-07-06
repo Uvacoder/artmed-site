@@ -102,7 +102,7 @@ export default {
 
   .nav-link {
     font-weight: 600;
-    color: #343434;
+    color: var(--contrast);
     @include font-computed(18px, 23px);
 
     @include media-breakpoint-down(sm) {
@@ -151,10 +151,10 @@ export default {
     &:hover,
     &:active,
     &.active {
-      color: #00A589;
+      color: var(--three);
       &::v-deep .nav-link-icon-container__icon {
         * {
-          fill: #00A589;
+          fill: var(--three);
         }
       }
     }

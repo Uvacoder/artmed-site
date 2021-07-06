@@ -3,13 +3,13 @@
     <CommomBodyHeader
       title="Notificações"
     />
-    <CommomNavSection
+    <!-- <CommomNavSection
       is-notification
       :items="Notifications"
       property-label="title"
       property-sub-label="date"
       property-chevron
-    />
+    /> -->
     <infinite-loading v-if="Notifications.length >= 20" @infinite="infiniteHandler" />
   </main>
 </template>

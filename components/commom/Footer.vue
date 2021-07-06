@@ -21,7 +21,7 @@ export default {
     @include rem("margin-bottom", 50px);
     @include font-computed(14px, 18px);
     text-align: center;
-    color: #343434;
+    color: var(--contrast);
 
     &__line {
       display: block;

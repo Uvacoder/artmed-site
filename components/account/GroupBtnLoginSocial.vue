@@ -41,7 +41,7 @@ export default {
   .group-btn-login-social {
     &__or {
       position: relative;
-      color: #343434;
+      color: var(--contrast);
       text-align: center;
       font-weight: 600;
 
@@ -58,7 +58,7 @@ export default {
       }
 
       span {
-        background-color: #ffffff;
+        background-color: var(--background-fill);
         position: relative;
         display: inline-block;
 

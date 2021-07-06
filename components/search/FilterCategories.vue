@@ -44,41 +44,6 @@
 <script>
 export default {
   name: 'FilterCategories',
-  // props: {
-  //   isNotification: {
-  //     type: Boolean,
-  //     default: false,
-  //     required: false
-  //   },
-  //   items: {
-  //     type: Array,
-  //     required: true
-  //   },
-  //   propertyImage: {
-  //     type: String,
-  //     default: undefined,
-  //     required: false
-  //   },
-  //   propertyLabel: {
-  //     type: String,
-  //     required: true
-  //   },
-  //   propertySubLabel: {
-  //     type: String,
-  //     default: undefined,
-  //     required: false
-  //   },
-  //   propertyLocked: {
-  //     type: String,
-  //     default: undefined,
-  //     required: false
-  //   },
-  //   propertyChevron: {
-  //     type: Boolean,
-  //     default: false,
-  //     required: false
-  //   }
-  // },
   data () {
     return {
       allSelected: false
@@ -137,7 +102,7 @@ export default {
     &__label {
       font-weight: 600;
       @include font-computed(18px, 41px);
-      color: #343434;
+      color: var(--contrast);
       margin-bottom: 0;
     }
 
@@ -152,7 +117,7 @@ export default {
         align-items: center;
         font-weight: 600;
         @include font-computed(16px, 34px);
-        color: #343434;
+        color: var(--contrast);
 
         &:focus,
         &.focus,
@@ -172,7 +137,7 @@ export default {
         background-size: 0;
         font-weight: 600;
         @include font-computed(16px, 20px);
-        color: #343434;
+        color: var(--contrast);
         @include rem("padding-top", 8px);
         @include rem("padding-bottom", 8px);
         @include rem("margin-right", 2.5px);

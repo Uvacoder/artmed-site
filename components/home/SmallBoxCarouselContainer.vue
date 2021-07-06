@@ -80,14 +80,14 @@ export default {
           & .small-box-carousel__card {
             & .card-body {
               & .card-title {
-                color: #00A589;
+                color: var(--three);
               }
             }
           }
 
           & .small-box-carousel__icon {
             * {
-              fill: #00A589;
+              fill: var(--three);
             }
           }
         }
@@ -122,7 +122,7 @@ export default {
             font-weight: 600;
             @include font-computed(16px, 20px);
             /* Light/contrast color */
-            color: #343434;
+            color: var(--contrast);
             margin: 0;
           }
         }

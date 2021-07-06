@@ -35,7 +35,7 @@ export default {
     @include rem("margin-top", 80px);
 
     &__title {
-      color: #343434;
+      color: var(--contrast);
       font-weight: 600;
       @include font-computed(18px, 23px);
     }
@@ -58,14 +58,14 @@ export default {
         display: flex;
         align-items: center;
         height: 100%;
-        background: #FFFFFF;
-        border: 1px solid #D8D8D8;
+        background: var(--background-fill);
+        border: 1px solid var(--gray-3);
         border-top: none;
         border-left: none;
         cursor: pointer;
 
         word-break: break-word;
-        color: #343434;
+        color: var(--contrast);
         font-weight: 600;
         @include font-computed(12px, 16px);
         @include rem("padding", 3px);
@@ -73,7 +73,7 @@ export default {
         &:hover {
           background: var(--gray-1-darken);
           text-decoration: none;
-          color: #00A589;
+          color: var(--three);
         }
 
         &__img-container {
@@ -103,7 +103,7 @@ export default {
       &:nth-of-type(2n+1) {
         @media (max-width: 575px) {
           a {
-            border-left: 1px solid #D8D8D8;
+            border-left: 1px solid var(--gray-3);
           }
         }
       }
@@ -111,7 +111,7 @@ export default {
       &:nth-of-type(3n+1) {
         @media (min-width: 576px) and (max-width: 991px) {
           a {
-            border-left: 1px solid #D8D8D8;
+            border-left: 1px solid var(--gray-3);
           }
         }
       }
@@ -119,7 +119,7 @@ export default {
       &:nth-of-type(5n+1) {
         @media (min-width: 991px) {
           a {
-            border-left: 1px solid #D8D8D8;
+            border-left: 1px solid var(--gray-3);
           }
         }
       }
@@ -127,14 +127,14 @@ export default {
       &:first-child,
       &:nth-of-type(2) {
         a {
-          border-top: 1px solid #D8D8D8;
+          border-top: 1px solid var(--gray-3);
         }
       }
 
       &:nth-of-type(3) {
         @include media-breakpoint-up(sm) {
           a {
-            border-top: 1px solid #D8D8D8;
+            border-top: 1px solid var(--gray-3);
           }
         }
       }
@@ -143,7 +143,7 @@ export default {
       &:nth-of-type(5) {
         @include media-breakpoint-up(lg) {
           a {
-            border-top: 1px solid #D8D8D8;
+            border-top: 1px solid var(--gray-3);
           }
         }
       }

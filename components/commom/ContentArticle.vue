@@ -13,7 +13,11 @@ export default {
   },
   template: '#content-article',
   render: function (createElement) {
-    return createElement('div', { attrs: { id: 'contentArticle', class: 'content-article' }, domProps: { innerHTML: this.getHtml } }, this.$slots.default)
+    if (this.content.type !== undefined && this.content.type === 2) {
+      return createElement('iframe', { attrs: { id: 'contentArticle', class: 'content-article', srcDoc: this.getHtml, width: "100%", frameborder: "0", scrolling: 'no' } }, this.$slots.default)
+    } else {
+      return createElement('div', { attrs: { id: 'contentArticle', class: 'content-article' }, domProps: { innerHTML: this.getHtml } }, this.$slots.default)
+    }
   },
   computed: {
     getHtml () {
@@ -32,7 +36,8 @@ export default {
     return {
       headStyle: '',
       headScript: '',
-      BodyScript: ''
+      BodyScript: '',
+      timer: ''
     }
   },
   head () {
@@ -48,7 +53,12 @@ export default {
   },
   mounted () {
     if (this.content.type !== undefined && this.content.type === 2) {
-      // nothing
+      window.addEventListener('message', (event) => {
+        if (event.data.height) {
+          let iframe = document.getElementById('contentArticle');
+          iframe.height = event.data.height;
+        }
+      });
     } else {
       document.getElementById('contentArticle').querySelectorAll('h1').forEach(item => {
         item.addEventListener('click', event => {
@@ -67,33 +77,60 @@ export default {
     htmlNotification () {},
     htmlCalc () {
       let html = ''
-      // colocar o css no braço
       for (const content of this.content.values) {
-        console.log(content)
-        const head = content.match(/<head[\s\S]*?>[\s\S]*?<\/head>/g).toString()
-        const style = head.match(/<style[\s\S]*?>[\s\S]*?<\/style>/g)
-        const script = head.match(/<script[\s\S]*?>[\s\S]*?<\/script>/g)
-        let body = content.match(/<body[\s\S]*?>[\s\S]*?<\/body>/g).toString()
-        const bodyScript = body.match(/<script[\s\S]*?>[\s\S]*?<\/script>/g)
+        html = content.replace(/<h3[\s\S]*?>[\s\S]*?<\/h3>/g, '')
+        html = html.replace('background-size: 32px;', 'background-size: 22px 12px;'); // background-fill
+        html = html.replace('%arrow_up', require('~/assets/images/chevron_up.svg')); // background-fill
+        html = html.replace('%arrow_down', require('~/assets/images/chevron_down.svg')); // background-fill
+        html = html.replace('%bg_color', '#ffffff'); // background-fill
+        html = html.replace('%txt_color', '#343434'); // contrast
+        html = html.replace('%app_color', '#01826C'); // color-4
+        html = html.replace('%input_bg_color', '#FAFBFC'); // gray-1
+        html = html.replace('%input_stroke_color', '#D8D8D8'); // gray-3
+        html = html.replace('</head>', '<link rel="stylesheet" href="https://use.typekit.net/rhv4hzr.css"></head>');
+        html = html.replace(/@media[\s\S]*?(prefers-color-scheme:[\s\S]*?dark)[\s\S]*?{[\s\S]*?}[\r\n]*?}/g, '')
+        html = html.replace(/@font-face[\s\S]*?{[\s\S]*?}/g, '')
+        html = html.replace(/DIN 2014/g, 'din-2014')
+        const script =
+          `<script type="text/javascript">
+            function getPageHeight() {
+              var pageHeight = 0;
+              function findHighestNode(nodesList) {
+                for (var i = nodesList.length - 1; i >= 0; i--) {
+                  if (nodesList[i].scrollHeight && nodesList[i].clientHeight) {
+                    var elHeight = Math.max(nodesList[i].scrollHeight, nodesList[i].clientHeight);
+                    pageHeight = Math.max(elHeight, pageHeight);
+                  }
+                  if (nodesList[i].childNodes.length) findHighestNode(nodesList[i].childNodes);
+                }
+              }
+              findHighestNode(document.documentElement.childNodes);
+              // The entire page height is found
+              // console.log(pageHeight, document.getElementsByClassName("reference-container")[0].offsetHeight, document.getElementsByClassName("result-container")[0].offsetHeight)
+              return pageHeight + document.getElementsByClassName("reference-container")[0].offsetHeight + document.getElementsByClassName("result-container")[0].offsetHeight
+            }
+            window.addEventListener('DOMContentLoaded', function() {
+              console.log('DOMContentLoaded')
+              var msg = { height: getPageHeight() }
+              window.parent.postMessage(msg, '*')
+            });
+            const resizeObserver = new ResizeObserver(entries => {
+              console.log('body.resize')
+              var msg = { height: getPageHeight() }
+              window.parent.postMessage(msg, '*')
+            });
+            // start observing a DOM node
+            resizeObserver.observe(document.body)
+          <\/script>
+        <\/body>`
 
-        if (style !== null) {
-          // this.headStyle = '#contentArticle {'
-          this.headStyle += style.toString().replace('<style>', '').replace('<\/style>', '')
-          this.headStyle = this.headStyle.replace(/@font-face[\s\S]*?{[\s\S]*?}/g, '')
-          this.headStyle = this.headStyle.replace(/:root[\s\S]*?{[\s\S]*?}/g, '')
-          this.headStyle = this.headStyle.replace(/body[\s\S]*?{[\s\S]*?}/g, '')
-          // this.headStyle += '}'
-        }
+        html = html.replace('</body>', script)
 
-        if (script !== null) {
-          this.headScript = script.toString().replace('<script>', '').replace('<\/script>', '')
-        }
-        // remover o js de fechar os h1
-        if (bodyScript !== null) {
-          this.bodyScript = bodyScript.toString().replace('<script>', '').replace('<\/script>', '')
-          body = body.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/g, '')
-        }
-        html += body
+        // html = html.replace("%bg_dark_color", "#242425");
+        // html = html.replace("%txt_dark_color", "#FCFBFB");
+        // html = html.replace("%app_dark_color", "#6D9236");
+        // html = html.replace("%input_bg_dark_color", "#303030");
+        // html = html.replace("%input_stroke_dark_color", "#5F5F5F");
       }
       return html
     },
@@ -119,7 +156,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .content-article {
+  div.content-article {
     // @media (prefers-color-scheme: dark) {
     //   &::v-deep h1:after {
     //     // background-image: url(%arrow_dark_up);
@@ -183,7 +220,7 @@ export default {
     }
 
     &::v-deep a {
-      color: #00A589;
+      color: var(--three);
       word-break: break-word;
     }
 
@@ -238,7 +275,7 @@ export default {
       position: relative;
       padding-right: 40px;
       margin: 0;
-      color: #343434;
+      color: var(--contrast);
     }
 
     &::v-deep h1:after {

@@ -57,11 +57,11 @@ export default {
     }
 
     &__title {
-      color: #343434;
+      color: var(--contrast);
     }
 
     &__link {
-      color: #00A589;
+      color: var(--three);
     }
   }
 </style>

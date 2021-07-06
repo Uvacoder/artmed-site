@@ -62,7 +62,7 @@ export default {
       font-weight: 600;
       @include font-computed(16px, 20px);
       /* Light/PSI - 3 */
-      color: #00A589;
+      color: var(--three);
     }
   }
 </style>

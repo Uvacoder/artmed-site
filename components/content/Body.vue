@@ -9,11 +9,7 @@
 </template>
 
 <script>
-// TODO: adicionar header com botão de favoritar
-
-// TODO: tela de conteudo acabar o css
-
-// TODO: tela de calculadora acabar o css
+// TODO: click no link dos conteudo para nossa rota
 // TODO: tela de calculadora e funfar scripts
 export default {
   name: 'Body',

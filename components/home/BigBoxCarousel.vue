@@ -23,7 +23,7 @@
 
 <script>
 import VueHorizontalList from 'vue-horizontal-list'
-
+// TODO: definir as rotas de acordo com o conteudo
 export default {
   name: 'BigBoxCarousel',
   components: {

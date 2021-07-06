@@ -49,7 +49,7 @@ export default {
           & .big-box-carousel__card {
             & .card-body {
               & .card-title {
-                color: #00A589;
+                color: var(--three);
               }
             }
           }
@@ -87,7 +87,7 @@ export default {
             font-weight: 600;
             @include font-computed(16px, 20px);
             /* Light/contrast color */
-            color: #343434;
+            color: var(--contrast);
           }
         }
       }

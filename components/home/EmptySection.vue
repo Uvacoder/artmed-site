@@ -31,7 +31,7 @@ export default {
   .empty-section {
     font-weight: 600;
     @include font-computed(18px, 30px);
-    color: #A5A5A5;
+    color: var(--gray-4);
     display: flex;
     margin-bottom: 0;
 
@@ -42,7 +42,7 @@ export default {
         @include rem("width", 30px);
         @include rem("height", 30px);
         path {
-          fill: #A5A5A5;
+          fill: var(--gray-4);
         }
       }
     }

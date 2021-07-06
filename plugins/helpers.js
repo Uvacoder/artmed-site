@@ -38,7 +38,8 @@ export default ({ app }, inject) => {
         okVariant: 'success',
         headerClass: 'p-2 border-bottom-0',
         footerClass: 'p-2 border-top-0',
-        centered: true
+        centered: true,
+        cancelTitle: 'Cancelar'
       }
     },
     arrayInsertAt: (array, position, elements) => {
@@ -181,6 +182,11 @@ export default ({ app }, inject) => {
     initialName (value) {
       if (value === undefined) { return }
       return value.charAt(0).toUpperCase()
+    },
+    getImageCategory (value) {
+      if (value === undefined) { return }
+      const category = app.store.state.categories.items.find(category => category.id === value)
+      return (category !== undefined) ? this.normalizeImageUrl(category.image) : ''
     }
   }
   inject('helpers', helpers)

@@ -48,7 +48,8 @@ export default {
     '~/plugins/vue-safe-html.js',
     '~/plugins/infinite-loading.js',
     '~/plugins/api.js',
-    '~/plugins/helpers.js'
+    '~/plugins/helpers.js',
+    '~/plugins/iframeResize.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

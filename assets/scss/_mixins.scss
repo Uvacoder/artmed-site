@@ -79,7 +79,7 @@ $font-size-base-px: 16px !default;
   }
 
   &::v-deep label {
-    color: #343434;
+    color: var(--contrast);
   }
 
   &__btn--submit {
@@ -88,32 +88,32 @@ $font-size-base-px: 16px !default;
 }
 
 @mixin account-link() {
-  color: #00A589;
+  color: var(--three);
   font-weight: 600;
 }
 
 @mixin account-input() {
   .form-control {
-    border: 1px solid #D8D8D8;
+    border: 1px solid var(--gray-3);
 
     @include rem("border-radius", 6px);
     @include rem("padding", 14px 12px);
     @include rem("height", 50px);
 
     &::-webkit-input-placeholder { /* Edge */
-      color: #A5A5A5;
+      color: var(--gray-4);
       font-weight: 600;
       @include font-computed(16px, 20px);
     }
 
     &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-      color: #A5A5A5;
+      color: var(--gray-4);
       font-weight: 600;
       @include font-computed(16px, 20px);
     }
 
     &::placeholder {
-      color: #A5A5A5;
+      color: var(--gray-4);
       font-weight: 600;
       @include font-computed(16px, 20px);
     }
@@ -140,9 +140,9 @@ $font-size-base-px: 16px !default;
   }
 
   .form-control__switchVisibility {
-    border: 1px solid #D8D8D8;
+    border: 1px solid var(--gray-3);
     border-left: none;
-    color: #A5A5A5;
+    color: var(--gray-4);
     @include rem("border-radius", 6px);
   }
 
@@ -151,14 +151,14 @@ $font-size-base-px: 16px !default;
   }
 
   .is-valid .form-control__switchVisibility {
-    border-color: #28a745;
+    border-color: var(--four);
   }
 }
 
 @mixin account-select() {
   .custom-select {
-    border: 1px solid #D8D8D8;
-    color: #28a745;
+    border: 1px solid var(--gray-3);
+    color: var(--four);
     background: var(--gray-1);
     text-align-last: center;
     text-align: center;
@@ -168,19 +168,19 @@ $font-size-base-px: 16px !default;
     @include rem("height", 50px);
 
     &::-webkit-input-placeholder { /* Edge */
-      color: #28a745;
+      color: var(--four);
       font-weight: 600;
       @include font-computed(16px, 20px);
     }
 
     &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-      color: #28a745;
+      color: var(--four);
       font-weight: 600;
       @include font-computed(16px, 20px);
     }
 
     &::placeholder {
-      color: #28a745;
+      color: var(--four);
       font-weight: 600;
       @include font-computed(16px, 20px);
     }
@@ -204,10 +204,10 @@ $font-size-base-px: 16px !default;
 }
 
 @mixin account-form-btn() {
-  color: #FFFFFF;
+  color: var(--background-fill);
 
-  background-color: #00A589;
-  border-color: #00A589;
+  background-color: var(--three-darken);
+  border-color: var(--three-darken);
 
   font-weight: 600;
   text-align: center;
@@ -220,13 +220,13 @@ $font-size-base-px: 16px !default;
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    background-color: darken(#00A589, 5%);
-    border-color: darken(#00A589, 5%);
+    background-color: var(--three-darken);
+    border-color: var(--three-darken);
   }
 }
 
 @mixin background-border() {
   background: var(--gray-1);
-  border: 1px solid #D8D8D8;
+  border: 1px solid var(--gray-3);
   border-radius: 6px;
 }

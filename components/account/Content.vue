@@ -131,7 +131,7 @@ export default {
     }
 
     &::v-deep .slogan {
-      color: #FFFFFF;
+      color: var(--background-fill);
       @include font-computed(30px, 38px);
       @include rem("margin-top", 40px);
       @include rem("max-width", 332px);
@@ -142,7 +142,7 @@ export default {
       @include rem("padding-right", 56px);
 
       &__title {
-        color: #FFFFFF;
+        color: var(--background-fill);
         font-weight: 600;
         @include font-computed(20px, 26px);
       }

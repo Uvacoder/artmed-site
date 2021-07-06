@@ -34,7 +34,6 @@
 </template>
 
 <script>
-// TODO: precisa informar que está logado para favoritar (criar modal com alert que redirecione par ao login)
 import { mapActions } from 'vuex'
 export default {
   name: 'BodyHeader',
@@ -72,7 +71,16 @@ export default {
       favoriteHandler: 'content/favoriteHandler'
     }),
     async favorite (state) {
-      await this.favoriteHandler({ favoriteState: state, contentId: this.$route.params.id })
+      if (this.$store.state.auth.user === null) {
+        this.$bvModal.msgBoxConfirm('Para realizar está ação você precisa estar logado, deseja ser redirecionado agora para a tela de Login?', this.$helpers.getModalOptions(this.$helpers.getString('Aviso')))
+          .then((confirm) => {
+            if (confirm) {
+              this.$router.push({ name: 'Login' })
+            }
+          })
+      } else {
+        await this.favoriteHandler({ favoriteState: state, contentId: this.$route.params.id })
+      }
     }
   }
 }
@@ -84,7 +92,7 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #D8D8D8;
+    border-bottom: 1px solid var(--gray-3);
     @include rem("margin-bottom", 12px);
     @include rem("padding-bottom", 12px);
 

@@ -59,20 +59,20 @@ export default {
         display: flex;
         align-items: center;
         /* Light/contrast color */
-        color: #343434;
-        border: 1px solid #D8D8D8;
+        color: var(--contrast);
+        border: 1px solid var(--gray-3);
         border-top: none;
         cursor: pointer;
         @include rem("padding", 20px 14px);
 
         &:hover {
           text-decoration: none;
-          color: #00A589;
+          color: var(--three);
           // background: darken(var(--gray-1), 2.5%);
           background: var(--gray-1);
           &::v-deep .columm-list__item__link__icon {
             * {
-              fill: #00A589;
+              fill: var(--three);
             }
           }
         }
@@ -88,7 +88,7 @@ export default {
 
       &:first-child {
         a {
-          border-top: 1px solid #D8D8D8;
+          border-top: 1px solid var(--gray-3);
           @include rem("border-top-left-radius", 6px);
           @include rem("border-top-right-radius", 6px);
 
@@ -101,7 +101,7 @@ export default {
       &:nth-of-type(2) {
         a {
           @include media-breakpoint-up(md) {
-            border-top: 1px solid #D8D8D8;
+            border-top: 1px solid var(--gray-3);
             @include rem("border-top-right-radius", 6px);
           }
         }

@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
   .header {
     background: var(--gray-1);
-    border-bottom: 1px solid #D8D8D8;
+    border-bottom: 1px solid var(--gray-3);
     @include rem("padding-bottom", 30px);
 
     &::v-deep .logo {

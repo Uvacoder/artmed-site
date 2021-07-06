@@ -45,7 +45,7 @@ export default {
     }
 
     &__subtitle {
-      color: #343434;
+      color: var(--contrast);
       font-weight: normal;
       @include font-computed(18px, 24px);
       @include rem("margin-bottom", 18px);

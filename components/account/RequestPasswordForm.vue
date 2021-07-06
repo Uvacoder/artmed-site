@@ -120,9 +120,9 @@ export default {
 
     &__btn--cancel {
       @include account-form-btn();
-      color: #00A589;
-      background-color: #ffffff;
-      border-color: #00A589;
+      color: var(--three);
+      background-color: var(--background-fill);
+      border-color: var(--three);
 
       display: flex;
       justify-content: center;
@@ -131,9 +131,9 @@ export default {
       &:not(:disabled):not(.disabled):active,
       &:not(:disabled):not(.disabled).active,
       .show > &.dropdown-toggle {
-        color: darken(#00A589, 5%);
-        background-color: darken(#ffffff, 5%);
-        border-color: darken(#00A589, 5%);
+        color: var(--three-darken);
+        background-color: var(--background-fill-darken);
+        border-color: var(--three-darken);
       }
     }
   }

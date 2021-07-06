@@ -194,14 +194,14 @@ export default {
     &__input-group,
     &__form-control,
     &__btn {
-      color: #00A589;
-      background: #FFFFFF;
+      color: var(--three);
+      background: var(--background-fill);
       border: none;
       @include rem("border-radius", 12px);
     }
 
     &__input-group {
-      border: 1.4px solid #00A589;
+      border: 1.4px solid var(--three);
       box-shadow: none;
       @include rem("border-radius", 12px);
       z-index: 3;
@@ -222,7 +222,7 @@ export default {
             @include rem("width", 22px);
             @include rem("height", 22px);
             path {
-              fill: #00A589;
+              fill: var(--three);
             }
           }
         }
@@ -245,8 +245,8 @@ export default {
         }
 
         & .search__input-group__btn--search {
-          color: #FFFFFF;
-          background: #00A589;
+          color: var(--background-fill);
+          background: var(--three);
           margin: 0;
           @include rem("border-top-right-radius", 10px);
           @include rem("border-bottom-right-radius", 10px);
@@ -268,7 +268,7 @@ export default {
 
     &__form-control {
       background-color: transparent;
-      color: #00A589;
+      color: var(--three);
       word-wrap: break-word;
       outline: none;
       -webkit-tap-highlight-color: transparent;
@@ -277,19 +277,19 @@ export default {
       @include font-computed(25px, 32px);
 
       &::-webkit-input-placeholder { /* Edge */
-        color: #00A589;
+        color: var(--three);
         font-weight: 600;
         @include font-computed(25px, 38px);
       }
 
       &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: #00A589;
+        color: var(--three);
         font-weight: 600;
         @include font-computed(25px, 38px);
       }
 
       &::placeholder {
-        color: #00A589;
+        color: var(--three);
         font-weight: 600;
         @include font-computed(25px, 38px);
       }
@@ -316,7 +316,7 @@ export default {
       list-style-type: none;
       margin: 0;
       padding: 0;
-      border: 1.4px solid #00A589;
+      border: 1.4px solid var(--three);
       @include rem("border-radius", 0 0 12px 12px);
       @include rem("padding-bottom", 4px);
       overflow: hidden;
@@ -325,7 +325,7 @@ export default {
       border-top: none;
 
       &__divider {
-        border: 1px solid #00A589;
+        border: 1px solid var(--three);
         @include rem("margin", 0 20px 0 20px);
       }
 
@@ -391,11 +391,11 @@ export default {
           cursor: pointer;
 
           * {
-            color: #00A589;
+            color: var(--three);
           }
 
           .search__sugestion-box__list-item-icon {
-            background-color: #00A589;
+            background-color: var(--three);
           }
         }
       }
