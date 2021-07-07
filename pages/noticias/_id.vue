@@ -1,5 +1,5 @@
 <template>
-  <CommomContent body="NewsBody" />
+  <CommomContent body="NewsBodyNew" />
 </template>
 
 <script>

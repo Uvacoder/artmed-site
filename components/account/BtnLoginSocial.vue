@@ -1,10 +1,10 @@
 <template>
   <b-button
     block
-    :href="link"
     rel="external nofollow"
     class="btn-login-social"
     :class="classMod"
+    @click="login()"
   >
     <b-img
       :src="file"
@@ -31,14 +31,6 @@ export default {
     }
   },
   computed: {
-    link () {
-      const link = {
-        Facebook: '#facebook',
-        Google: '#google',
-        Apple: '#apple'
-      }
-      return link[this.social]
-    },
     classMod () {
       const classMod = {
         Facebook: 'btn-login-social--facebook',
@@ -62,6 +54,16 @@ export default {
         Apple: 'Login com a Apple'
       }
       return `${store[this.social]}`
+    }
+  },
+  methods: {
+    login () {
+      const link = {
+        Facebook: this.$auth.loginWith('facebook'),
+        Google: '#google',
+        Apple: '#apple'
+      }
+      return link[this.social]
     }
   }
 }

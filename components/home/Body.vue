@@ -1,8 +1,16 @@
 <template>
   <main class="container content__body">
     <HomeBigBoxCarouselContainer
-      title="Conteúdos mais acessados por você"
+      title="Destaques"
       :items="HighlightsItems"
+    />
+    <HomeSmallBoxCarouselContainer
+      title="Calculadoras mais acessados por você"
+      icon="icon_calc"
+      text="Quando você acessa uma calculadora várias vezes, ela ficará nessa lista."
+      :items="PopularCalculatorsItems"
+      property="content.name"
+      image="content.category.image"
     />
     <HomeSmallBoxCarouselContainer
       title="Conteúdos mais acessados por você"
@@ -12,31 +20,18 @@
       property="content.name"
       image="content.category.image"
     />
-    <HomeSmallBoxCarouselContainer
-      title="Calculadoras mais acessados por você"
-      to="#"
-      link="Ver Tudo"
-      icon="icon_calc"
-      text="Quando você acessa uma calculadora várias vezes, ela ficará nessa lista."
-      :items="PopularCalculatorsItems"
-      property="content.name"
-      image="content.category.image"
-    />
     <HomeColumnListContainer
       title="Conteúdos salvos"
-      to="#"
-      link="Ver Tudo"
       icon="icon_bookmark_yes"
       text="Os conteúdos que você salvar aparecerão aqui."
       :items="BookmarksItems"
-      to-item="content.name"
+      to-item="content.id"
       property="content.name"
       image="content.category.image"
     />
     <HomeColumnListContainer
+      is-search
       title="Buscas Recentes"
-      to="#"
-      link="Ver Tudo"
       icon="icon_search"
       text="As últimas buscas realizadas estarão aqui para acesso rápido."
       :items="RecentSearchesItems"

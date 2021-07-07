@@ -8,7 +8,7 @@ export default {
   auth: false,
   async asyncData (context) {
     await Promise.all([
-      await context.store.dispatch('news/load')
+      await context.store.dispatch('news/loadNews')
     ])
   }
 }

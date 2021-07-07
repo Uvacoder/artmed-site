@@ -5,13 +5,25 @@
         <SearchFilterCategories @filtered="loadByFilter" />
       </aside>
       <section class="col col-md-9">
-        <CommomNavSection
-          :items="Contents"
-          property-label="name"
-          property-locked="premium"
-          property-category="category"
-        />
-        <infinite-loading v-if="Contents.length >= 20" @infinite="infiniteHandler(true)" />
+        <template v-if="Contents.length > 0">
+          <h3 class="filter-categories__label">
+            Resultados encontrados
+          </h3>
+          <CommomNavSection
+            :items="Contents"
+            property-label="name"
+            property-locked="premium"
+            property-category="category"
+          />
+          <infinite-loading v-if="Contents.length >= 20" @infinite="infiniteHandler" />
+        </template>
+        <template v-else>
+          <HomeEmptySection
+            style="  display: flex; justify-content: center;"
+            icon="icon_search"
+            :text="`Nenhum resultado encotrado para ${searchTerm}`"
+          />
+        </template>
       </section>
     </b-row>
   </main>
@@ -21,8 +33,6 @@
 // TODO: carregar sugestoes
 
 // TODO: colocar na url as categorias e especialidade (funcionais para poder compartilhar link da busca)
-
-// TODO: coloca imagem da categoria no resultado da pesquisa
 
 // TODO: a partir da pagina de categorias ao efetuar uma busca precisa enviar a cetegoria
 
@@ -40,6 +50,9 @@ export default {
     },
     Contents () {
       return this.$store.state.search.contents
+    },
+    searchTerm () {
+      return this.$store.state.search.searchTerm.slice()
     }
   },
   methods: {
@@ -56,15 +69,13 @@ export default {
     ...mapActions({
       searchLoad: 'search/load'
     }),
-    infiniteHandler ($state, infinite) {
+    infiniteHandler ($state) {
       this.searchLoad({ searchTerm: this.$route.params.slug || '', loadMore: true })
         .then((data) => {
-          if (infinite) {
-            if (data.length > 0) {
-              $state.loaded()
-            } else {
-              $state.complete()
-            }
+          if (data.length > 0) {
+            $state.loaded()
+          } else {
+            $state.complete()
           }
         })
     },

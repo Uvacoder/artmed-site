@@ -2,7 +2,8 @@ export const state = () => ({
   config: {
     app: '',
     appName: '',
-    appSloga: '',
+    appEmail: '',
+    appSlogan: '',
     darkMode: false
   }
 })

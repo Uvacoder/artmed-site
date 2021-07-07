@@ -5,6 +5,6 @@
 <script>
 export default {
   name: 'Assinatura',
-  auth: false
+  auth: true
 }
 </script>

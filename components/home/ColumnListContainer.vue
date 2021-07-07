@@ -8,6 +8,7 @@
     />
     <HomeColumnList
       v-else
+      :is-search="isSearch"
       :items="items"
       :to="toItem"
       :property="property"
@@ -21,6 +22,11 @@
 export default {
   name: 'ColumnListContainer',
   props: {
+    isSearch: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
     title: {
       type: String,
       required: true

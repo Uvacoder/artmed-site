@@ -1,12 +1,12 @@
 <template>
   <section class="small-box-carousel-container">
-    <CommomSectionTitleLink title="Conteúdos mais acessados por você" />
+    <CommomSectionTitleLink :title="title" />
     <HomeEmptySection
       v-if="items.length <= 0"
-      icon="icon_history"
-      text="Quando você acessa um conteúdo várias vezes, ele ficará nessa lista."
+      :icon="icon"
+      :text="text"
     />
-    <HomeSmallBoxCarousel v-else :items="items" property="content.name" image="content.category.image" />
+    <HomeSmallBoxCarousel v-else :items="items" :property="property" :image="image" />
   </section>
 </template>
 

@@ -133,6 +133,7 @@ export default {
       justify-content: flex-start;
 
       .b-avatar {
+        background-color: var(--four);
         @include rem("width", 42px);
         @include rem("height", 42px);
         @include rem("margin-right", 10px);

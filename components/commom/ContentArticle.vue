@@ -14,20 +14,36 @@ export default {
   template: '#content-article',
   render: function (createElement) {
     if (this.content.type !== undefined && this.content.type === 2) {
-      return createElement('iframe', { attrs: { id: 'contentArticle', class: 'content-article', srcDoc: this.getHtml, width: "100%", frameborder: "0", scrolling: 'no' } }, this.$slots.default)
+      return createElement(
+        'article',
+        {
+          attrs: {
+            id: 'contentArticleIframe',
+            class: 'content-article--iframe'
+          },
+        }, [
+          createElement('iframe', { attrs: { id: 'contentArticle', class: 'content-article', srcDoc: this.getHtml, width: "100%", frameborder: "0", scrolling: 'no' } }, this.$slots.default)
+        ],
+        this.$slots.default
+      )
     } else {
-      return createElement('div', { attrs: { id: 'contentArticle', class: 'content-article' }, domProps: { innerHTML: this.getHtml } }, this.$slots.default)
+      return createElement('article', { attrs: { id: 'contentArticle', class: `content-article content-article${this.modClass}` }, domProps: { innerHTML: this.getHtml } }, this.$slots.default)
     }
   },
   computed: {
+    isNews () {
+      return (this.content.postedBy !== undefined)
+    },
     getHtml () {
-      // if isNews {
-      //   return this.htmlPost()
+      if (this.isNews) {
+        this.modClass = '--post'
+        return this.htmlPost()
       // } else if isNotification {
       //   return this.htmlNotification()
-      if (this.content.type !== undefined && this.content.type === 2) {
+      } else if (this.content.type !== undefined && this.content.type === 2) {
         return this.htmlCalc()
       } else {
+        this.modClass = '--content'
         return this.htmlContent()
       }
     }
@@ -37,7 +53,8 @@ export default {
       headStyle: '',
       headScript: '',
       BodyScript: '',
-      timer: ''
+      timer: '',
+      modClass: ''
     }
   },
   head () {
@@ -52,7 +69,9 @@ export default {
     }
   },
   mounted () {
-    if (this.content.type !== undefined && this.content.type === 2) {
+    if (this.isNews) {
+      return
+    } else if (this.content.type !== undefined && this.content.type === 2) {
       window.addEventListener('message', (event) => {
         if (event.data.height) {
           let iframe = document.getElementById('contentArticle');
@@ -73,7 +92,35 @@ export default {
     }
   },
   methods: {
-    htmlPost () {},
+    htmlPost () {
+      let html = ''
+      html += `<h1>${this.content.title}</h1>`
+      if (this.content.intro) {
+        html += `<h2>${this.content.intro}</h2>`
+      }
+      for (const content of this.content.postContent) {
+        const body = content.body
+        switch (content.type) {
+          case 1:
+            html += `<p>${body}</p>`
+            break
+          case 2:
+            html += `<img style="width:100%" src="${body}">`
+            break
+          case 3:
+            html += `<div class="iframe-container"><iframe width="560" height="315" src="${body}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+            break
+          default: break
+        }
+      }
+      let urls = html.match(/(http|ftp|https):\/\/([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?/g)
+      if (urls !== null) {
+        for (const url of urls) {
+          html = html.replace(url, this.$helpers.getContentUrl(url))
+        }
+      }
+      return html
+    },
     htmlNotification () {},
     htmlCalc () {
       let html = ''
@@ -107,7 +154,14 @@ export default {
               findHighestNode(document.documentElement.childNodes);
               // The entire page height is found
               // console.log(pageHeight, document.getElementsByClassName("reference-container")[0].offsetHeight, document.getElementsByClassName("result-container")[0].offsetHeight)
-              return pageHeight + document.getElementsByClassName("reference-container")[0].offsetHeight + document.getElementsByClassName("result-container")[0].offsetHeight
+              let variant = 50
+              if (document.getElementsByClassName("reference-container")[0]) {
+                variant += (document.getElementsByClassName("reference-container")[0].offsetHeight / 2)
+              }
+              if (document.getElementsByClassName("result-container")[0]) {
+                variant += (document.getElementsByClassName("result-container")[0].offsetHeight / 2)
+              }
+              return pageHeight + variant
             }
             window.addEventListener('DOMContentLoaded', function() {
               console.log('DOMContentLoaded')
@@ -136,16 +190,22 @@ export default {
     },
     htmlContent () {
       let html = ''
-      for (let index = 0; index < this.content.values.length; index++) {
+      for (const content of this.content.values) {
         let newContent = ''
-        if (this.content.values[index].includes('<h1>Referência') || this.content.values[index].includes('<h1>Referências') || this.content.values[index].includes('<h1>Autor') || this.content.values[index].includes('<h1>Autores') || this.content.values[index].includes('<h1>Adaptação editorial')) {
-          newContent = this.content.values[index].replace(/<\/h1>/gm, '</h1><div class="smallParagraph">')
+        if (content.includes('<h1>Referência') || content.includes('<h1>Referências') || content.includes('<h1>Autor') || content.includes('<h1>Autores') || content.includes('<h1>Adaptação editorial')) {
+          newContent = content.replace(/<\/h1>/gm, '</h1><div class="smallParagraph">')
         } else {
-          newContent = this.content.values[index].replace(/<\/h1>/gm, '</h1><div>')
+          newContent = content.replace(/<\/h1>/gm, '</h1><div>')
         }
         newContent = newContent.replace(/<h1/gm, '<section><h1')
         if (newContent.includes('<div')) {
           newContent += '</div></section>'
+        }
+        let urls = newContent.match(/(http|ftp|https):\/\/([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?/g)
+        if (urls !== null) {
+          for (let index = 0; index < urls.length; index++) {
+            newContent = newContent.replace(urls[index], this.$helpers.getContentUrl(urls[index]))
+          }
         }
         html += newContent
       }
@@ -156,27 +216,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  div.content-article {
-    // @media (prefers-color-scheme: dark) {
-    //   &::v-deep h1:after {
-    //     // background-image: url(%arrow_dark_up);
-    //   }
-    //   &::v-deep h1.closed:after {
-    //     // background-image: url(%arrow_dark_down);
-    //   }
-    // }
-
-    &::v-deep section {
-      @include rem("padding-top", 11px);
-      @include rem("margin-bottom", 11px);
-      &:first-of-type {
-        padding-top: 0;
-      }
-      &:last-of-type {
-        margin-bottom: 0;
-      }
-    }
-
+  article.content-article {
     &::v-deep .iframe-container {
       position: relative;
       overflow: hidden;
@@ -198,7 +238,7 @@ export default {
     &::v-deep p {
       word-break: break-word !important;
       margin-top: 10px !important;
-      margin-bottom: 0px;
+      // margin-bottom: 0px;
       font-size: 1rem;
     }
 
@@ -225,7 +265,7 @@ export default {
     }
 
     &::v-deep table {
-      border: 1px solid #000;
+      border: 1px solid var(--contrast);
       border-collapse: collapse;
       border-spacing: 0;
       margin-top: 20px;
@@ -233,8 +273,9 @@ export default {
       display: table;
     }
 
-    &::v-deep table, td {
-      background-color: transparent
+    &::v-deep table,
+    &::v-deep td {
+      background-color: transparent;
     }
 
     &::v-deep table p {
@@ -244,14 +285,18 @@ export default {
     }
 
     &::v-deep tr {
-      border-bottom: 1px solid #000;
+      border-bottom: 1px solid var(--contrast);
     }
 
-    &::v-deep table th:first-child, table td:first-child, table th:first-child, table td:first-child {
-      padding-left: 1rem;
+    &::v-deep table th:first-child,
+    &::v-deep table td:first-child,
+    &::v-deep table th:first-child,
+    &::v-deep table td:first-child {
+      padding-left: 16px;
     }
 
-    &::v-deep table td, table th {
+    &::v-deep table td,
+    &::v-deep table th {
       padding: 8px 8px;
       display: table-cell;
       text-align: left;
@@ -270,37 +315,17 @@ export default {
     }
 
     &::v-deep h1 {
-      font-weight: 600;
-      @include font-computed(24px, 44px);
-      position: relative;
-      padding-right: 40px;
-      margin: 0;
-      color: var(--contrast);
-    }
-
-    &::v-deep h1:after {
-      right: 0px;
-      width: 35px;
-      height: 30px;
-      content: " ";
-      background-image: url('~/assets/images/chevron_up.svg');
-      background-repeat: no-repeat;
-      background-position: center;
-      position: absolute;
-      display: block;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      -moz-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
-
-    &::v-deep h1.closed:after {
-      background-image: url('~/assets/images/chevron_down.svg');
+      font-size: 1.5rem;
     }
 
     &::v-deep h2 {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
+    }
+
+    &::v-deep h3,
+    &::v-deep h3 span {
+      color: var(--contrast) !important;
+      font-size: 1.120rem !important;
     }
 
     &::v-deep .table_responsive {
@@ -312,12 +337,56 @@ export default {
       font-size: 0.875rem;
     }
 
-    &::v-deep span.SearchHighlight {
-      // background-color: var(--highlight-app-color);
-    }
+    &--content {
+      // @media (prefers-color-scheme: dark) {
+      //   &::v-deep h1:after {
+      //     // background-image: url(%arrow_dark_up);
+      //   }
+      //   &::v-deep h1.closed:after {
+      //     // background-image: url(%arrow_dark_down);
+      //   }
+      // }
 
-    &::v-deep span.SearchHighlight.active {
-      // background-color: var(--highlight-active-app-color);
+      &::v-deep section {
+        @include rem("padding-top", 11px);
+        @include rem("margin-bottom", 11px);
+        &:first-of-type {
+          padding-top: 0;
+        }
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+
+      &::v-deep h1 {
+        font-weight: 600;
+        @include font-computed(24px, 44px);
+        position: relative;
+        padding-right: 40px;
+        margin: 0;
+        color: var(--contrast);
+      }
+
+      &::v-deep h1:after {
+        right: 0px;
+        width: 35px;
+        height: 30px;
+        content: " ";
+        background-image: url('~/assets/images/chevron_up.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        display: block;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
+      &::v-deep h1.closed:after {
+        background-image: url('~/assets/images/chevron_down.svg');
+      }
     }
   }
 </style>

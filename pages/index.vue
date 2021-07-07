@@ -3,8 +3,7 @@
 </template>
 
 <script>
-// import { mapMutations } from 'vuex'
-
+// TODO: Colocar cenário de vazio e erro em todas as paginas que tem requests
 export default {
   name: 'Home',
   auth: 'guest',

@@ -1,8 +1,10 @@
 <template>
   <main class="container content__body">
     <ContentBodyHeader
-      :property-label="Full.name"
-      :is-favorite="Full.favorite"
+      is-post
+      :property-posted-by="Full.postedBy.name"
+      :property-label="Full.title"
+      :property-sub-label="Full.createdAt"
     />
     <CommomContentArticle :content="Full" />
   </main>
@@ -10,10 +12,10 @@
 
 <script>
 export default {
-  name: 'Body',
+  name: 'BodyNew',
   computed: {
     Full () {
-      return this.$store.state.content.full
+      return this.$store.state.news.full
     }
   }
 }

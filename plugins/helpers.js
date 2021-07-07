@@ -73,10 +73,14 @@ export default ({ app }, inject) => {
     },
     getContentUrl: (value) => {
       if (value === undefined) { return }
-      if (value.includes('consultamaisrapida')) {
+      if (value.includes('api.')) {
+        return value
+      } else if (value.includes('consultamaisrapida')) {
         return value.split('consultamaisrapida.com.br').pop()
-      } else {
+      } else if (value.includes('artmedmais.com.br')) {
         return value.split('artmedmais.com.br').pop()
+      } else {
+        return value
       }
     },
     formatToSlug: (value) => {
@@ -143,6 +147,7 @@ export default ({ app }, inject) => {
       return route
     },
     checkUrlArtmed: (value) => {
+      if (value.includes('api')) { return }
       return (value.includes('consultamaisrapida') || value.includes('artmedmais'))
     },
     getElapsedInterval: (date) => {

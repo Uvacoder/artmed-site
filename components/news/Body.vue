@@ -1,29 +1,41 @@
 <template>
   <main class="container content__body">
-    Notícias e Atualizações
-    <template v-if="Detail">
-      {{ News }}
-    </template>
-    <template v-else>
-      <p v-for="(newU, index) in News" :key="index">
-        {{ newU }}
-        ----------
-      </p>
-    </template>
+    <CommomBodyHeader
+      title="Notícias e Atualizações"
+    />
+    <NewsArticles
+      :items="News"
+    />
+    <infinite-loading v-if="News.length >= 20" @infinite="infiniteHandler" />
   </main>
 </template>
 
 <script>
-// TODO: noticias
-// TODO: interna da noticias
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Body',
   computed: {
     News () {
       return this.$store.state.news.items
-    },
-    Detail () {
-      return this.$store.state.news.detail
+    }
+  },
+  methods: {
+    ...mapActions([
+      'news/loadNews'
+    ]),
+    ...mapActions({
+      loadNews: 'news/loadNews'
+    }),
+    infiniteHandler ($state) {
+      this.loadNews()
+        .then((data) => {
+          if (data.length > 0) {
+            $state.loaded()
+          } else {
+            $state.complete()
+          }
+        })
     }
   }
 }

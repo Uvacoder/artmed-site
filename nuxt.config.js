@@ -1,6 +1,8 @@
 export default {
   // flavor: 'clin',
+  // emailFlavor: 'artmed+clin@artmed.com.br',
   flavor: 'psi',
+  emailFlavor: 'artmed+psi@artmed.com.br',
   // Global page headers: https://go.nuxtjs.dev/config-head
   // head: {
   //   title: 'Artmed+CLIN',
@@ -125,7 +127,7 @@ export default {
         endpoints: {
           userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
         },
-        clientId: '...',
+        clientId: '590824438481855',
         scope: ['public_profile', 'email']
       },
       google: {

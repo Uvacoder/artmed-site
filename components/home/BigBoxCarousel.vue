@@ -4,7 +4,7 @@
       <div class="big-box-carousel__item">
         <NuxtLink
           class="big-box-carousel__link"
-          :to="{ name: 'conteudo-id', params: { id: $helpers.getContentUrlId(item.url) } }"
+          :to="$helpers.getContentUrl(item.url)"
         >
           <b-card
             :title="item.title"
@@ -23,7 +23,7 @@
 
 <script>
 import VueHorizontalList from 'vue-horizontal-list'
-// TODO: definir as rotas de acordo com o conteudo
+
 export default {
   name: 'BigBoxCarousel',
   components: {
