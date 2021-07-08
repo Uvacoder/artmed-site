@@ -49,7 +49,9 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap'
   ],
 
   bootstrapVue: {
