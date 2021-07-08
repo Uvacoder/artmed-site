@@ -57,13 +57,21 @@ export default {
     }
   },
   methods: {
-    login () {
-      const link = {
-        Facebook: this.$auth.loginWith('facebook'),
-        Google: '#google',
-        Apple: '#apple'
+    async login () {
+      try {
+        const socialSource = this.social.toLowerCase()
+        await this.$auth.loginWith(socialSource)
+          .then((response) => {
+            const endpoint = this.$api.EndPoints.socialLogin
+            const params = {
+              token: 'nblsldls',
+              source: socialSource
+            }
+            console.log(response, endpoint, params)
+          })
+      } catch (error) {
+        console.log(error)
       }
-      return link[this.social]
     }
   }
 }
