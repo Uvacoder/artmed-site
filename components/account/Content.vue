@@ -23,6 +23,7 @@
         align-h="center"
       >
         <section class="content-right-side">
+          {{ window }}
           <header v-if="isDesktop === false" class="content-right-side__logo-slogan d-block d-lg-none">
             <CommomLogo />
             <AccountSlogan />
