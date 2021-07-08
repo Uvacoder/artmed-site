@@ -7,8 +7,18 @@
             variant="primary"
             :text="$helpers.initialName(avatar.name)"
           />
-          <h4>{{ avatar.name }}</h4>
-          <span class="avatar-container__email">{{ avatar.email }}</span>
+          <template v-if="user">
+            <h4>{{ avatar.name }}</h4>
+            <span class="avatar-container__email">{{ avatar.email }}</span>
+          </template>
+          <template v-else>
+            <NuxtLink
+              to="/login"
+              class="login-link"
+            >
+              Fazer Login
+            </NuxtLink>
+          </template>
         </div>
       </b-col>
       <b-col md="9">
@@ -88,6 +98,14 @@ export default {
         @include font-computed(16px, 20px);
         color: var(--gray-4);
         opacity: 0.65;
+      }
+
+      .login-link {
+        @include font-computed(24px, 31px);
+        color: var(--contrast);
+        &:hover {
+          color: var(--four);
+        }
       }
     }
 

@@ -1,13 +1,13 @@
 export default {
-  flavor: 'psi',
-  emailFlavor: 'artmed+psi@artmed.com.br',
+  flavor: 'clin',
+  emailFlavor: 'artmed+clin@artmed.com.br',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Artmed+PSI',
+    title: 'Artmed+CLIN',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'O seu guia para a tomada de decisão clínica de saúde mental.' }
+      { hid: 'description', name: 'description', content: 'O seu guia para a tomada de decisão clínica.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -17,7 +17,6 @@ export default {
       }
     ]
   },
-
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -60,7 +59,7 @@ export default {
     scss: [
       './assets/scss/_bootstrap.scss',
       './assets/scss/_color-system.scss',
-      './assets/scss/_color-psi.scss',
+      './assets/scss/_color-clin.scss',
       './assets/scss/_mixins.scss'
     ]
   },
@@ -70,7 +69,7 @@ export default {
     baseURL: 'https://api.consultamaisrapida.com.br/',
     headers: {
       common: {
-        'X-APP': '2'
+        'X-APP': '1'
       }
     }
   },
