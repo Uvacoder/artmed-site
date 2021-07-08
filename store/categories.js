@@ -23,7 +23,8 @@ export const actions = {
       .then((response) => {
         const data = response.data
         if (Array.isArray(data)) {
-          commit('SET_ITEMS', response.data.sort(function (a, b) { return (a.weight ?? 0) < (b.weight ?? 1) }))
+          const ord = response.data.sort(function (a, b) { return a.weight < b.weight })
+          commit('SET_ITEMS', ord)
         } else {
           commit('SET_ITEMS', data)
         }
