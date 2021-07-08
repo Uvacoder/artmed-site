@@ -162,6 +162,11 @@ export default {
     }
   },
 
+  loading: {
+    color: '#01826C',
+    height: '5px'
+  },
+
   server: {
     host: '0.0.0.0'
     // https: {

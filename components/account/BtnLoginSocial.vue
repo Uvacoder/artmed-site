@@ -61,13 +61,13 @@ export default {
       try {
         const socialSource = this.social.toLowerCase()
         await this.$auth.loginWith(socialSource)
-          .then((response) => {
+          .then(async (response) => {
             const endpoint = this.$api.EndPoints.socialLogin
             const params = {
-              token: 'nblsldls',
+              token: response,
               source: socialSource
             }
-            console.log(response, endpoint, params)
+            await this.$api.request(endpoint, params)
           })
       } catch (error) {
         console.log(error)
