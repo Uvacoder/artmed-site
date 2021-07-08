@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   flavor: 'psi',
   emailFlavor: 'artmed+psi@artmed.com.br',
@@ -135,6 +137,28 @@ export default {
   build: {
     babel: {
       compact: true
+    }
+  },
+
+  sitemap: {
+    hostname: 'https://dev-artmed-site.vercel.app/',
+    gzip: true,
+    routes: async () => {
+      let routes = []
+      const baseURL = 'https://api.consultamaisrapida.com.br/'
+      const headers = { common: { 'X-APP': '2' } }
+      const [categories, contents, news] = await Promise.all([
+        axios.get(`${baseURL}categories?version=2&start=0&limit=0`, headers),
+        axios.get(`${baseURL}contents?version=8&start=0`, headers),
+        axios.get(`${baseURL}news?start=0`, headers)
+      ])
+      routes = [
+        ...routes,
+        ...categories.data.data.map(category => `/categorias/${category.id}`),
+        ...contents.data.data.map(content => `/conteudo/${content.id}`),
+        ...news.data.data.map(article => `/conteudo/${article.objectId}`)
+      ]
+      return routes
     }
   },
 

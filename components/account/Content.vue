@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="content">
     <b-row>
-      <b-col v-if="isDesktop" col lg="4" class="d-none d-lg-block">
+      <b-col lg="4" class="d-none d-lg-block">
         <aside
           class="content-left-side"
           :style="{ backgroundImage: `${backgroundImage}` }"
@@ -23,8 +23,7 @@
         align-h="center"
       >
         <section class="content-right-side">
-          {{ window }}
-          <header v-if="isDesktop === false" class="content-right-side__logo-slogan d-block d-lg-none">
+          <header class="content-right-side__logo-slogan d-block d-lg-none">
             <CommomLogo />
             <AccountSlogan />
           </header>
@@ -53,7 +52,7 @@
             </template>
           </section>
 
-          <footer v-if="isDesktop === false" class="content-right-side__logo-slogan d-block d-lg-none">
+          <footer class="content-right-side__logo-slogan d-block d-lg-none">
             <AccountGroupBtnStore />
           </footer>
         </section>
