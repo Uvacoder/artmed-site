@@ -95,16 +95,6 @@ export default {
           logout: false,
           user: { url: 'users/id?version=3', method: 'get' }
         }
-      },
-      facebook: {
-        endpoints: {
-          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
-        },
-        clientId: '826140368032870',
-        scope: ['public_profile', 'email']
-      },
-      google: {
-        clientId: '...'
       }
     },
     redirect: {

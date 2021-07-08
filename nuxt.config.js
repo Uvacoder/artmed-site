@@ -103,7 +103,7 @@ export default {
         endpoints: {
           userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
         },
-        clientId: '590824438481855',
+        clientId: '826140368032870',
         scope: ['public_profile', 'email']
       },
       google: {
@@ -169,9 +169,5 @@ export default {
 
   server: {
     host: '0.0.0.0'
-    // https: {
-    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-    // }
   }
 }
