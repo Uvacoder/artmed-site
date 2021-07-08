@@ -23,7 +23,7 @@
         align-h="center"
       >
         <section class="content-right-side">
-          <header v-if="!isDesktop" class="content-right-side__logo-slogan d-block d-lg-none">
+          <header v-if="isDesktop === false" class="content-right-side__logo-slogan d-block d-lg-none">
             <CommomLogo />
             <AccountSlogan />
           </header>
@@ -52,7 +52,7 @@
             </template>
           </section>
 
-          <footer v-if="!isDesktop" class="content-right-side__logo-slogan d-block d-lg-none">
+          <footer v-if="isDesktop === false" class="content-right-side__logo-slogan d-block d-lg-none">
             <AccountGroupBtnStore />
           </footer>
         </section>
