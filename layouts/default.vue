@@ -1,62 +1,90 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <Nuxt />
 </template>
 
-<style>
-html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+export default {
+  name: 'Default',
+  head () {
+    return {
+      bodyAttrs: {
+        class: [
+          this.color
+        ]
+      }
+    }
+  },
+  computed: {
+    app () {
+      return `theme--${this.$store.state.theme.config.app}`
+    },
+    color () {
+      return this.$store.state.theme.config.darkMode ? 'dark sys--dark' : 'light sys--light'
+    }
+  },
+  beforeMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+    handleResize () {
+      this.$store.commit('window/SET_WIDTH', window.innerWidth)
+      this.$store.commit('window/SET_HEIGHT', window.innerHeight)
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+:root {
+  --font-family-sans-serif: #{inspect($font-family-sans-serif)};
+  // --background-fill: #{inspect($color-background-fill-light)};
+  // --gray-1: #{inspect($color-gray-1-light)};
+  // --gray-2: #{inspect($color-gray-2-light)};
+  // --gray-3: #{inspect($color-gray-3-light)};
+  // --gray-4: #{inspect($color-gray-4-light)};
+  // --contrast: #{inspect($color-contrast-light)};
+
+  // --one-four: #{inspect($color-one-four)};
+  // --two-three: #{inspect($color-two-three)};
+  // --three-two: #{inspect($color-three-two)};
+  // --four-one: #{inspect($color-four-one)};
+  // --five: #{inspect($color-five-light)};
+  // --degrade-one: #{inspect($color-degrade-one-light)};
+  // --degrade-two: #{inspect($color-degrade-two-light)};
+
+  --main-bg-color: %bg_color;
+  --main-txt-color: %txt_color;
+  --main-color: %app_color;
+  --input-bg-color: %input_bg_color;
+  --input-stroke-color: %input_stroke_color;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
+body {
+  font-family: $font-family-base;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
+@media (prefers-color-scheme: dark) {
+  :root {
+    // --background-fill: #{inspect($color-background-fill-dark)};
+    // --gray-1: #{inspect($color-gray-1-dark)};
+    // --gray-2: #{inspect($color-gray-2-dark)};
+    // --gray-3: #{inspect($color-gray-3-dark)};
+    // --gray-4: #{inspect($color-gray-4-dark)};
+    // --contrast: #{inspect($color-contrast-dark)};
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
+    // --five: #{inspect($color-five-dark)};
+    // --degrade-one: #{inspect($color-degrade-one-dark)};
+    // --degrade-two: #{inspect($color-degrade-two-dark)};
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+    --main-bg-color: %bg_dark_color;
+    --main-txt-color: %txt_dark_color;
+    --main-color: %app_dark_color;
+    --input-bg-color: %input_bg_dark_color;
+    --input-stroke-color: %input_stroke_dark_color;
+  }
 }
 </style>

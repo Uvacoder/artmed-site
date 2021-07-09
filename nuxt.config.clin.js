@@ -1,15 +1,13 @@
-import axios from 'axios'
-
 export default {
-  flavor: 'psi',
-  emailFlavor: 'artmed+psi@artmed.com.br',
+  flavor: 'clin',
+  emailFlavor: 'artmed+clin@artmed.com.br',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Artmed+PSI',
+    title: 'Artmed+CLIN',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'O seu guia para a tomada de decisão clínica de saúde mental.' }
+      { hid: 'description', name: 'description', content: 'O seu guia para a tomada de decisão clínica.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -19,7 +17,6 @@ export default {
       }
     ]
   },
-
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -64,7 +61,7 @@ export default {
     scss: [
       './assets/scss/_bootstrap.scss',
       './assets/scss/_color-system.scss',
-      './assets/scss/_color-psi.scss',
+      './assets/scss/_color-clin.scss',
       './assets/scss/_mixins.scss'
     ]
   },
@@ -74,7 +71,7 @@ export default {
     baseURL: 'https://api.consultamaisrapida.com.br/',
     headers: {
       common: {
-        'X-APP': '2'
+        'X-APP': '1'
       }
     }
   },
@@ -98,24 +95,6 @@ export default {
           logout: false,
           user: { url: 'users/id?version=3', method: 'get' }
         }
-      },
-      facebook: {
-        endpoints: {
-          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
-        },
-        clientId: '1595783943835107',
-        scope: ['public_profile', 'email']
-      },
-      google: {
-        clientId: '...'
-      },
-      customOauth2: {
-        scheme: '~/schemes/CustomOauth2Scheme.js',
-        endpoints: {
-          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
-        },
-        clientId: '...',
-        scope: ['public_profile', 'email']
       }
     },
     redirect: {
@@ -146,33 +125,6 @@ export default {
     babel: {
       compact: true
     }
-  },
-
-  sitemap: {
-    hostname: 'https://dev-artmed-site.vercel.app/',
-    gzip: true,
-    routes: async () => {
-      let routes = []
-      const baseURL = 'https://api.consultamaisrapida.com.br/'
-      const headers = { common: { 'X-APP': '2' } }
-      const [categories, contents, news] = await Promise.all([
-        axios.get(`${baseURL}categories?version=2&start=0&limit=0`, headers),
-        axios.get(`${baseURL}contents?version=8&start=0`, headers),
-        axios.get(`${baseURL}news?start=0`, headers)
-      ])
-      routes = [
-        ...routes,
-        ...categories.data.data.map(category => `/categorias/${category.id}`),
-        ...contents.data.data.map(content => `/conteudo/${content.id}`),
-        ...news.data.data.map(article => `/conteudo/${article.objectId}`)
-      ]
-      return routes
-    }
-  },
-
-  loading: {
-    color: '#01826C',
-    height: '5px'
   },
 
   server: {

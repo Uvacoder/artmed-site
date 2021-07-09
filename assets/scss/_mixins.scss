@@ -1,0 +1,232 @@
+$font-size-base-px: 16px !default;
+
+@function parse-int($n) {
+  @return $n / ($n * 0 + 1);
+}
+
+@mixin rem($property, $values, $important: false) {
+  $px: ();
+  $rem: ();
+  
+  @each $value in $values {
+    @if $value == 0 or $value == auto {
+      $px: append($px, $value);
+      $rem: append($rem, $value);
+    }
+    
+    @else {
+      $unit: unit($value);
+      $val: parse-int($value);
+      $base: parse-int($font-size-base-px);
+      
+      @if $unit == "px" {
+        $px: append($px, $value);
+        $rem: append($rem, (($val / $base) * 1rem));
+      }
+      
+      @if $unit == "rem" {
+        $px: append($px, (($val * $base) * 1px));
+        $rem: append($rem, $value);
+      }
+    }
+  }
+  
+  @if $px == $rem {
+    #{$property}: $px if($important, !important, null);
+  }
+  
+  @else {
+    #{$property}: $px if($important, !important, null);
+    #{$property}: $rem if($important, !important, null);
+  }
+}
+
+@mixin font-computed($font, $lh: 0, $ls: 0) {
+  $px: ();
+  
+  @if unit($font) == "rem" {
+    $font: (parse-int($font) * parse-int($font-size-base-px)) * 1px;
+  }
+  
+  @include rem("font-size", $font);
+  
+  @if $lh != 0 {
+    @include rem("line-height", $lh);
+  }
+  
+  @else {
+    $lh: 8 * round(($font + ($font * 20/100)) / 8);
+    
+    @if ($font == $lh) {
+      @include rem("line-height", $lh + 4);
+    }
+    
+    @else {
+      @include rem("line-height", $lh);
+    }
+  }
+  
+  @if $ls != 0 {
+    @include rem("letter-spacing", $ls);
+  }
+}
+
+@mixin account-form() {
+  &::v-deep label,
+  &__link a {
+    @include account-link();
+    @include font-computed(16px, 20px);
+  }
+
+  &::v-deep label {
+    color: var(--contrast);
+  }
+
+  &__btn--submit {
+    @include account-form-btn();
+  }
+}
+
+@mixin account-link() {
+  color: var(--three);
+  font-weight: 600;
+}
+
+@mixin account-input() {
+  .form-control {
+    border: 1px solid var(--gray-3);
+
+    @include rem("border-radius", 6px);
+    @include rem("padding", 14px 12px);
+    @include rem("height", 50px);
+
+    &::-webkit-input-placeholder { /* Edge */
+      color: var(--gray-4);
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: var(--gray-4);
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &::placeholder {
+      color: var(--gray-4);
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &--password {
+      border-right: none;
+    }
+  }
+
+  .was-validated
+  .form-control:invalid,
+  .form-control.is-invalid {
+    &::-webkit-input-placeholder { /* Edge */
+      color: #dc3545;
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #dc3545;
+    }
+
+    &::placeholder {
+      color: #dc3545;
+    }
+  }
+
+  .form-control__switchVisibility {
+    border: 1px solid var(--gray-3);
+    border-left: none;
+    color: var(--gray-4);
+    @include rem("border-radius", 6px);
+  }
+
+  .is-invalid .form-control__switchVisibility {
+    border-color: #dc3545;
+  }
+
+  .is-valid .form-control__switchVisibility {
+    border-color: var(--four);
+  }
+}
+
+@mixin account-select() {
+  .custom-select {
+    border: 1px solid var(--gray-3);
+    color: var(--four);
+    background: var(--gray-1);
+    text-align-last: center;
+    text-align: center;
+
+    @include rem("border-radius", 6px);
+    @include rem("padding", 14px 12px);
+    @include rem("height", 50px);
+
+    &::-webkit-input-placeholder { /* Edge */
+      color: var(--four);
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: var(--four);
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+
+    &::placeholder {
+      color: var(--four);
+      font-weight: 600;
+      @include font-computed(16px, 20px);
+    }
+  }
+
+  .was-validated
+  .custom-select:invalid,
+  .custom-select.is-invalid {
+    &::-webkit-input-placeholder { /* Edge */
+      color: #dc3545;
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #dc3545;
+    }
+
+    &::placeholder {
+      color: #dc3545;
+    }
+  }
+}
+
+@mixin account-form-btn() {
+  color: var(--background-fill);
+
+  background-color: var(--three-darken);
+  border-color: var(--three-darken);
+
+  font-weight: 600;
+  text-align: center;
+
+  @include font-computed(16px, 20px);
+  @include rem("border-radius", 6px);
+  @include rem("height", 50px);
+  @include rem("margin-bottom", 16px);
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: var(--three-darken);
+    border-color: var(--three-darken);
+  }
+}
+
+@mixin background-border() {
+  background: var(--gray-1);
+  border: 1px solid var(--gray-3);
+  border-radius: 6px;
+}
