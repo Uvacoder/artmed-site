@@ -57,22 +57,23 @@ export default {
     }
   },
   methods: {
-    login () {
-      // try {
-      //   const socialSource = this.social.toLowerCase()
-      //   await this.$auth.loginWith(socialSource)
-      //     .then(async (response) => {
-      //       const endpoint = this.$api.EndPoints.socialLogin
-      //       const params = {
-      //         token: response,
-      //         source: socialSource
-      //       }
-      //       await this.$api.request(endpoint, params)
-      //     })
-      // } catch (error) {
-      //   console.log(error)
-      // }
-      alert('Ainda não implementado! Desculpa')
+    async login () {
+      try {
+        const socialSource = this.social.toLowerCase()
+        await this.$auth.loginWith(socialSource)
+          .then(async (response) => {
+            const endpoint = this.$api.EndPoints.socialLogin
+            const params = {
+              token: response,
+              source: socialSource
+            }
+            await this.$api.request(endpoint, params)
+          })
+      } catch (error) {
+        console.log(error)
+      }
+      // alert('Ainda não implementado! Desculpa')
+      // await this.$auth.loginWith('customOauth2', { data: 'dd' })
     }
   }
 }
