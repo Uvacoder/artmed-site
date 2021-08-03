@@ -60,18 +60,20 @@ export default {
     async login () {
       try {
         const socialSource = this.social.toLowerCase()
-        alert('socialSource', socialSource)
+        alert(`socialSource ${socialSource}`)
         await this.$auth.loginWith(socialSource)
-          .then(async () => {
-            alert('token', this.$auth)
-            alert('token', this.$auth.strategy.token.get())
-            const endpoint = this.$api.EndPoints.socialLogin
-            const params = {
-              token: this.$auth.strategy.token.get(),
-              source: socialSource
-            }
-            await this.$api.request(endpoint, params)
-          })
+        if (this.$auth.loggedIn) {
+          alert(`token ${this.$auth}`)
+          alert(`token ${this.$auth.strategy.token.get()}`)
+          const endpoint = this.$api.EndPoints.socialLogin
+          const params = {
+            token: this.$auth.strategy.token.get(),
+            source: socialSource
+          }
+          await this.$api.request(endpoint, params)
+        } else {
+          this.$auth.logout()
+        }
       } catch (error) {
         console.log(error)
       }
