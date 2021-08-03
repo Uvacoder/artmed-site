@@ -63,6 +63,7 @@ export default {
         console.log('socialSource', socialSource)
         await this.$auth.loginWith(socialSource)
           .then(async () => {
+            console.log('token', this.$auth.strategy.token.get())
             const endpoint = this.$api.EndPoints.socialLogin
             const params = {
               token: this.$auth.strategy.token.get(),
