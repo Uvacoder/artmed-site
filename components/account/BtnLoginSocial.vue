@@ -62,6 +62,7 @@ export default {
         const socialSource = this.social.toLowerCase()
         await this.$auth.loginWith(socialSource)
           .then(async (response) => {
+            console.log(response)
             const endpoint = this.$api.EndPoints.socialLogin
             const params = {
               token: response,
