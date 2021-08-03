@@ -101,6 +101,7 @@ export default {
         }
       },
       facebook: {
+        redirect: false,
         token: {
           maxAge: 0
         },
