@@ -61,21 +61,19 @@ export default {
       try {
         const socialSource = this.social.toLowerCase()
         alert(`socialSource ${socialSource}`)
-        await this.$auth.loginWith(socialSource).then(() => {
-          this.$nextTick(async () => {
-            if (this.$auth.loggedIn) {
-              alert(`token ${this.$auth}`)
-              alert(`token ${this.$auth.strategy.token.get()}`)
-              const endpoint = this.$api.EndPoints.socialLogin
-              const params = {
-                token: this.$auth.strategy.token.get(),
-                source: socialSource
-              }
-              await this.$api.request(endpoint, params)
-            } else {
-              this.$auth.logout()
+        await this.$auth.loginWith(socialSource).then(async () => {
+          if (this.$auth.loggedIn) {
+            alert(`token ${this.$auth}`)
+            alert(`token ${this.$auth.strategy.token.get()}`)
+            const endpoint = this.$api.EndPoints.socialLogin
+            const params = {
+              token: this.$auth.strategy.token.get(),
+              source: socialSource
             }
-          })
+            await this.$api.request(endpoint, params)
+          } else {
+            this.$auth.logout()
+          }
         })
       } catch (error) {
         console.log(error)

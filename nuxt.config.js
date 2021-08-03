@@ -80,7 +80,12 @@ export default {
   },
 
   auth: {
-    plugins: [{ src: '~/plugins/api.js', ssr: true }],
+    watchLoggedIn: true,
+    watchUser: true,
+    plugins: [
+      { src: '~/plugins/api.js', ssr: true },
+      { src: '~/plugins/auth.js', ssr: true }
+    ],
     strategies: {
       custom: {
         scheme: '~/schemes/customScheme.js',
@@ -101,7 +106,6 @@ export default {
         }
       },
       facebook: {
-        redirect: false,
         token: {
           maxAge: 0
         },
