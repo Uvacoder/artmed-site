@@ -4,7 +4,60 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
 
   // api.onRequest((config) => {
   //   console.log('Making request to: ', config)
+  //   if (!config.url.includes('https://api.consultamaisrapida.com.br/sessions/')) {
+  //     api.refreshToken()
+  //   }
   // })
+
+  api.refreshToken = function () {
+    return new Promise((resolve, reject) => {
+      const authToken = store.$auth.strategy.token.get()
+      if (authToken !== false) {
+        const authToken = store.$auth.strategy.token.get()
+        const endpoint = api.EndPoints.refreshToken
+        endpoint.session = authToken.session
+        endpoint.token = authToken.access
+        api.request(endpoint, {})
+          .then((res) => {
+            store.$auth.setUserToken(res.data.token)
+            resolve(res)
+          })
+          .catch((e) => {
+            reject(e)
+          })
+      }
+    })
+  }
+
+  api.onResponse((response) => {
+    const { status } = response ?? 0
+    if (status >= 200 && status <= 299) {
+      return response
+    } else {
+      if (status !== 419) {
+        console.log('419')
+        api.refreshToken()
+        return null
+      }
+      if (status !== 401) {
+        console.log('401')
+        store.$auth.logout()
+      }
+    }
+  })
+
+  api.onError((error) => {
+    if (error.response) {
+      console.log('req', error.response)
+      // if (error.response.status === 422) {
+      //   await api.refreshToken()
+      // }
+    } else if (error.request) {
+      console.log('req', error.request)
+    } else {
+      console.log('Error', error.message)
+    }
+  })
 
   // Set baseURL to something different
   // api.setBaseURL('http://api.dev.consultamaisrapida.com.br/')
@@ -117,11 +170,13 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
 
   api.method = function () {
     let token = null
+
     if (store.$auth.user !== null) {
       token = store.$auth.strategy.token.get().access
     } else if (this.endpoint.token !== null && this.endpoint.token !== undefined) {
       token = this.endpoint.token.access
     }
+
     api.setToken(token, 'Bearer')
 
     switch (this.endpoint) {
@@ -149,7 +204,12 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
   api.request = function (endpoint, params) {
     this.endpoint = endpoint
     this.params = params
-    return this.method()
+    try {
+      return this.method()
+    } catch (error) {
+      // console.log('error', error)
+      return error
+    }
   }
   // Inject to context as $api
   inject('api', api)

@@ -17,7 +17,9 @@
       <h1 class="body-header__title">
         {{ propertyLabel }}
       </h1>
-      <b-button-toolbar>
+      <b-button-toolbar
+        v-if="hasFavoriteOption"
+      >
         <b-button-group>
           <b-button
             variant="link"
@@ -61,6 +63,11 @@ export default {
       type: String,
       default: null,
       required: false
+    }
+  },
+  computed: {
+    hasFavoriteOption () {
+      return (this.isFavorite !== null)
     }
   },
   methods: {

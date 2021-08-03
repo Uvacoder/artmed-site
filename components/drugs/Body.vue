@@ -1,6 +1,8 @@
 <template>
   <main class="container content__body">
-    Profile
+    <ContentBodyHeader
+      property-label="Interações Medicamentosas"
+    />
   </main>
 </template>
 

@@ -88,7 +88,8 @@ export default {
           property: 'data.token',
           global: true,
           required: true,
-          type: 'Bearer'
+          type: 'Bearer',
+          maxAge: 0
         },
         user: {
           property: 'data'
@@ -103,7 +104,7 @@ export default {
         endpoints: {
           userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
         },
-        clientId: '1595783943835107',
+        clientId: '590824438481855',
         scope: ['public_profile', 'email']
       },
       google: {
