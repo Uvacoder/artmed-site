@@ -60,9 +60,10 @@ export default {
     async login () {
       try {
         const socialSource = this.social.toLowerCase()
+        console.log('socialSource', socialSource)
         await this.$auth.loginWith(socialSource)
           .then(async (response) => {
-            console.log(response)
+            console.log('response', response)
             const endpoint = this.$api.EndPoints.socialLogin
             const params = {
               token: response,
