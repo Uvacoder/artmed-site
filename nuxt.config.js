@@ -101,6 +101,9 @@ export default {
         }
       },
       facebook: {
+        token: {
+          maxAge: 0
+        },
         endpoints: {
           userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
         },
