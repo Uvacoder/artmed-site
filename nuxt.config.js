@@ -106,6 +106,7 @@ export default {
         }
       },
       facebook: {
+        scheme: '~/schemes/CustomOauth2Scheme.js',
         token: {
           maxAge: 0
         },
