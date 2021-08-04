@@ -15,6 +15,7 @@ export default class CustomScheme extends Oauth2Scheme {
       return
     }
     alert('aqui')
+    console.log(this.$api)
     const socialMedia = this.$auth.$storage.getLocalStorage('strategy')
     let token = this.$auth.strategy.token.get()
     const end = this.$api.EndPoints.socialLogin
