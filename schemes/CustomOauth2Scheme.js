@@ -22,6 +22,7 @@ export default class CustomScheme extends Oauth2Scheme {
       token,
       source: socialMedia
     }
+    alert('alilokok')
     await this.$api.request(end, params).then((response) => {
       token = response.data.data.token
     })
