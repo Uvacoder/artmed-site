@@ -111,7 +111,8 @@ export default {
           maxAge: 0
         },
         endpoints: {
-          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
+          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}',
+          user: { url: 'users/id?version=3', method: 'get' }
         },
         clientId: '590824438481855',
         scope: ['public_profile', 'email']

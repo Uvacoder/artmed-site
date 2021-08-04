@@ -14,8 +14,18 @@ export default class CustomScheme extends Oauth2Scheme {
       this.$auth.setUser({})
       return
     }
-
-    const token = this.$auth.strategy.token.get()
+    alert('aqui')
+    const socialMedia = this.$auth.$storage.getLocalStorage('strategy')
+    let token = this.$auth.strategy.token.get()
+    const end = this.$api.EndPoints.socialLogin
+    const params = {
+      token,
+      source: socialMedia
+    }
+    await this.$api.request(end, params).then((response) => {
+      token = response.data.data.token
+    })
+    alert(`ali ${token.access}`)
     const jwt = jwtDecode(token.access)
     const endpointUser = this.options.endpoints.user
     endpointUser.url = endpointUser.url.replace('id', jwt.id)
