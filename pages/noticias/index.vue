@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'NotíciasEAtualizações',
-  auth: false,
+  // auth: false,
   async asyncData (context) {
     await Promise.all([
       await context.store.dispatch('news/loadNews')

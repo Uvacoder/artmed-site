@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'BuscaResultado',
-  auth: false,
+  // auth: false,
   async asyncData (context) {
     if (context.route.query.categorias !== undefined && context.route.query.categorias.length > 0) {
       context.store.commit('search/SET_SELECTEDCATEGORIES', context.route.query.categorias.split(','))

@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'Categoria',
-  auth: false,
+  // auth: false,
   async asyncData (context) {
     await Promise.all([context.store.dispatch('content/contentByCategory', context.route.params.id)])
   }

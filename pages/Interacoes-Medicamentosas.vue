@@ -5,7 +5,7 @@
 <script>
 // TODO: InteraçõesMedicamentosas
 export default {
-  name: 'InteraçõesMedicamentosas',
-  auth: false
+  name: 'InteraçõesMedicamentosas'
+  // auth: false
 }
 </script>

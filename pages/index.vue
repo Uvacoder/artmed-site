@@ -6,7 +6,7 @@
 // TODO: Colocar cenário de vazio e erro em todas as paginas que tem requests
 export default {
   name: 'Home',
-  auth: 'guest',
+  // auth: 'guest',
   async asyncData (context) {
     await Promise.all([
       await context.store.dispatch('categories/load'),

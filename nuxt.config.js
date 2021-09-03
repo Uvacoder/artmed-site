@@ -79,15 +79,16 @@ export default {
     }
   },
 
+  // router: {
+  //   middleware: ['auth']
+  // },
+
   auth: {
-    watchLoggedIn: true,
-    watchUser: true,
     plugins: [
-      { src: '~/plugins/api.js', ssr: true },
-      { src: '~/plugins/auth.js', ssr: true }
+      { src: '~/plugins/api.js', ssr: true }
     ],
     strategies: {
-      custom: {
+      artmed: {
         scheme: '~/schemes/customScheme.js',
         token: {
           property: 'data.token',
@@ -97,7 +98,8 @@ export default {
           maxAge: 0
         },
         user: {
-          property: 'data'
+          property: 'data',
+          autoFecth: false
         },
         endpoints: {
           login: { url: 'sessions?version=1', method: 'post' },
@@ -106,39 +108,41 @@ export default {
         }
       },
       facebook: {
-        scheme: '~/schemes/CustomOauth2Scheme.js',
-        token: {
-          maxAge: 0
+        scheme: '~/schemes/customOauth.js',
+        clientId: '1595783943835107',
+        user: {
+          autoFecth: false
         },
         endpoints: {
-          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}',
-          user: { url: 'users/id?version=3', method: 'get' }
+          authorization: 'https://facebook.com/v6.0/dialog/oauth',
+          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
         },
-        clientId: '590824438481855',
         scope: ['public_profile', 'email']
       },
       google: {
-        clientId: '...'
-      },
-      customOauth2: {
-        scheme: '~/schemes/CustomOauth2Scheme.js',
-        endpoints: {
-          userInfo: 'https://graph.facebook.com/v6.0/me?fields=id,name,picture{url}'
+        scheme: '~/schemes/customOauth.js',
+        clientId: '629549812301-j17lbuuu4j80h06pv0qsiqccej4dcl47.apps.googleusercontent.com',
+        user: {
+          autoFecth: false
         },
-        clientId: '...',
-        scope: ['public_profile', 'email']
+        endpoints: {
+          authorization: 'https://accounts.google.com/o/oauth2/v2/auth',
+          userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo'
+        },
+        scope: ['profile', 'email'],
+        codeChallengeMethod: '',
+        responseType: 'id_token',
+        token: {
+          property: 'id_token'
+        }
       }
     },
     redirect: {
       login: '/login',
-      logout: '/',
+      logout: false,
       callback: '/login',
       home: '/'
     }
-  },
-
-  router: {
-    middleware: ['auth']
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

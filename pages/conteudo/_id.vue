@@ -6,7 +6,7 @@
 // verificar se é premium e redirecionar para assinatura
 export default {
   name: 'ConteudoId',
-  auth: false,
+  // auth: false,
   components: {},
   directives: {},
   props: {},

@@ -59,8 +59,7 @@ export default {
   methods: {
     async login () {
       try {
-        const socialSource = this.social.toLowerCase()
-        await this.$auth.loginWith(socialSource)
+        await this.$auth.loginWith(this.social.toLowerCase())
       } catch (error) {
         console.log(error)
       }

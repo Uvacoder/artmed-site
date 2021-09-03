@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'RecuperarSenha',
-  auth: 'guest'
+  name: 'RecuperarSenha'
+  // auth: 'guest'
 }
 </script>

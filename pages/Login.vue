@@ -7,6 +7,11 @@
 <script>
 export default {
   name: 'Login',
-  auth: 'guest'
+  // auth: 'guest',
+  async asyncData (context) {
+    await Promise.all([
+      context.$auth.logout()
+    ])
+  }
 }
 </script>

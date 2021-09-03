@@ -6,7 +6,7 @@
 // TODO: arrumar bug da home
 export default {
   name: 'Perfil',
-  auth: false,
+  // auth: false,
   async asyncData (context) {
     if (context.$auth.loggedIn) {
       await Promise.all([

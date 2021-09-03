@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'Assinatura',
-  auth: true
+  name: 'Assinatura'
+  // auth: true
 }
 </script>

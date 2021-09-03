@@ -1,6 +1,5 @@
 <template>
   <div class="content">
-    user: {{ $auth.user }}
     <CommomHeader />
     <component :is="body" />
     <CommomFooter />

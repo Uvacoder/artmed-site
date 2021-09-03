@@ -4,9 +4,9 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
 
   // api.onRequest((config) => {
   //   console.log('Making request to: ', config)
-  //   if (!config.url.includes('https://api.consultamaisrapida.com.br/sessions/')) {
-  //     api.refreshToken()
-  //   }
+  //   // if (!config.url.includes('https://api.consultamaisrapida.com.br/sessions/')) {
+  //   //   api.refreshToken()
+  //   // }
   // })
 
   api.refreshToken = function () {
@@ -31,6 +31,7 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
 
   api.onResponse((response) => {
     const { status } = response ?? 0
+    // console.log(response)
     if (status >= 200 && status <= 299) {
       return response
     } else {
@@ -58,9 +59,6 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
       console.log('Error', error.message)
     }
   })
-
-  // Set baseURL to something different
-  // api.setBaseURL('http://api.dev.consultamaisrapida.com.br/')
 
   api.endpoint = null
   api.params = null
@@ -171,12 +169,19 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
   api.method = function () {
     let token = null
 
-    if (store.$auth.user !== null) {
-      token = store.$auth.strategy.token.get().access
-    } else if (this.endpoint.token !== null && this.endpoint.token !== undefined) {
+    if (store.$auth.loggedIn && store.$auth.user !== null) {
+      if (store.$auth.strategy !== 'custom') {
+        token = store.$auth.$storage.getUniversal('artmed').access
+      } else {
+        token = store.$auth.strategy.token.get().access
+      }
+    }
+
+    if (this.endpoint.token !== null && this.endpoint.token !== undefined) {
       token = this.endpoint.token.access
     }
 
+    // console.log('token: ', token)
     api.setToken(token, 'Bearer')
 
     switch (this.endpoint) {
@@ -207,10 +212,10 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
     try {
       return this.method()
     } catch (error) {
-      // console.log('error', error)
       return error
     }
   }
+
   // Inject to context as $api
   inject('api', api)
 }

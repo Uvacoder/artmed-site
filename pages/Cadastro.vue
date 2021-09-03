@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'Cadastro',
-  auth: 'guest'
+  name: 'Cadastro'
+  // auth: 'guest'
 }
 </script>

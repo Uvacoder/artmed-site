@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'Notificações',
-  auth: false,
+  // auth: false,
   async asyncData (context) {
     await Promise.all([
       context.store.dispatch('notifications/load')

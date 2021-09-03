@@ -3,6 +3,9 @@
     <ContentBodyHeader
       property-label="Interações Medicamentosas"
     />
+    <b-row>
+      <DrugsCalc />
+    </b-row>
   </main>
 </template>
 
