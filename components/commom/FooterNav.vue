@@ -28,11 +28,11 @@ export default {
           label: 'Compartilhe com os amigos'
         },
         {
-          to: '#',
+          to: '/conheca-nossos-autores',
           label: 'Conheça nossos autores'
         },
         {
-          to: '#',
+          to: '/feedback',
           label: 'Deixe um feedback'
         }
       ]

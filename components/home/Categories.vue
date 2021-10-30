@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss" scoped>
   .categories {
-    @include rem("margin-top", 80px);
+    @include rem("margin-top", 8px);
 
     &__title {
       color: var(--contrast);

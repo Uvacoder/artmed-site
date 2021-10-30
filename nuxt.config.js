@@ -3,6 +3,7 @@ import axios from 'axios'
 export default {
   flavor: 'psi',
   emailFlavor: 'artmed+psi@artmed.com.br',
+  authorId: 'a0a7158e-cca3-49d0-bdb9-5b521d72aaa7',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Artmed+PSI',

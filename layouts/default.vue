@@ -1,5 +1,5 @@
 <template>
-  <Nuxt />
+  <Nuxt keep-alive :keep-alive-props="{ exclude: ['modal'] }" />
 </template>
 
 <script>

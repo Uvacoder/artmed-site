@@ -3,7 +3,6 @@
 </template>
 
 <script>
-// verificar se é premium e redirecionar para assinatura
 export default {
   name: 'NotificaçõesId',
   // auth: false,

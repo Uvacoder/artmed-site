@@ -31,17 +31,15 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
 
   api.onResponse((response) => {
     const { status } = response ?? 0
-    // console.log(response)
+
     if (status >= 200 && status <= 299) {
       return response
     } else {
       if (status !== 419) {
-        console.log('419')
         api.refreshToken()
         return null
       }
       if (status !== 401) {
-        console.log('401')
         store.$auth.logout()
       }
     }
@@ -49,14 +47,13 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
 
   api.onError((error) => {
     if (error.response) {
-      console.log('req', error.response)
       // if (error.response.status === 422) {
       //   await api.refreshToken()
       // }
     } else if (error.request) {
-      console.log('req', error.request)
+      // console.log('req', error.request)
     } else {
-      console.log('Error', error.message)
+      // console.log('Error', error.message)
     }
   })
 
@@ -104,7 +101,8 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
     getDrugGuidelines: {},
     events: {},
     getFeatures: {},
-    getReferredUsers: { id: null }
+    getReferredUsers: { id: null },
+    authors: {}
   }
 
   api.getBaseUrl = function () {
@@ -158,6 +156,7 @@ export default function ({ $axios, redirect, store, $auth }, inject) {
       case api.EndPoints.events: return 'events'
       case api.EndPoints.getFeatures: return 'banners'
       case api.EndPoints.getReferredUsers: return `users/${this.endpoint.id}/referrals?version=2`
+      case api.EndPoints.authors: return `pages/${this.endpoint.id}`
       default: return ''
     }
   }

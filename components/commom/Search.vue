@@ -205,12 +205,16 @@ export default {
       box-shadow: none;
       @include rem("border-radius", 12px);
       z-index: 3;
-      @include rem("height", 66px);
+      @include rem("height", 50px);
       margin: 0 auto;
 
       &__btn {
-        @include rem("font-size", 16.8px);
-        @include rem("margin", 19px 12px 19px 20px);
+        // display: inline-block;
+        // height: auto;
+        // @include rem("font-size", 16.8px);
+        display: flex;
+        height: 22px;
+        // @include rem("margin", 19px 12px 19px 20px);
 
         &--icon,
         &--clear {
@@ -255,7 +259,7 @@ export default {
         }
 
         & .search__form-control {
-          @include rem("margin-top", 2px);
+          // @include rem("margin-top", 2px);
         }
       }
 
@@ -272,25 +276,26 @@ export default {
       word-wrap: break-word;
       outline: none;
       -webkit-tap-highlight-color: transparent;
-      @include rem("margin-top", 6px);
-      font-weight: 600;
+      // @include rem("margin-top", 6px);
+      padding: 0;
+      font-weight: 400;
       @include font-computed(25px, 32px);
 
       &::-webkit-input-placeholder { /* Edge */
         color: var(--three);
-        font-weight: 600;
+        font-weight: 400;
         @include font-computed(25px, 38px);
       }
 
       &:-ms-input-placeholder { /* Internet Explorer 10-11 */
         color: var(--three);
-        font-weight: 600;
+        font-weight: 400;
         @include font-computed(25px, 38px);
       }
 
       &::placeholder {
         color: var(--three);
-        font-weight: 600;
+        font-weight: 400;
         @include font-computed(25px, 38px);
       }
 

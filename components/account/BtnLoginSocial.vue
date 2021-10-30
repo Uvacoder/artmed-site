@@ -61,10 +61,9 @@ export default {
       try {
         await this.$auth.loginWith(this.social.toLowerCase())
       } catch (error) {
-        console.log(error)
+        // alert('Ainda não implementado! Desculpa')
+        // await this.$auth.loginWith('customOauth2', { data: 'dd' })
       }
-      // alert('Ainda não implementado! Desculpa')
-      // await this.$auth.loginWith('customOauth2', { data: 'dd' })
     }
   }
 }

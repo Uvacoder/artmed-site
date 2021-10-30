@@ -35,7 +35,7 @@ export default {
       contentByCategory: 'content/contentByCategory'
     }),
     infiniteHandler ($state) {
-      this.contentByCategory(this.$route.params.id)
+      this.contentByCategory({ categoryId: this.$route.params.id, loadMore: true })
         .then((data) => {
           if (data.length > 0) {
             $state.loaded()

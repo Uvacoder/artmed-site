@@ -3,7 +3,6 @@
 </template>
 
 <script>
-// TODO: arrumar bug da home
 export default {
   name: 'Perfil',
   // auth: false,

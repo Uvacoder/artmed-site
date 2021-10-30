@@ -1,4 +1,5 @@
 import { uuid } from 'vue-uuid'
+import config from '../nuxt.config'
 
 export const state = () => ({
   category: null,
@@ -31,6 +32,12 @@ export const mutations = {
   },
   SET_FAVORITE (state, favorite) {
     state.full.favorite = favorite
+  },
+  CLEAR_ITEMS (state) {
+    state.items = []
+  },
+  CLEAR_START (state) {
+    state.start = 0
   }
 }
 
@@ -50,12 +57,16 @@ export const actions = {
         commit('SET_FULL', data)
       })
   },
-  contentByCategory ({ commit, state }, id) {
+  contentByCategory ({ commit, state }, { categoryId, loadMore }) {
     return new Promise((resolve, reject) => {
       if (state.isRequesting) { return }
       commit('SET_ISREQUESTING', true)
+      if (!loadMore) {
+        commit('SET_START', 0)
+        commit('CLEAR_ITEMS')
+      }
       let endpoint = this.$api.EndPoints.category
-      endpoint.id = id
+      endpoint.id = categoryId
       this.$api.request(endpoint)
         .then((response) => {
           const data = response.data
@@ -111,5 +122,15 @@ export const actions = {
           reject(error)
         })
     })
+  },
+  async loadAuthors ({ commit }) {
+    const endpoint = this.$api.EndPoints.authors
+    endpoint.id = config.authorId
+    await this.$api.request(endpoint, {})
+      .then((response) => {
+        const data = response.data
+        data.name = 'Conheça nossos autores'
+        commit('SET_FULL', data)
+      })
   }
 }

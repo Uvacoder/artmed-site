@@ -6,31 +6,38 @@
       class="new-section__link"
       :to="{ name: 'noticias-id', params: { id: item.objectId } }"
     >
-      <article
-        class="new-section"
-      >
-        <header class="new-section__header">
-          <b-avatar
-            variant="none"
-            :text="$helpers.initialName(item.postedBy.name)"
-          />
-          <div>
-            <div class="new-section__header__posted">
-              {{ item.postedBy.name }}
-            </div>
-            <div class="new-section__header__posted new-section__header__posted--sub">
-              {{ $helpers.getElapsedInterval(item.createdAt) }}
-            </div>
-          </div>
-        </header>
-        <h1 class="new-section__title">
-          {{ item.title }}
-        </h1>
-        <p class="new-section__intro">
-          {{ item.intro }}
-        </p>
-        <!-- <div v-if="item.gallery.length > 0" :style="{ backgroundImage: `url(${item.gallery[0].url})` }" class="new-section__image" /> -->
-      </article>
+      <b-card no-body class="overflow-hidden new-section">
+        <b-row no-gutters>
+          <b-col>
+            <header class="new-section__header">
+              <b-avatar
+                variant="none"
+                :text="$helpers.initialName(item.postedBy.name)"
+              />
+              <div>
+                <div class="new-section__header__posted">
+                  {{ item.postedBy.name }}
+                </div>
+                <div class="new-section__header__posted new-section__header__posted--sub">
+                  {{ $helpers.getElapsedInterval(item.createdAt) }}
+                </div>
+              </div>
+            </header>
+            <b-card-body :title="item.title" class="new-section__title">
+              <b-card-text class="new-section__intro">
+                {{ item.intro }}
+              </b-card-text>
+            </b-card-body>
+          </b-col>
+          <b-col v-if="item.gallery.length > 0" lg="6">
+            <b-card-img
+              :src="item.gallery[0].url"
+              alt="Image"
+              class="rounded-0"
+            />
+          </b-col>
+        </b-row>
+      </b-card>
     </NuxtLink>
   </section>
 </template>
@@ -50,8 +57,7 @@ export default {
 <style lang="scss" scoped>
   .new-section {
     @include background-border();
-    @include rem("margin-bottom", 8px);
-    @include rem("padding", 14px 16px);
+    @include rem("margin-bottom", 16px);
 
     &__link {
       text-decoration: none;
@@ -70,7 +76,9 @@ export default {
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      @include rem("margin-bottom", 14px);
+      @include rem("margin", 1.25rem 1.25rem 0 1.25rem);
+      @include rem("padding-bottom", 0.5rem);
+      border-bottom: 1px solid #ccc;
 
       .b-avatar {
         @include rem("width", 30px);
@@ -100,8 +108,11 @@ export default {
       font-weight: 400;
     }
     &__image {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
       width: 100%;
-      @include rem("height", 100px);
+      @include rem("height", 234px);
     }
   }
 </style>

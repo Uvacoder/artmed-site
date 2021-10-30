@@ -25,7 +25,7 @@ export default {
   .big-box-carousel-container {
     position: relative;
     @include rem("padding-bottom", 24px);
-    @include rem("margin-bottom", 12px);
+    @include rem("margin-bottom", 8px);
 
     &::v-deep .vhl-navigation {
       @include rem("margin-top", 6px);

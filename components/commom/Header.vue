@@ -5,8 +5,16 @@
       <template v-if="isIndex">
         <b-row>
           <b-col cols="12" md="10" offset-md="1">
-            <CommomLogo />
+            <CommomLogo class="d-none d-lg-block" />
             <CommomSearch :is-index="isIndex" />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12">
+            <HomeBigBoxCarouselContainer
+              title="Destaques"
+              :items="HighlightsItems"
+            />
           </b-col>
         </b-row>
         <b-row>
@@ -28,6 +36,9 @@ export default {
   computed: {
     isIndex () {
       return (this.$route.name === 'index')
+    },
+    HighlightsItems () {
+      return this.$store.state.features.items
     }
   }
 }

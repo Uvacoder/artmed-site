@@ -14,7 +14,6 @@
 </template>
 
 <script>
-// todo: alterar para usar o svg em background
 export default {
   name: 'BtnStore',
   props: {

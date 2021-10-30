@@ -26,6 +26,8 @@
           :items="links"
           property-label="name"
           property-chevron
+          property-raw-link
+          property-target-link
         />
         <b-button
           v-if="user"
@@ -47,9 +49,9 @@ export default {
   data () {
     return {
       links: [
-        { name: 'Suporte', url: '#' },
-        { name: 'Política de Privacidade', url: '#' },
-        { name: 'Termos de Uso', url: '#' }
+        { name: 'Suporte', to: `mailto:consultamaisrapida@grupoa.com.br?subject=Suporte App ${this.$store.state.theme.config.appName}&body=Olá, estou com dificuldades no meu app, poderiam me ajudar?`, target: '_BLANK' },
+        { name: 'Política de Privacidade', to: '#', target: '_BLANK' },
+        { name: 'Termos de Uso', to: '#', target: '_BLANK' }
       ]
     }
   },

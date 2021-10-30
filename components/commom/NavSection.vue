@@ -39,7 +39,8 @@
           (propertyImage) ? { backgroundImage: `url(${$helpers.normalizeImageUrl($helpers.resolvePath(item, propertyImage, null))})` } : undefined,
           (propertyCategory) ? { backgroundImage: `url(${$helpers.getImageCategory($helpers.resolvePath(item, propertyCategory, null))})` } : undefined
         ]"
-        :to="$helpers.getContentRoute(item, isNotification)"
+        :to="(!propertyRawLink) ? $helpers.getContentRoute(item, isNotification) : item.to"
+        :target="(propertyTargetLink && (item.target !== undefined)) ? item.target : undefined"
       >
         <span class="nav-section__link__label">
           <span class="nav-section__link__label--main">
@@ -92,6 +93,16 @@ export default {
       required: false
     },
     propertyChevron: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    propertyRawLink: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    propertyTargetLink: {
       type: Boolean,
       default: false,
       required: false

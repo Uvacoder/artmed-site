@@ -3,16 +3,24 @@
     <CommomFooterNav />
     <div class="footer-info">
       <span class="footer-info__line footer-info__line--one">Organizadores</span>
-      <span class="footer-info__line footer-info__line--two"><b>Stephen Doral Stefani - Elvino Barros</b></span>
+      <span class="footer-info__line footer-info__line--two"><b>Carolina Benedetto Gallois | Ives Cavalcante Passos</b></span>
       <span class="footer-info__line footer-info__line--three">Parceiros</span>
       <b-img :src="require(`~/assets/images/marca_telessauders.png`)" width="150" height="114" />
     </div>
+    <b-modal v-if="showModal" id="modal-1" title="BootstrapVue">
+      <NuxtChild />
+    </b-modal>
   </footer>
 </template>
 
 <script>
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  computed: {
+    showModal () {
+      return this.$route.matched.length
+    }
+  }
 }
 </script>
 

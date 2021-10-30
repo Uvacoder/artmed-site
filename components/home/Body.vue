@@ -1,9 +1,5 @@
 <template>
   <main class="container content__body">
-    <HomeBigBoxCarouselContainer
-      title="Destaques"
-      :items="HighlightsItems"
-    />
     <HomeSmallBoxCarouselContainer
       title="Calculadoras mais acessados por você"
       icon="icon_calc"
@@ -46,9 +42,6 @@
 export default {
   name: 'Body',
   computed: {
-    HighlightsItems () {
-      return this.$store.state.features.items
-    },
     ContentMostAccessedItems () {
       return this.$store.state.hotContent.items
     },

@@ -38,10 +38,10 @@ export default {
       if (this.isNews) {
         this.modClass = '--post'
         return this.htmlPost()
-      // } else if isNotification {
-      //   return this.htmlNotification()
       } else if (this.content.type !== undefined && this.content.type === 2) {
         return this.htmlCalc()
+      } else if (this.content.text !== undefined) {
+        return this.htmlText()
       } else {
         this.modClass = '--content'
         return this.htmlContent()
@@ -209,6 +209,12 @@ export default {
         }
         html += newContent
       }
+      return html
+    },
+    htmlText () {
+      let html = ''
+      html += this.content.text
+      html = html.replace('col-xs-12 col-sm-9 col-md-9', ''); // gray-3
       return html
     }
   }

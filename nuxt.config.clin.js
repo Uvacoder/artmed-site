@@ -1,6 +1,7 @@
 export default {
   flavor: 'clin',
   emailFlavor: 'artmed+clin@artmed.com.br',
+  authorId: '34a24f94-b2b6-4576-9ef5-4dd76a91d7b6',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Artmed+CLIN',
